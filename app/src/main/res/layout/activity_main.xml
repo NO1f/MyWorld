@@ -4,14 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        android:text="Hello World!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/iv">
+    </FrameLayout>
+
+
+    <ImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/topic_line"
+        android:layout_marginBottom="1dp"
+        android:layout_above="@+id/rg_tab"/>
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_first_tab_index"
+            style="@style/Tab"
+            android:drawableTop="@drawable/tab_index_selector"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/rb_first_tab_category"
+            style="@style/Tab"
+            android:drawableTop="@drawable/tab_category_selector"
+            android:text="精品"/>
+
+
+        <RadioButton
+            android:id="@+id/rb_first_tab_tuan"
+            style="@style/Tab"
+            android:drawableTop="@drawable/tab_tuan_selector"
+            android:text="品牌"/>
+
+        <RadioButton
+            android:id="@+id/rb_first_tab_mine"
+            style="@style/Tab"
+            android:drawableTop="@drawable/tab_mine_selector"
+            android:text="我的"/>
+
+    </RadioGroup>
+
 </RelativeLayout>
