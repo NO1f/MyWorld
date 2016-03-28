@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity {
                                     .hide(fragmentList.get(1))
                                     .hide(fragmentList.get(2))
                                     .hide(fragmentList.get(0))
-                                    .add(R.id.fl, fragmentList.get(3)).show(fragmentList.get(3)).commit();
+                                    .add(R.id.fl, fragmentList.get(3)).commit();
                         }
                         break;
                 }

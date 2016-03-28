@@ -15,11 +15,14 @@ public class JSONUtil {
      * 解析首页新闻列表
      * @return
      */
-    public static IndexEntity.ResultEntity getContentByJSON(String json){
+    public static IndexEntity.DataEntity getContentByJSON(String json){
         if(json != null){
-                IndexEntity indexEntity = new Gson().fromJson(json, IndexEntity.class);
-                IndexEntity.ResultEntity result = indexEntity.getResult();
-                return result;
+
+            IndexEntity indexEntity = new Gson().fromJson(json, IndexEntity.class);
+            IndexEntity.DataEntity data = indexEntity.getData();
+            L.e("--------------------------------------"+indexEntity);
+            L.e("--------------------------------------"+data);
+            return data;
         }
 
         return null;
