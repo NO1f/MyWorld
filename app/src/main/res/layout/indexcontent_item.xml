@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_first_big"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        fresco:viewAspectRatio="2.1"/>
+
+    <TextView
+        android:id="@+id/tv_first_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:text="吃货最爱|我想要舌头也高大上"
+        android:textSize="18sp"
+        android:textColor="#000"/>
+
+    <TextView
+        android:id="@+id/tv_first_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:text="高俊熙风从去年开始一直很火，今天来安利你们几件高俊熙风衬衫，毕竟春天来了"
+        android:textSize="12sp"
+        android:textColor="#B7B7B7"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_first_smallAvatar"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_centerVertical="true"
+            fresco:backgroundImage="@drawable/profile_default"
+            fresco:roundAsCircle="true"/>
+        
+        <TextView
+            android:id="@+id/tv_first_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="8dp"
+            android:text="路口种草机"
+            android:gravity="center"
+            android:drawablePadding="8dp"
+            android:drawableRight="@drawable/line"
+            android:textColor="#B7B7B7"
+            android:layout_toRightOf="@+id/sdv_first_smallAvatar"/>
+
+        <TextView
+            android:id="@+id/tv_first_itemCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingLeft="8dp"
+            android:text="11件好物"
+            android:textColor="#B7B7B7"
+            android:layout_toRightOf="@+id/tv_first_name"/>
+        
+        
+        <ImageView
+            android:id="@+id/iv_first_collectCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_collect_normal"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/tv_first_collectCount"
+            android:layout_centerInParent="true"/>
+        
+        <TextView
+            android:id="@+id/tv_first_collectCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="124"
+            android:textSize="12sp"
+            android:textColor="#B7B7B7"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -7,7 +7,7 @@ import java.util.List;
  * @创建时间：2016/3/28 16:42
  * @备注：
  */
-public class IndexEntity {
+public class IndexHeadEntity {
 
 
     /**

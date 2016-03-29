@@ -98,7 +98,7 @@ public abstract class AbsBaseAdapter<T> extends BaseAdapter {
        public ViewHolder onBindTextView(int id, String text){
            TextView tv= (TextView) this.getView(id);
            tv.setText(text);
-            return this;
+           return this;
         }
 
     }

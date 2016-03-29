@@ -1,11 +1,11 @@
 package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageView;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.base.BaseActivity;
@@ -19,7 +19,6 @@ import org.myworld.qfhc.myworld.util.Constant;
 public class IndexHeadActivity extends BaseActivity{
 
     private WebView mWv;
-    private ImageView ivBack,ivKill;
 
     @Override
     protected int getContentResid() {
@@ -51,10 +50,22 @@ public class IndexHeadActivity extends BaseActivity{
     public void click(View v){
         switch (v.getId()){
             case R.id.iv_head_back:
-                finish();
+                if(mWv.canGoBack()){
+                    mWv.goBack();
+                }
                 break;
             case R.id.iv_head_kill:
                 finish();
         }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK&&mWv.canGoBack()){
+            mWv.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

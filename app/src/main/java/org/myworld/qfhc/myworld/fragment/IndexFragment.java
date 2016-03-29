@@ -5,8 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
 import com.android.volley.VolleyError;
 import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
@@ -18,7 +23,7 @@ import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.activity.IndexHeadActivity;
 import org.myworld.qfhc.myworld.activity.MainActivity;
 import org.myworld.qfhc.myworld.base.BaseFragment;
-import org.myworld.qfhc.myworld.entity.IndexEntity;
+import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
 import org.myworld.qfhc.myworld.util.L;
@@ -32,13 +37,18 @@ import java.util.List;
  * @创建时间：2016/3/28 15:19
  * @备注：
  */
-public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestListener, OnItemClickListener {
+public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestListener, OnItemClickListener, TabLayout.OnTabSelectedListener {
 
     private TabLayout mTl;
     private Toolbar toolbar;
+    private ViewPager mVp;
+
     private ConvenientBanner convenientBanner;
     private List<String> sdvUrls;
-    private List<IndexEntity.DataEntity.BannerEntity> banner;
+    private List<IndexHeadEntity.DataEntity.BannerEntity> banner;
+    private List<IndexHeadEntity.DataEntity.TabsEntity> tabs;
+    private String[] titles;
+    private ViewPagerAdapter adapter;
 
     public static IndexFragment newInstance() {
 
@@ -54,38 +64,44 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
         return R.layout.index_fragment;
     }
 
+    /************初始化数据**************/
     @Override
     protected void init(View view) {
-
-        toolbar= (Toolbar) view.findViewById(R.id.toolbar);
-
-        MainActivity main = (MainActivity)getActivity();
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        MainActivity main = (MainActivity) getActivity();
         main.setSupportActionBar(toolbar);
         main.getSupportActionBar().setDisplayShowTitleEnabled(false);//隐藏actionbar的标题
+
+        convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
+        sdvUrls = new ArrayList<>();
+
         mTl = (TabLayout) view.findViewById(R.id.tl_tab_first);
-        mTl.addTab(mTl.newTab().setText("精选"));
-        mTl.addTab(mTl.newTab().setText("评论"));
-        mTl.addTab(mTl.newTab().setText("评论"));
-        mTl.addTab(mTl.newTab().setText("评论"));
-        mTl.addTab(mTl.newTab().setText("评论"));
-        mTl.addTab(mTl.newTab().setText("评论"));
-        mTl.addTab(mTl.newTab().setText("评论"));
-        convenientBanner= (ConvenientBanner) view.findViewById(R.id.convenientBanner);
-        sdvUrls=new ArrayList<>();
+        mVp = (ViewPager) view.findViewById(R.id.vp_first_tab);
+        mTl.setOnTabSelectedListener(this);
+        adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
 
     }
 
+    /*********************************下载数据******************************/
     @Override
     protected void loadData() {
-        VolleyUtil.requestString(Constant.URL.INDEX_HEAD,this);
-
+        VolleyUtil.requestString(Constant.URL.INDEX_HEAD, this);
     }
 
+    /*********************************解析数据******************************/
     @Override
     public void onResponse(String url, String response) {
-        if (response!=null){
-            IndexEntity.DataEntity contentByJSON = JSONUtil.getContentByJSON(response);
-            L.e(""+contentByJSON);
+        if (response != null) {
+            IndexHeadEntity.DataEntity contentByJSON = JSONUtil.getHeadByJSON(response);
+            tabs = contentByJSON.getTabs();
+            L.e(tabs+"");
+            titles = new String[]{tabs.get(0).getName(), tabs.get(2).getName(), tabs.get(3).getName(), tabs.get(4).getName(), tabs.get(5).getName()};
+            //net data
+            mVp.setAdapter(adapter);
+            mTl.setTabsFromPagerAdapter(adapter);
+            mTl.setupWithViewPager(mVp);
+
+            L.e("" + contentByJSON);
             banner = contentByJSON.getBanner();
             bindConvenientBanner(banner);
         }
@@ -97,8 +113,9 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
 
     }
 
-    private void bindConvenientBanner(List<IndexEntity.DataEntity.BannerEntity> banner) {
-        for(int i=0;i<banner.size();i++){
+    /*************************头部的循滑与点击****************************/
+    private void bindConvenientBanner(List<IndexHeadEntity.DataEntity.BannerEntity> banner) {
+        for (int i = 0; i < banner.size(); i++) {
             sdvUrls.add(banner.get(i).getImageUrl());
         }
 
@@ -115,11 +132,10 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.ALIGN_PARENT_RIGHT);
         //设置翻页的效果，不需要翻页效果可用不设
         //.setPageTransformer(Transformer.DefaultTransformer);    集成特效之后会有白屏现象，新版已经分离，如果要集成特效的例子可以看Demo的点击响应。
-//        convenientBanner.setManualPageable(false);//设置不能手动影响
+        //convenientBanner.setManualPageable(false);//设置不能手动影响
         convenientBanner.startTurning(2000);
 
     }
-
 
     public class LocalImageHolderView implements Holder<String> {
 
@@ -138,16 +154,53 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
         }
     }
 
-
     @Override
     public void onItemClick(int position) {
 
         String url = banner.get(position).getUrl();
-        Intent intent=new Intent(getActivity(),IndexHeadActivity.class);
-        intent.putExtra(Constant.KEYS.INDEX_HEAD_CONTENT,url);
+        Intent intent = new Intent(getActivity(), IndexHeadActivity.class);
+        intent.putExtra(Constant.KEYS.INDEX_HEAD_CONTENT, url);
         startActivity(intent);
+    }
+
+
+
+    /**********************ViewPager与TabLayout的关连************************/
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        mVp.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
 
     }
 
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
+
+    class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return titles[position];
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return IndexContentFragment.newInstance(position);
+        }
+
+        @Override
+        public int getCount() {
+            return titles.length;
+        }
+    }
 
 }
