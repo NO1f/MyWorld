@@ -52,6 +52,8 @@ public class IndexHeadActivity extends BaseActivity{
             case R.id.iv_head_back:
                 if(mWv.canGoBack()){
                     mWv.goBack();
+                }else {
+                    finish();
                 }
                 break;
             case R.id.iv_head_kill:

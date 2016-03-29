@@ -25,9 +25,9 @@
             android:id="@+id/toolbarlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll">
+            app:layout_scrollFlags="scroll|enterAlways">
 
-            <com.bigkoo.convenientbanner.ConvenientBanner
+            <com.bigkoo.convenientbanner.ConvenientBanner xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/convenientBanner"
                 android:layout_width="match_parent"
                 android:layout_height="140dp"
@@ -55,6 +55,7 @@
         android:id="@+id/vp_first_tab"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </android.support.v4.view.ViewPager>
 
 </android.support.design.widget.CoordinatorLayout>

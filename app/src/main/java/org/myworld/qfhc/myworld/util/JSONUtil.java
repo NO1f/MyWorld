@@ -2,6 +2,8 @@ package org.myworld.qfhc.myworld.util;
 
 
 import com.google.gson.Gson;
+
+import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
 
@@ -36,6 +38,15 @@ public class JSONUtil {
             IndextContentEntity.DataEntity data = indextContentEntity.getData();
             IndextContentEntity.DataEntity.PostListEntity postList = data.getPostList();
             return postList;
+        }
+        return null;
+    }
+
+    public static IndexDetailEntity.DataEntity getDetailByJson(String json){
+        if (json!=null){
+            IndexDetailEntity indexDetailEntity = new Gson().fromJson(json, IndexDetailEntity.class);
+            IndexDetailEntity.DataEntity data = indexDetailEntity.getData();
+            return data;
         }
         return null;
     }

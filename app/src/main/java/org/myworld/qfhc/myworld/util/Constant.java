@@ -23,12 +23,15 @@ public interface Constant {
         String INDEX_CONTENT_MEISHI = "http://www.lukou.com/api/v2/tag/4/posts?end_id=%d&start=0";
 
 
+        String INDEX_DETAIL_JINGXUAN = "http://www.lukou.com/api/v2/post/%d";
+        String IINDEX_DETAIL ="http://www.lukou.com/sharepost/%d?platform=app&app_version=0&os=android&source=";
     }
 
     interface KEYS {
 
         String INDEX_HEAD_CONTENT = "head_content";
         String INDEX_CONTENT_POSITION="position";
+        String INDEX_DETAIL_URL = "detail_url";
     }
 
 }

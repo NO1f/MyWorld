@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@android:id/list"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_first_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#FFFAE3"
-        android:dividerHeight="6dp"/>
+        android:dividerHeight="6dp" />
 
 </LinearLayout>

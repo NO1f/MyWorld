@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="15dp"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -10,13 +13,13 @@
         android:id="@+id/sdv_first_big"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        fresco:viewAspectRatio="2.1"/>
+        fresco:viewAspectRatio="2.3"/>
 
     <TextView
         android:id="@+id/tv_first_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:maxLines="1"
         android:ellipsize="end"
         android:text="吃货最爱|我想要舌头也高大上"
@@ -27,7 +30,7 @@
         android:id="@+id/tv_first_introduction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:maxLines="2"
         android:ellipsize="end"
         android:text="高俊熙风从去年开始一直很火，今天来安利你们几件高俊熙风衬衫，毕竟春天来了"
@@ -37,12 +40,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="6dp">
         
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_first_smallAvatar"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_centerVertical="true"
             fresco:backgroundImage="@drawable/profile_default"
             fresco:roundAsCircle="true"/>
@@ -58,6 +61,7 @@
             android:drawablePadding="8dp"
             android:drawableRight="@drawable/line"
             android:textColor="#B7B7B7"
+            android:textSize="12sp"
             android:layout_toRightOf="@+id/sdv_first_smallAvatar"/>
 
         <TextView
@@ -68,6 +72,7 @@
             android:paddingLeft="8dp"
             android:text="11件好物"
             android:textColor="#B7B7B7"
+            android:textSize="12sp"
             android:layout_toRightOf="@+id/tv_first_name"/>
         
         
