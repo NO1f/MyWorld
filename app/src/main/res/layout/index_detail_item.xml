@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:Fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="15dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="30sp"
+                android:layout_height="45sp"
+                android:src="@drawable/album_index_bg" />
+
+            <TextView
+                android:id="@+id/tv_first_nav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="1"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_first_detail_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="海拔不够，衣品来凑--衬衫+收腰A字裙"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_first_detail_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:lineSpacingExtra="8dp"
+        android:text="      大家都知道乔妹是个不到一米六的微胖girl，不是传统意义上的长腿女神，而且脸也很圆。 但是乔妹一出场，你根本看不出她是个小个子。 细心的话，可以看出乔妹穿搭有自己的风格。 第一套——衬衫+A字裙 先说衬衫，这个衬衫是路口琅琊榜看到的，觉得不错" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_first_img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/signin_img"
+            android:layout_margin="8dp"
+            Fresco:viewAspectRatio="1"/>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:gravity="center"
+            android:layout_margin="30dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_collect_album_normal" />
+
+            <TextView
+                android:id="@+id/tv_first_detail_collect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="12"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_first_detail_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:drawableLeft="@drawable/circle_right"
+            android:gravity="center"
+            android:drawablePadding="10dp"
+            android:text="34.00"
+            android:textColor="#DE4B3F"
+            android:textSize="20sp"
+            android:layout_marginLeft="8dp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/circle"
+            android:textSize="16sp"
+            android:textColor="#DE4B3F"
+            android:text="查看商品"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

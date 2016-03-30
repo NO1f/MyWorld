@@ -1,26 +1,25 @@
 package org.myworld.qfhc.myworld.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.activity.IndexHeadActivity;
 import org.myworld.qfhc.myworld.adapter.IndexContentAdapter;
 import org.myworld.qfhc.myworld.base.AbsAdapter;
 import org.myworld.qfhc.myworld.custom.MyItemDecoration;
+import org.myworld.qfhc.myworld.custom.OnRcvScrollListener;
 import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
 import org.myworld.qfhc.myworld.util.Constant;
@@ -28,6 +27,7 @@ import org.myworld.qfhc.myworld.util.JSONUtil;
 import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,16 +35,19 @@ import java.util.List;
  * @创建时间：2016/3/29 10:42
  * @备注：
  */
-public class IndexContentFragment extends Fragment implements VolleyUtil.OnRequestListener, AbsAdapter.OnClickListener {
+public class IndexContentFragment extends Fragment implements VolleyUtil.OnRequestListener, AbsAdapter.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private View view;
     private int id = 0;
+    private int i=0;
     private int position;
+    private List<IndextContentEntity.DataEntity.PostListEntity.ListEntity> allDatas = new ArrayList<>();
 
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private IndexContentAdapter adapter;
-    private List<IndextContentEntity.DataEntity.PostListEntity.ListEntity> list;
-    private int detail_id;
+    private List<IndextContentEntity.DataEntity.PostListEntity.ListEntity> datas;
+    private LinearLayoutManager linearLayoutManager;
 
     public static IndexContentFragment newInstance(int position) {
 
@@ -67,12 +70,24 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
         Bundle bundle = getArguments();
         position = (int) bundle.get(Constant.KEYS.INDEX_CONTENT_POSITION);
 
-        recyclerView= (RecyclerView) view.findViewById(R.id.rv_first_content);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.VERTICAL,false));
+        recyclerView = (RecyclerView) view.findViewById(R.id.rv_first_content);
+        linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new MyItemDecoration(getActivity()));
         adapter = new IndexContentAdapter(getActivity());
         adapter.setOnClickListener(this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setOnScrollListener(new OnRcvScrollListener(){
+            @Override
+            public void onBottom() {
+                super.onBottom();
+                initData();
+            }
+        });
+
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_first);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void initData() {
@@ -95,60 +110,51 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
                 break;
         }
         VolleyUtil.requestString(index_content_url, this);
+
     }
 
     @Override
     public void onResponse(String url, String response) {
 
-        if (response!=null){
+        if (response != null) {
             IndextContentEntity.DataEntity.PostListEntity postListEntity = JSONUtil.getContentByJson(response);
             id = postListEntity.getEndId();
-            list = postListEntity.getList();
-            adapter.setDatas(list);
+            datas = postListEntity.getList();
+            allDatas.addAll(datas);
+            adapter.setDatas(allDatas);
+            if (datas != null) {
+                i++;
+                swipeRefreshLayout.setRefreshing(false);
+                if (i!=1){
+                    Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
+                }
+            }
 
         }
-
     }
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-
-        IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = list.get(position);
-        int detailId = listEntity.getId();
-        String index_detail_url = String.format(Constant.URL.INDEX_DETAIL_JINGXUAN, detailId);
-        VolleyUtil.requestString(index_detail_url, new VolleyUtil.OnRequestListener() {
-            @Override
-            public void onResponse(String url, String response) {
-                if (response!=null){
-                    IndexDetailEntity.DataEntity detailByJson = JSONUtil.getDetailByJson(response);
-
-                    detail_id = detailByJson.getId();
-                    /* String weiboShareText = detailByJson.getWeiboShareText();
-                    String[] names = weiboShareText.split("，");
-                    for (int i = 0; i < names.length; i++) {
-                        L.e(names[i]+"_____________________");
-                    }
-                    String detail_url = names[1];*/
-
-
-                }
-            }
-
-            @Override
-            public void onErrorResponse(String url, VolleyError error) {
-
-            }
-        });
-
     }
 
     @Override
     public void onClick(View v, int position) {
-        String detail_url=String.format(Constant.URL.IINDEX_DETAIL,detail_id);
 
+        IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = datas.get(position);
+        int detailId = listEntity.getId();
+        String index_detail_url = String.format(Constant.URL.INDEX_DETAIL_JINGXUAN, detailId);
         Intent intent = new Intent(getActivity(), IndexHeadActivity.class);
-        intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, detail_url);
+
+        intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, index_detail_url);
         startActivity(intent);
 
     }
+
+    @Override
+    public void onRefresh() {
+        id = 0;
+        initData();
+    }
+
+
 }

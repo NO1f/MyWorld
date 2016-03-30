@@ -10,6 +10,7 @@ import android.webkit.WebViewClient;
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.base.BaseActivity;
 import org.myworld.qfhc.myworld.util.Constant;
+import org.myworld.qfhc.myworld.util.L;
 
 /**
  * @类描述: ${TODO}
@@ -30,6 +31,7 @@ public class IndexHeadActivity extends BaseActivity{
 
         Intent intent = getIntent();
         String wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_HEAD_CONTENT);
+        //L.e(wv_head_url+"================================================");
 
         mWv= (WebView) findViewById(R.id.wv_first_head_content);
         WebSettings settings = mWv.getSettings();
@@ -41,7 +43,7 @@ public class IndexHeadActivity extends BaseActivity{
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mWv.loadUrl(url);
-                return super.shouldOverrideUrlLoading(view, url);
+                return false;
             }
         });
     }

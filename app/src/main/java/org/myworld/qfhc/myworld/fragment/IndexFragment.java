@@ -17,6 +17,7 @@ import com.bigkoo.convenientbanner.ConvenientBanner;
 import com.bigkoo.convenientbanner.holder.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.holder.Holder;
 import com.bigkoo.convenientbanner.listener.OnItemClickListener;
+import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.myworld.qfhc.myworld.R;
@@ -40,7 +41,6 @@ import java.util.List;
 public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestListener, OnItemClickListener, TabLayout.OnTabSelectedListener {
 
     private TabLayout mTl;
-    private Toolbar toolbar;
     private ViewPager mVp;
 
     private ConvenientBanner convenientBanner;
@@ -67,10 +67,6 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     /************初始化数据**************/
     @Override
     protected void init(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        MainActivity main = (MainActivity) getActivity();
-        main.setSupportActionBar(toolbar);
-        main.getSupportActionBar().setDisplayShowTitleEnabled(false);//隐藏actionbar的标题
 
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         sdvUrls = new ArrayList<>();
@@ -144,7 +140,8 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
         @Override
         public View createView(Context context) {
             simpleDraweeView = new SimpleDraweeView(getActivity());
-
+            GenericDraweeHierarchy hierarchy = simpleDraweeView.getHierarchy();
+            hierarchy.setPlaceholderImage(R.drawable.shadow_bottom);// 修改占位图
             return simpleDraweeView;
         }
 
@@ -158,6 +155,7 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     public void onItemClick(int position) {
 
         String url = banner.get(position).getUrl();
+        //L.e(url+"=====================================");
         Intent intent = new Intent(getActivity(), IndexHeadActivity.class);
         intent.putExtra(Constant.KEYS.INDEX_HEAD_CONTENT, url);
         startActivity(intent);
