@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
+import org.myworld.qfhc.myworld.entity.ThirdHeadEntity;
 
 
 /**
@@ -46,6 +47,15 @@ public class JSONUtil {
         if (json!=null){
             IndexDetailEntity indexDetailEntity = new Gson().fromJson(json, IndexDetailEntity.class);
             IndexDetailEntity.DataEntity data = indexDetailEntity.getData();
+            return data;
+        }
+        return null;
+    }
+
+    public static ThirdHeadEntity.DataEntity getThirdByJson(String json){
+        if (json!=null){
+            ThirdHeadEntity thirdHeadEntity = new Gson().fromJson(json, ThirdHeadEntity.class);
+            ThirdHeadEntity.DataEntity data = thirdHeadEntity.getData();
             return data;
         }
         return null;

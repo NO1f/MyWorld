@@ -47,7 +47,7 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     private List<String> sdvUrls;
     private List<IndexHeadEntity.DataEntity.BannerEntity> banner;
     private List<IndexHeadEntity.DataEntity.TabsEntity> tabs;
-    private String[] titles;
+    // private String[] titles;
     private ViewPagerAdapter adapter;
 
     public static IndexFragment newInstance() {
@@ -91,7 +91,7 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
             IndexHeadEntity.DataEntity contentByJSON = JSONUtil.getHeadByJSON(response);
             tabs = contentByJSON.getTabs();
             L.e(tabs+"");
-            titles = new String[]{tabs.get(0).getName(), tabs.get(2).getName(), tabs.get(4).getName(), tabs.get(5).getName()};
+            //titles = new String[]{tabs.get(0).getName(), tabs.get(2).getName(), tabs.get(4).getName(), tabs.get(5).getName()};
             //net data
             mVp.setAdapter(adapter);
             mTl.setTabsFromPagerAdapter(adapter);
@@ -187,7 +187,7 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return titles[position];
+            return tabs.get(position).getName();
         }
 
         @Override
@@ -197,7 +197,7 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
 
         @Override
         public int getCount() {
-            return titles.length;
+            return tabs.size();
         }
     }
 

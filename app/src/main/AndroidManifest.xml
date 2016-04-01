@@ -21,6 +21,7 @@
         <activity android:name=".activity.IndexHeadActivity"/>
         <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.IndextDetailActivity"/>
+        <activity android:name=".activity.ThirdHeadDetailActivity"/>
     </application>
 
 </manifest>

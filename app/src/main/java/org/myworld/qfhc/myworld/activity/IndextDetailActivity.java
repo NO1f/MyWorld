@@ -1,31 +1,25 @@
 package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ListView;
-
-import com.android.volley.VolleyError;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import org.myworld.qfhc.myworld.R;
-import org.myworld.qfhc.myworld.adapter.IndexDetailAdapter;
 import org.myworld.qfhc.myworld.base.BaseActivity;
-import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.util.Constant;
-import org.myworld.qfhc.myworld.util.JSONUtil;
-import org.myworld.qfhc.myworld.util.VolleyUtil;
-
-import java.util.List;
+import org.myworld.qfhc.myworld.util.L;
 
 /**
  * @类描述: ${TODO}
  * @创建时间：2016/3/30 01:35
  * @备注：
  */
-public class IndextDetailActivity extends BaseActivity implements VolleyUtil.OnRequestListener {
+public class IndextDetailActivity extends BaseActivity{
 
-    private ListView mLv;
-    private String detail_url;
-    private IndexDetailAdapter adapter;
+    private WebView mWv;
 
     @Override
     protected int getContentResid() {
@@ -36,45 +30,48 @@ public class IndextDetailActivity extends BaseActivity implements VolleyUtil.OnR
     protected void init() {
 
         Intent intent = getIntent();
-        detail_url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
+        String wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
+        L.e(wv_head_url+"================================================");
 
-        mLv= (ListView) findViewById(R.id.lv_first_detail);
-        adapter = new IndexDetailAdapter(this);
-        mLv.setAdapter(adapter);
+        mWv= (WebView) findViewById(R.id.wv_first_detail);
+        WebSettings settings = mWv.getSettings();
+        settings.setSupportZoom(false);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);//关键点
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        mWv.loadUrl(wv_head_url);
 
+        mWv.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                mWv.loadUrl(url);
+                return false;
+            }
+        });
     }
 
-    @Override
-    protected void initData() {
 
-        VolleyUtil.requestString(detail_url,this);
-
-    }
-
-    @Override
-    public void onResponse(String url, String response) {
-        if (response!=null){
-            IndexDetailEntity.DataEntity detailByJson = JSONUtil.getDetailByJson(response);
-            IndexDetailEntity.DataEntity.AlbumEntity album = detailByJson.getAlbum();
-            List<IndexDetailEntity.DataEntity.AlbumEntity.ContentListEntity> contentList = album.getContentList();
-            adapter.setDatas(contentList);
-        }
-    }
-
-    @Override
-    public void onErrorResponse(String url, VolleyError error) {
-
-    }
-
-    public void click(View view){
-        switch (view.getId()){
+    public void click(View v){
+        switch (v.getId()){
             case R.id.iv_head_back:
+                if(mWv.canGoBack()){
+                    mWv.goBack();
+                }else {
                     finish();
+                }
                 break;
-            case R.id.iv_head_share:
-                break;
-            case R.id.iv_head_menu:
-                break;
+            case R.id.iv_head_kill:
+                finish();
         }
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK&&mWv.canGoBack()){
+            mWv.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

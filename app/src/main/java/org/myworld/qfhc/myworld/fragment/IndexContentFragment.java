@@ -96,15 +96,18 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
                 index_content_url = String.format(Constant.URL.INDEX_CONTENT_JINGXUAN, id);
                 break;
             case 1:
-                index_content_url = String.format(Constant.URL.INDEX_CONTENT_FUSHI, id);
+                index_content_url = String.format(Constant.URL.INDEX_CONTENT_LUYOUSHUO, id);
                 break;
             case 2:
-                index_content_url = String.format(Constant.URL.INDEX_CONTENT_MEIZHUANG, id);
+                index_content_url = String.format(Constant.URL.INDEX_CONTENT_FUSHI, id);
                 break;
             case 3:
-                index_content_url = String.format(Constant.URL.INDEX_CONTENT_JIAJU, id);
+                index_content_url = String.format(Constant.URL.INDEX_CONTENT_MEIZHUANG, id);
                 break;
             case 4:
+                index_content_url = String.format(Constant.URL.INDEX_CONTENT_JIAJU, id);
+                break;
+            case 5:
                 index_content_url = String.format(Constant.URL.INDEX_CONTENT_MEISHI, id);
                 break;
         }
@@ -141,11 +144,15 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
 
         IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = datas.get(position);
         int detailId = listEntity.getId();
-        String index_detail_url = String.format(Constant.URL.INDEX_DETAIL_JINGXUAN, detailId);
-        Intent intent = new Intent(getActivity(), IndexHeadActivity.class);
+        String index_detail_url = String.format(Constant.URL.INDEX_DETAIL, detailId);
+        if (index_detail_url!=null){
+            Intent intent = new Intent(getActivity(), IndextDetailActivity.class);
+            intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, index_detail_url);
+            startActivity(intent);
+        }else {
+            Toast.makeText(getActivity(), "未请求到数据，请重试", Toast.LENGTH_SHORT).show();
+        }
 
-        intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, index_detail_url);
-        startActivity(intent);
 
     }
 
