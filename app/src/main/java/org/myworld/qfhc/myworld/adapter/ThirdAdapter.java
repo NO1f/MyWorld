@@ -17,7 +17,6 @@ public class ThirdAdapter extends AbsBaseAdapter {
 
     @Override
     public void onBindData(ViewHolder holder, Object data, int position) {
-
         //data.
 
 
