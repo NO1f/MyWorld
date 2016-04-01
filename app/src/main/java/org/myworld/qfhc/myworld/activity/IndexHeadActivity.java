@@ -30,8 +30,8 @@ public class IndexHeadActivity extends BaseActivity{
     protected void init() {
 
         Intent intent = getIntent();
-        String wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_HEAD_CONTENT);
-        //L.e(wv_head_url+"================================================");
+        String wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
+        L.e(wv_head_url+"================================================");
 
         mWv= (WebView) findViewById(R.id.wv_first_head_content);
         WebSettings settings = mWv.getSettings();
@@ -49,7 +49,7 @@ public class IndexHeadActivity extends BaseActivity{
     }
 
 
-    public void click(View v){
+    public void clickBack(View v){
         switch (v.getId()){
             case R.id.iv_head_back:
                 if(mWv.canGoBack()){

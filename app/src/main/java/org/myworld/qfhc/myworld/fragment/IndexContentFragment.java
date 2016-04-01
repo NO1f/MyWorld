@@ -16,15 +16,14 @@ import com.android.volley.VolleyError;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.activity.IndexHeadActivity;
+import org.myworld.qfhc.myworld.activity.IndextDetailActivity;
 import org.myworld.qfhc.myworld.adapter.IndexContentAdapter;
 import org.myworld.qfhc.myworld.base.AbsAdapter;
 import org.myworld.qfhc.myworld.custom.MyItemDecoration;
 import org.myworld.qfhc.myworld.custom.OnRcvScrollListener;
-import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
-import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 import java.util.ArrayList;

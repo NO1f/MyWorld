@@ -91,7 +91,7 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
             IndexHeadEntity.DataEntity contentByJSON = JSONUtil.getHeadByJSON(response);
             tabs = contentByJSON.getTabs();
             L.e(tabs+"");
-            titles = new String[]{tabs.get(0).getName(), tabs.get(2).getName(), tabs.get(3).getName(), tabs.get(4).getName(), tabs.get(5).getName()};
+            titles = new String[]{tabs.get(0).getName(), tabs.get(2).getName(), tabs.get(4).getName(), tabs.get(5).getName()};
             //net data
             mVp.setAdapter(adapter);
             mTl.setTabsFromPagerAdapter(adapter);

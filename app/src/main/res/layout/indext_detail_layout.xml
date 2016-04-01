@@ -24,7 +24,7 @@
             android:layout_weight="3"
             android:text="帖子详情"
             android:paddingLeft="30dp"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:layout_gravity="center"
             android:gravity="center"/>
 
@@ -38,7 +38,7 @@
             android:src="@drawable/icon_share_new" />
 
         <ImageView
-            android:id="@+id/iv_head_kill"
+            android:id="@+id/iv_head_menu"
             android:layout_width="0dp"
             android:layout_height="22dp"
             android:layout_weight="1"

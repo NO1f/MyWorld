@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:Fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="15dp"
+    android:padding="7dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_first_img"
+            android:id="@+id/sdv_first_detail_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/signin_img"
@@ -85,13 +85,13 @@
                 android:layout_gravity="center"/>
 
         </FrameLayout>
-
     </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/tv_first_detail_price"
@@ -106,9 +106,36 @@
             android:textSize="20sp"
             android:layout_marginLeft="8dp"/>
 
-        <Button
+        <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/tv_first_detail_price">
+
+        <TextView
+            android:id="@+id/tv_first_detail_oldprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="1123.00"
+            android:textColor="#9B9B9B"
+            android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_first_detail_clip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="——————"
+                android:textColor="#9B9B9B"
+                android:textSize="16sp" />
+        </FrameLayout>
+
+        <Button
+            android:id="@+id/btn_first_detail_taobao"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginRight="5dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/circle"
             android:textSize="16sp"

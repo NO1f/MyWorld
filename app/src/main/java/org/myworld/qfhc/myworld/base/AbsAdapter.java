@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import org.myworld.qfhc.myworld.fragment.IndexContentFragment;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

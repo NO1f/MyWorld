@@ -23,8 +23,8 @@ public class JSONUtil {
 
             IndexHeadEntity indexEntity = new Gson().fromJson(json, IndexHeadEntity.class);
             IndexHeadEntity.DataEntity data = indexEntity.getData();
-            L.e("--------------------------------------"+indexEntity);
-            L.e("--------------------------------------"+data);
+           // L.e("--------------------------------------"+indexEntity);
+           // L.e("--------------------------------------"+data);
             return data;
         }
 
