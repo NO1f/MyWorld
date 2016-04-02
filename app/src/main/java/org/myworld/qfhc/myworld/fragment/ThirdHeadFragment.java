@@ -77,7 +77,7 @@ public class ThirdHeadFragment extends BaseFragment {
                     Intent intent=new Intent(getActivity(),ThirdHeadDetailActivity.class);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_URL,url);
                 }else {
-                    Toast.makeText(getActivity(), "未请求到数据，请重试", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "数据加载失败，请重试", Toast.LENGTH_SHORT).show();
                 }
             }
         });

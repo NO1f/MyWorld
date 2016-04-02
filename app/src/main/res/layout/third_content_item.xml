@@ -1,14 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        fresco:viewAspectRatio="2.4"
-        fresco:roundedCornerRadius="5dp"/>
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            fresco:viewAspectRatio="2.5"
+            android:background="@drawable/login_view_background"
+            fresco:roundedCornerRadius="5dp"/>
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/tv_third_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_third"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:text="吃货界的良心"
+            android:textSize="18sp"
+            android:textColor="#fff"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_third_name"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_third_views"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12345浏览"
+                    android:textColor="#fff"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_third_posts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="697帖子"
+                    android:textColor="#fff"
+                    android:layout_marginLeft="5dp"/>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+</RelativeLayout>
