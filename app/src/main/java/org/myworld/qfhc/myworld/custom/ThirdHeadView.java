@@ -16,6 +16,7 @@ import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.entity.ThirdHeadEntity;
 import org.myworld.qfhc.myworld.fragment.ThirdHeadFragment;
 import org.myworld.qfhc.myworld.util.JSONUtil;
+import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 import java.util.List;
@@ -53,6 +54,7 @@ public class ThirdHeadView extends LinearLayout implements VolleyUtil.OnRequestL
         if(response!=null){
             ThirdHeadEntity.DataEntity thirdByJson = JSONUtil.getThirdByJson(response);
             module_elements = thirdByJson.getModule_elements();
+            L.e(module_elements+"");
             ViewPagerAdapter adapter=new ViewPagerAdapter(fragmentManager,module_elements);
             mVp.setAdapter(adapter);
 
@@ -73,6 +75,8 @@ public class ThirdHeadView extends LinearLayout implements VolleyUtil.OnRequestL
 
                 }
             });
+
+            mTl.setupWithViewPager(mVp);
 
 
         }

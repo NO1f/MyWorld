@@ -6,8 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -58,10 +56,10 @@ public class GridViewAadpter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             holder = new ViewHolder();
-            convertView = LayoutInflater.from(context).inflate(R.layout.gridview_item, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.third_gridview_item, null);
             holder.sdvLogo = (SimpleDraweeView) convertView.findViewById(R.id.sdv_third_headimg);
             holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_third_title);
-            holder.tvTitle = (TextView) convertView.findViewById(R.id.tv_third_sub_title);
+            holder.tvSubTitle = (TextView) convertView.findViewById(R.id.tv_third_sub_title);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();

@@ -39,6 +39,7 @@ public interface Constant {
         String INDEX_DETAIL_URL = "detail_url";
         String THIRD_HEAD = "third_head";
         String THIRD_DETAIL_URL = "third_detail_url";
+        String THIRD_DETAIL_TITLE = "title";
     }
 
 }

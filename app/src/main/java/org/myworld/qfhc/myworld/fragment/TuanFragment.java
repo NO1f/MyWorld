@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -25,7 +26,7 @@ import java.util.List;
  * @创建时间：2016/3/28 15:19
  * @备注：
  */
-public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestListener {
+public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestListener, View.OnClickListener {
 
     private ListView mLv;
     private List<ThirdHeadEntity.DataEntity.RecGroupsEntity> rec_groups;
@@ -33,6 +34,8 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     private List<ThirdHeadEntity.DataEntity.RecGroupsEntity> datas;
 
     private int p = 0;
+    private View footerView;
+    private TextView tvChange;
 
     public static TuanFragment newInstance() {
         Bundle args = new Bundle();
@@ -50,7 +53,11 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     protected void init(View view) {
 
         ThirdHeadView headView = new ThirdHeadView(getActivity(), getChildFragmentManager());
-        View footerView = LayoutInflater.from(getActivity()).inflate(R.layout.third_bottom_layout, null);
+        headView.setUrl(Constant.URL.THIRD_ONE);
+
+        footerView = LayoutInflater.from(getActivity()).inflate(R.layout.third_bottom_layout, null);
+        tvChange = (TextView) footerView.findViewById(R.id.tv_third_change);
+        tvChange.setOnClickListener(this);
 
         mLv = (ListView) view.findViewById(R.id.lv_third);
         mLv.addHeaderView(headView);
@@ -73,8 +80,6 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
             rec_groups = thirdByJson.getRec_groups();
             datas = new ArrayList<>();
             getDatas();
-
-
         }
     }
 
@@ -84,7 +89,8 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     }
 
     private void getDatas() {
-        if (p<=rec_groups.size()){
+        datas.clear();
+        if (p<rec_groups.size()){
             for (int i = p ; i < p + 5; i++) {
                 ThirdHeadEntity.DataEntity.RecGroupsEntity recGroupsEntity = rec_groups.get(i);
                 datas.add(recGroupsEntity);
@@ -105,8 +111,8 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
         adapter.setDatas(datas);
     }
 
-
-    public void click(View view) {
+    @Override
+    public void onClick(View v) {
         getDatas();
     }
 }

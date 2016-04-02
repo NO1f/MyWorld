@@ -14,11 +14,13 @@
         android:src="@drawable/third_bottom_line"/>
 
     <TextView
+        android:id="@+id/tv_third_change"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="换一换"
-        android:onClick="click"
+        android:textSize="10sp"
+        android:textColor="#FF9200"
         android:gravity="center"
         android:layout_gravity="center"
         android:layout_margin="5dp"

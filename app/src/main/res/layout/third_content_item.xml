@@ -2,16 +2,17 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_third_bottomimg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            fresco:viewAspectRatio="2.5"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
+            fresco:viewAspectRatio="2.65"
             android:background="@drawable/login_view_background"
             fresco:roundedCornerRadius="5dp"/>
 
@@ -30,8 +31,9 @@
             android:paddingLeft="20dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:text="吃货界的良心"
-            android:textSize="18sp"
+            android:maxLines="1"
+            android:text="吃货界的良心,开学季，一起屯文"
+            android:textSize="14sp"
             android:textColor="#fff"/>
 
             <LinearLayout
@@ -47,7 +49,7 @@
                     android:layout_height="wrap_content"
                     android:text="12345浏览"
                     android:textColor="#fff"
-                    />
+                    android:textSize="10sp"/>
 
                 <TextView
                     android:id="@+id/tv_third_posts"
@@ -55,7 +57,8 @@
                     android:layout_height="wrap_content"
                     android:text="697帖子"
                     android:textColor="#fff"
-                    android:layout_marginLeft="5dp"/>
+                    android:layout_marginLeft="5dp"
+                    android:textSize="10sp"/>
 
             </LinearLayout>
 

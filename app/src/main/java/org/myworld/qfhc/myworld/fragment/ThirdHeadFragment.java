@@ -51,9 +51,9 @@ public class ThirdHeadFragment extends BaseFragment {
         }
 
         mGv = (GridView) view.findViewById(R.id.gv_third);
-        GridViewAadpter adpter = new GridViewAadpter(getActivity());
-        adpter.setDatas(elements);
-        mGv.setAdapter(adpter);
+        GridViewAadpter adapter = new GridViewAadpter(getActivity());
+        adapter.setDatas(elements);
+        mGv.setAdapter(adapter);
 
     }
 
@@ -66,6 +66,7 @@ public class ThirdHeadFragment extends BaseFragment {
                 ThirdHeadEntity.DataEntity.ModuleElementsEntity.ElementsEntity elementsEntity = elements.get(position);
                 String type = elementsEntity.getType();
                 String mid = elementsEntity.getId();
+                String title = elementsEntity.getTitle();
                 String url=null;
 
                 if (type.equals("post_list_element")){
@@ -76,6 +77,7 @@ public class ThirdHeadFragment extends BaseFragment {
                 if (url!=null){
                     Intent intent=new Intent(getActivity(),ThirdHeadDetailActivity.class);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_URL,url);
+                    intent.putExtra(Constant.KEYS.THIRD_DETAIL_TITLE,title);
                 }else {
                     Toast.makeText(getActivity(), "数据加载失败，请重试", Toast.LENGTH_SHORT).show();
                 }
