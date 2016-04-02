@@ -80,7 +80,10 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
             @Override
             public void onBottom() {
                 super.onBottom();
+                int temp=i;
+                i=0;
                 initData();
+                i=temp;
             }
         });
 
@@ -150,7 +153,7 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
             intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, index_detail_url);
             startActivity(intent);
         }else {
-            Toast.makeText(getActivity(), "未请求到数据，请重试", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
         }
 
 

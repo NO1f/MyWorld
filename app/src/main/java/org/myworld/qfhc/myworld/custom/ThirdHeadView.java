@@ -84,7 +84,7 @@ public class ThirdHeadView extends LinearLayout implements VolleyUtil.OnRequestL
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(getContext(), "数据请求失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {

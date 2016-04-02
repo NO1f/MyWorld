@@ -1,6 +1,7 @@
 package org.myworld.qfhc.myworld.fragment;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -26,7 +27,7 @@ import java.util.List;
  * @创建时间：2016/3/28 15:19
  * @备注：
  */
-public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestListener, View.OnClickListener {
+public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private ListView mLv;
     private List<ThirdHeadEntity.DataEntity.RecGroupsEntity> rec_groups;
@@ -36,6 +37,7 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     private int p = 0;
     private View footerView;
     private TextView tvChange;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static TuanFragment newInstance() {
         Bundle args = new Bundle();
@@ -51,6 +53,10 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
 
     @Override
     protected void init(View view) {
+
+        swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.srl_third);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         ThirdHeadView headView = new ThirdHeadView(getActivity(), getChildFragmentManager());
         headView.setUrl(Constant.URL.THIRD_ONE);
@@ -80,12 +86,15 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
             rec_groups = thirdByJson.getRec_groups();
             datas = new ArrayList<>();
             getDatas();
+            if (datas!=null){
+                swipeRefreshLayout.setRefreshing(false);
+            }
         }
     }
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(getActivity(), "数据加载失败，请重试", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
     }
 
     private void getDatas() {
@@ -114,5 +123,10 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     @Override
     public void onClick(View v) {
         getDatas();
+    }
+
+    @Override
+    public void onRefresh() {
+        loadData();
     }
 }
