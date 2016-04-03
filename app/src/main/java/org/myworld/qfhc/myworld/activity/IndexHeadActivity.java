@@ -20,8 +20,6 @@ import org.myworld.qfhc.myworld.util.L;
 public class IndexHeadActivity extends BaseActivity{
 
     private WebView mWv;
-    int fontSize = 1;
-
     @Override
     protected int getContentResid() {
         return R.layout.index_head_content;

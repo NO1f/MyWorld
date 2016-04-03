@@ -1,0 +1,103 @@
+package org.myworld.qfhc.myworld.adapter;
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.facebook.drawee.view.SimpleDraweeView;
+
+import org.myworld.qfhc.myworld.R;
+import org.myworld.qfhc.myworld.activity.IndexHeadActivity;
+import org.myworld.qfhc.myworld.base.AbsBaseAdapter;
+import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
+import org.myworld.qfhc.myworld.util.Constant;
+
+import java.util.List;
+
+/**
+ * @类描述: ${TODO}
+ * @创建时间：2016/4/3 14:07
+ * @备注：
+ */
+public class ThirdDetailAdapter extends AbsBaseAdapter<ThirdDetailEntity>{
+
+    private Context context;
+
+    public ThirdDetailAdapter(Context context) {
+        super(context, R.layout.third_listview_detail_item);
+        this.context=context;
+    }
+
+    @Override
+    public void onBindData(ViewHolder holder, final ThirdDetailEntity data, int position) {
+
+        if (data.getProduct()!=null){
+
+            addView(holder, data);
+            holder.onBindTextView(R.id.tv_third_top_detail_datestr,data.getDatestr())
+                    .onBindTextView(R.id.tv_third_top_detail_content,data.getContent())
+                    .onBindTextView(R.id.tv_third_detail_collect,data.getDynamic().getLikes())
+                    .onBindTextView(R.id.tv_third_detail_title,data.getProduct().get(0).getTitle())
+                    .onBindTextView(R.id.tv_third_detail_price,data.getProduct().get(0).getPrice());
+
+            SimpleDraweeView sdvTop= (SimpleDraweeView) holder.getView(R.id.sdv_third_top_detail);
+            sdvTop.setImageURI(Uri.parse(data.getPics().get(0).getUrl()));
+
+            SimpleDraweeView sdvPic= (SimpleDraweeView) holder.getView(R.id.sdv_third_detail_pic);
+            sdvPic.setImageURI(Uri.parse(data.getProduct().get(0).getUrl()));
+
+            RelativeLayout rl= (RelativeLayout) holder.getView(R.id.rl_third);
+            rl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context, IndexHeadActivity.class);
+                    intent.putExtra(Constant.KEYS.INDEX_HEAD_CONTENT,data.getProduct().get(0).getUrl());
+                    context.startActivity(intent);
+                }
+            });
+        }else {
+            LinearLayout ll= (LinearLayout) holder.getView(R.id.ll_third);
+            ll.setVisibility(View.GONE);
+            TextView tv= (TextView) holder.getView(R.id.tv_third);
+            tv.setVisibility(View.GONE);
+
+            addView(holder, data);
+
+            holder.onBindTextView(R.id.tv_third_top_detail_datestr,data.getDatestr())
+                    .onBindTextView(R.id.tv_third_top_detail_content,data.getContent())
+                    .onBindTextView(R.id.tv_third_detail_collect,data.getDynamic().getLikes());
+
+            SimpleDraweeView sdvTop= (SimpleDraweeView) holder.getView(R.id.sdv_third_top_detail);
+            sdvTop.setImageURI(Uri.parse(data.getPics().get(0).getUrl()));
+
+        }
+
+
+    }
+
+    private void addView(ViewHolder holder, ThirdDetailEntity data) {
+        List<ThirdDetailEntity.TagsEntity> tags = data.getTags();
+
+        LinearLayout ll = (LinearLayout) holder.getView(R.id.ll_third);
+        ll.removeAllViews();
+        for (int i = 0; i < tags.size(); i++) {
+            String name = tags.get(i).getName();
+            String id = tags.get(i).getId();
+
+            TextView tv = new TextView(context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.leftMargin = 10;
+            tv.setLayoutParams(params);
+            tv.setTextColor(Color.parseColor("#FD6363"));
+            tv.setTextSize(12);
+            tv.setText(name);
+            ll.addView(tv);
+        }
+    }
+}

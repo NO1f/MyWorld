@@ -70,16 +70,18 @@ public class ThirdHeadFragment extends BaseFragment {
                 String url=null;
 
                 if (type.equals("post_list_element")){
-                    url = String.format(Constant.URL.THIRD_ONE_ELE, mid);
+                    url = Constant.URL.THIRD_ONE_ELE;
                 }else if (type.equals("post_list_tag")){
-                    url = String.format(Constant.URL.THIRD_ONE_TAG, mid);
+                    url = Constant.URL.THIRD_ONE_TAG;
                 }
                 if (url!=null){
                     Intent intent=new Intent(getActivity(),ThirdHeadDetailActivity.class);
+                    intent.putExtra(Constant.KEYS.THIRD_DETAIL_ID,mid);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_URL,url);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_TITLE,title);
+                    getActivity().startActivity(intent);
                 }else {
-                    Toast.makeText(getActivity(), "数据加载失败，请重试", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "数据加载失败", Toast.LENGTH_SHORT).show();
                 }
             }
         });
