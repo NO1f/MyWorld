@@ -13,6 +13,7 @@ import org.myworld.qfhc.myworld.adapter.GridViewAadpter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
 import org.myworld.qfhc.myworld.entity.ThirdHeadEntity;
 import org.myworld.qfhc.myworld.util.Constant;
+import org.myworld.qfhc.myworld.util.L;
 
 import java.util.List;
 
@@ -75,6 +76,7 @@ public class ThirdHeadFragment extends BaseFragment {
                     url = Constant.URL.THIRD_ONE_TAG;
                 }
                 if (url!=null){
+                   // L.e(url+"=======================================");
                     Intent intent=new Intent(getActivity(),ThirdHeadDetailActivity.class);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_ID,mid);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_URL,url);

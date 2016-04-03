@@ -45,7 +45,7 @@
             android:id="@+id/rb_first_tab_tuan"
             style="@style/Tab"
             android:drawableTop="@drawable/tab_tuan_selector"
-            android:text="品牌"/>
+            android:text="分类"/>
 
         <RadioButton
             android:id="@+id/rb_first_tab_mine"

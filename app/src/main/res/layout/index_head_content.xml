@@ -22,7 +22,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="路口好团榜"
+            android:text="商品详情"
             android:textSize="22sp"
             android:layout_gravity="center"
             android:gravity="center"/>

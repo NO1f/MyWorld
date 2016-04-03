@@ -265,7 +265,7 @@ public class ThirdHeadEntity {
                 return elements;
             }
 
-            public static class ElementsEntity {
+            public static class ElementsEntity implements Serializable{
                 private String id;
                 private String title;
                 private String sub_title;

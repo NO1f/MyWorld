@@ -2,6 +2,8 @@ package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,24 +16,25 @@ import org.myworld.qfhc.myworld.base.BaseActivity;
 import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
+import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @类描述: ${TODO}
  * @创建时间：2016/4/2 00:38
  * @备注：
  */
-public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.OnRequestListener, SwipeRefreshLayout.OnRefreshListener {
+public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.OnRequestListener, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private ListView mLv;
     private TextView tvTitle;
     private SwipeRefreshLayout srl;
     private ThirdDetailAdapter adapter;
-    private int page=0;
+    private int page = 0;
     private String formatUrl;
+    private ImageView imageView;
 
     @Override
     protected int getContentResid() {
@@ -42,16 +45,21 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
     protected void init() {
 
         Intent intent = getIntent();
-        String url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
-        String id = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_ID);
+        String url = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_URL);
+        // L.e(url+"_______________________________________");
+        String third_id = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_ID);
+        int id = Integer.valueOf(third_id);
         String title = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_TITLE);
 
         formatUrl = String.format(url, page, id);
 
-        tvTitle= (TextView) findViewById(R.id.tv_third_top_detail_title);
+        tvTitle = (TextView) findViewById(R.id.tv_third_top_detail_title);
         tvTitle.setText(title);
+        imageView = (ImageView) findViewById(R.id.iv_third_detail_back);
+        imageView.setOnClickListener(this);
+
         mLv = (ListView) findViewById(R.id.lv_third_detail);
-        srl= (SwipeRefreshLayout) findViewById(R.id.srl_third_footer_detail);
+        srl = (SwipeRefreshLayout) findViewById(R.id.srl_third_footer_detail);
         srl.setOnRefreshListener(this);
 
         adapter = new ThirdDetailAdapter(this);
@@ -60,15 +68,17 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     protected void initData() {
-        VolleyUtil.requestString(formatUrl,this);
+        VolleyUtil.requestString(formatUrl, this);
     }
 
     @Override
     public void onResponse(String url, String response) {
-        if (response!=null){
-            List<ThirdDetailEntity> thirdDetailByJson = JSONUtil.getThirdDetailByJson(response);
-            adapter.setDatas(thirdDetailByJson);
-            if (thirdDetailByJson!=null){
+        if (response != null) {
+            ThirdDetailEntity.DataEntity thirdDetailByJson = JSONUtil.getThirdDetailByJson(response);
+            List<ThirdDetailEntity.DataEntity.ListEntity> list = thirdDetailByJson.getList();
+            L.e(thirdDetailByJson + "==========================================");
+            adapter.setDatas(list);
+            if (thirdDetailByJson != null) {
                 srl.setRefreshing(false);
             }
         }
@@ -82,5 +92,10 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
     @Override
     public void onRefresh() {
         initData();
+    }
+
+    @Override
+    public void onClick(View v) {
+        finish();
     }
 }
