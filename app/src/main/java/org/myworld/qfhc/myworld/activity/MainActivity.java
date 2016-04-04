@@ -121,8 +121,4 @@ public class MainActivity extends BaseActivity {
         mRg.getChildAt(0).performClick();
     }
 
-    @Override
-    protected void initData() {
-
-    }
 }

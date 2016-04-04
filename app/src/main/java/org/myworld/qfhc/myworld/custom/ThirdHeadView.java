@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ public class ThirdHeadView extends LinearLayout implements VolleyUtil.OnRequestL
         LayoutInflater.from(getContext()).inflate(R.layout.third_head_layout,this,true);
         mVp= (ViewPager) findViewById(R.id.vp_third_one_top);
         mTl= (TabLayout) findViewById(R.id.tl_tab_third);
+        mTl.setTabGravity(TabLayout.GRAVITY_FILL);
     }
 
     public void setUrl(String url){

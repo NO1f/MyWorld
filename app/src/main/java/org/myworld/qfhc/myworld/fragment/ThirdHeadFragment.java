@@ -66,7 +66,7 @@ public class ThirdHeadFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ThirdHeadEntity.DataEntity.ModuleElementsEntity.ElementsEntity elementsEntity = elements.get(position);
                 String type = elementsEntity.getType();
-                String mid = elementsEntity.getId();
+                String extend = elementsEntity.getExtend();
                 String title = elementsEntity.getTitle();
                 String url=null;
 
@@ -78,7 +78,7 @@ public class ThirdHeadFragment extends BaseFragment {
                 if (url!=null){
                    // L.e(url+"=======================================");
                     Intent intent=new Intent(getActivity(),ThirdHeadDetailActivity.class);
-                    intent.putExtra(Constant.KEYS.THIRD_DETAIL_ID,mid);
+                    intent.putExtra(Constant.KEYS.THIRD_DETAIL_ID,extend);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_URL,url);
                     intent.putExtra(Constant.KEYS.THIRD_DETAIL_TITLE,title);
                     getActivity().startActivity(intent);

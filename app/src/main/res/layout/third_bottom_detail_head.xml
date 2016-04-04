@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="255dp"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_third_bottom_detail_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shadow_bottom"
+        fresco:viewAspectRatio="1.5" />
+
+    <RelativeLayout
+        android:background="#33FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="75dp">
+
+        <TextView
+            android:id="@+id/tv_third_bottom_detail_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/bg_third"
+            android:maxLines="1"
+            android:layout_centerHorizontal="true"
+            android:paddingBottom="3dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="3dp"
+            android:text="吃货界的良心,开学季，一起屯文"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+            <org.myworld.qfhc.myworld.custom.CenterTextView
+                android:id="@+id/ctv_third_bottom_detail_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_third_bottom_detail_name"
+                android:layout_marginLeft="5dp"
+                android:layout_centerHorizontal="true"
+                android:maxLines="2"
+                android:text="屋子是house，家是home。把屋子变成家，也许只差这一件！"
+                android:textColor="#fff"
+                android:textSize="14sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_third_bottom_detail_views"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="12345浏览"
+            android:textColor="#fff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_third_bottom_detail_posts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="697帖子"
+            android:textColor="#fff"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

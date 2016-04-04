@@ -27,7 +27,7 @@ public interface Constant {
 
 
         String THIRD_ONE="http://open4.bantangapp.com/community/post/communityHome?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=&oauth_token=&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11";
-        String THIRD_ONE_BOTTOM="http://open4.bantangapp.com/community/group/info?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=&oauth_token=&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&page=0&pagesize=10&group_id=%f&type_id=1";
+        String THIRD_ONE_BOTTOM="http://open4.bantangapp.com/community/group/info?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=&oauth_token=&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&page=%d&pagesize=10&group_id=%d&type_id=0";
         String THIRD_ONE_ELE="http://open4.bantangapp.com/community/post/elementPost?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=&oauth_token=&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&page=%d&pagesize=10&element_id=%d";
         String THIRD_ONE_TAG="http://open4.bantangapp.com/community/post/listByTag?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=&oauth_token=&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&page=%d&pagesize=10&type_id=0&last_id=&tag_id=%d";
     }
@@ -41,6 +41,8 @@ public interface Constant {
         String THIRD_DETAIL_URL = "third_detail_url";
         String THIRD_DETAIL_TITLE = "title";
         String THIRD_DETAIL_ID = "third_detail_id";
+        String THIRD_BOTTOM_DETAIL_ID = "third_bottom_detail_id";
+        String THIRD_BOTTOM_DETAIL_NAME = "third_bottom_detail_name";
     }
 
 }

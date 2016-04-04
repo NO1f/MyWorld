@@ -1,9 +1,11 @@
 package org.myworld.qfhc.myworld.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 
 import org.myworld.qfhc.myworld.R;
+import org.myworld.qfhc.myworld.activity.ThirdBottomActivity;
 import org.myworld.qfhc.myworld.adapter.ThirdAdapter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
 import org.myworld.qfhc.myworld.custom.ThirdHeadView;
@@ -27,7 +30,7 @@ import java.util.List;
  * @创建时间：2016/3/28 15:19
  * @备注：
  */
-public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, AdapterView.OnItemClickListener {
 
     private ListView mLv;
     private List<ThirdHeadEntity.DataEntity.RecGroupsEntity> rec_groups;
@@ -68,6 +71,7 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
         mLv = (ListView) view.findViewById(R.id.lv_third);
         mLv.addHeaderView(headView);
         mLv.addFooterView(footerView);
+        mLv.setOnItemClickListener(this);
         adapter = new ThirdAdapter(getActivity());
         mLv.setAdapter(adapter);
 
@@ -128,5 +132,16 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     @Override
     public void onRefresh() {
         loadData();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ThirdHeadEntity.DataEntity.RecGroupsEntity recGroupsEntity = datas.get(position);
+        String mid = recGroupsEntity.getId();
+        String name = recGroupsEntity.getName();
+        Intent intent=new Intent(getActivity(), ThirdBottomActivity.class);
+        intent.putExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_ID,mid);
+        intent.putExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_NAME,name);
+        getActivity().startActivity(intent);
     }
 }
