@@ -65,6 +65,7 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
         ThirdDetailHeadView headView=new ThirdDetailHeadView(this);
         headView.setUrl(url);
 
+
         formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM,currentPage, id);
 
         ivBack= (ImageView) findViewById(R.id.iv_third_detail_bottom_back);
