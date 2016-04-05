@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_title_bar_back"
+            android:layout_marginRight="5dp"
+            android:layout_gravity="center"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_gravity="center"
+            android:layout_marginRight="15dp"
+            android:drawableLeft="@drawable/ic_search_left_drawable"
+            android:drawablePadding="8dp"
+            android:background="@drawable/search_bg"
+            android:paddingLeft="15dp"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp"
+            android:hint="搜索 单品/清单/帖子"/>
+
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tl_search"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"></TableLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_search"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

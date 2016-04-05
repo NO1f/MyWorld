@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/iv_third_bottom_refresh"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_margin="4dp"
+        android:scaleType="centerCrop"
         android:background="@drawable/wait" />
 
     <TextView
