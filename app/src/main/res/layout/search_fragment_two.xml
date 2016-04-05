@@ -8,6 +8,8 @@
         android:id="@+id/gv_search_two"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:verticalSpacing="20dp"
         android:numColumns="3">
     </GridView>
 

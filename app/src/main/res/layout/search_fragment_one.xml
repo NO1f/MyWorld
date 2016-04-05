@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/search_rl_one"
     android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/iv_search_wait"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/wait"
+        android:layout_centerInParent="true"/>
 
     <ListView
         android:id="@+id/lv_search_one"
-        android:layout_width="95dp"
-        android:layout_height="match_parent"/>
+        android:layout_width="85dp"
+        android:layout_height="match_parent"
+        android:background="#E8E8E8"
+        android:dividerHeight="1dp"/>
 
     <GridView
         android:id="@+id/gv_search_one"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:horizontalSpacing="5dp"
+        android:verticalSpacing="25dp"
+        android:layout_toRightOf="@+id/lv_search_one"
         android:numColumns="3"></GridView>
 
-</LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_search_two_icon"
+        android:layout_width="55dp"
+        android:layout_height="55dp"/>
+
+    <TextView
+        android:id="@+id/tv_search_gv_two_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:text="底妆"/>
+
+    <TextView
+        android:id="@+id/tv_search_gv_two_en_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:text="Gift"
+        android:textSize="12sp"
+        android:textColor="#C9C9C9"/>
+
+
+</LinearLayout>

@@ -9,8 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -23,6 +23,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.activity.IndexHeadActivity;
 import org.myworld.qfhc.myworld.activity.MainActivity;
+import org.myworld.qfhc.myworld.activity.SearchActivity;
 import org.myworld.qfhc.myworld.base.BaseFragment;
 import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.util.Constant;
@@ -38,10 +39,11 @@ import java.util.List;
  * @创建时间：2016/3/28 15:19
  * @备注：
  */
-public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestListener, OnItemClickListener, TabLayout.OnTabSelectedListener {
+public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestListener, OnItemClickListener, TabLayout.OnTabSelectedListener, View.OnClickListener {
 
     private TabLayout mTl;
     private ViewPager mVp;
+    private ImageView ivSearch;
 
     private ConvenientBanner convenientBanner;
     private List<String> sdvUrls;
@@ -71,6 +73,8 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         sdvUrls = new ArrayList<>();
 
+        ivSearch= (ImageView) view.findViewById(R.id.iv_first_search);
+        ivSearch.setOnClickListener(this);
         mTl = (TabLayout) view.findViewById(R.id.tl_tab_first);
         mVp = (ViewPager) view.findViewById(R.id.vp_first_tab);
         mTl.setOnTabSelectedListener(this);
@@ -131,6 +135,12 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
         //convenientBanner.setManualPageable(false);//设置不能手动影响
         convenientBanner.startTurning(2000);
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent intent=new Intent(getActivity(), SearchActivity.class);
+        getActivity().startActivity(intent);
     }
 
     public class LocalImageHolderView implements Holder<String> {
