@@ -19,8 +19,10 @@ import org.myworld.qfhc.myworld.base.BaseActivity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
+import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +46,7 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
     private View footer;
     private SearchDetailOneAdapter adapter;
     private List<SearchDetailOneEntity.DataEntity.ListEntity> searchDetailOneByJson;
+    private List<SearchDetailOneEntity.DataEntity.ListEntity> datas;
 
     @Override
     protected int getContentResid() {
@@ -52,7 +55,7 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void init() {
-
+        datas = new ArrayList<>();
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_ID);
         String name = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_NAME);
@@ -79,6 +82,7 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
         mLv = (ListView) findViewById(R.id.lv_search_detail_one);
         mLv.setOnItemClickListener(this);
         mLv.setOnScrollListener(this);
+        mLv.addFooterView(footer);
         adapter = new SearchDetailOneAdapter(this);
         mLv.setAdapter(adapter);
 
@@ -97,18 +101,27 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onRefresh() {
-        initData();
+        currentPage=0;
+        count=0;
+        datas.clear();
+        formatUrl = String.format(Constant.URL.SEARCH_DETAIL_ONE, id,currentPage);
+        VolleyUtil.requestString(formatUrl,this);
     }
 
     @Override
     public void onResponse(String url, String response) {
-        searchDetailOneByJson = JSONUtil.getSearchDetailOneByJson(response);
-        adapter.addDatas(searchDetailOneByJson);
-        if (searchDetailOneByJson != null) {
-            swipeRefreshLayout.setRefreshing(false);
+        if (response!=null){
+
+            searchDetailOneByJson = JSONUtil.getSearchDetailOneByJson(response);
+            datas.addAll(searchDetailOneByJson);
+
+            adapter.addDatas(datas);
+            if (searchDetailOneByJson != null) {
+                swipeRefreshLayout.setRefreshing(false);
+            }
+            onLoadComplete();
+            count += 10;
         }
-        onLoadComplete();
-        count += 10;
     }
 
     @Override
@@ -118,8 +131,9 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        L.e(position+"___________________________________________--");
         Intent intent = new Intent(SearchDetailOneActivity.this, SearchDetailOneDetActivity.class);
-        String mid = searchDetailOneByJson.get(position).getId();
+        String mid = datas.get(position).getId();
         intent.putExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID,mid);
         startActivity(intent);
     }
@@ -136,11 +150,9 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
                 footer.setVisibility(View.VISIBLE);
 
                 // 加载新数据
-                formatUrl = String.format(formatUrl, currentPage, id);
+                formatUrl = String.format(Constant.URL.SEARCH_DETAIL_ONE, id,currentPage);
                 VolleyUtil.requestString(formatUrl, this);
-
             }
-
         }
 
         isBottom = false;
@@ -150,9 +162,7 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
     public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
         // 数据到了最后一条
         if (firstVisibleItem + visibleItemCount == totalItemCount) {
-
             isBottom = true;
-
         }
     }
 

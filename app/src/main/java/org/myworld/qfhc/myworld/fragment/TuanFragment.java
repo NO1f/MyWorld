@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 
 import org.myworld.qfhc.myworld.R;
-import org.myworld.qfhc.myworld.activity.ThirdBottomActivity;
+import org.myworld.qfhc.myworld.activity.ThirdBottomDetailActivity;
 import org.myworld.qfhc.myworld.adapter.ThirdAdapter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
 import org.myworld.qfhc.myworld.custom.ThirdHeadView;
@@ -136,10 +136,10 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ThirdHeadEntity.DataEntity.RecGroupsEntity recGroupsEntity = datas.get(position);
+        ThirdHeadEntity.DataEntity.RecGroupsEntity recGroupsEntity = datas.get(position-1);
         String mid = recGroupsEntity.getId();
         String name = recGroupsEntity.getName();
-        Intent intent=new Intent(getActivity(), ThirdBottomActivity.class);
+        Intent intent=new Intent(getActivity(), ThirdBottomDetailActivity.class);
         intent.putExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_ID,mid);
         intent.putExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_NAME,name);
         getActivity().startActivity(intent);

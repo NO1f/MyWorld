@@ -15,15 +15,15 @@ import com.android.volley.VolleyError;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.adapter.ThirdBottomDetailAdapter;
-import org.myworld.qfhc.myworld.adapter.ThirdDetailAdapter;
 import org.myworld.qfhc.myworld.base.BaseActivity;
 import org.myworld.qfhc.myworld.custom.ThirdDetailHeadView;
 import org.myworld.qfhc.myworld.entity.ThirdBottomDetailEntity;
-import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
+import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,7 +31,7 @@ import java.util.List;
  * @创建时间：2016/4/4 15:10
  * @备注：
  */
-public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRequestListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, View.OnClickListener {
+public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUtil.OnRequestListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, View.OnClickListener {
 
     private boolean isLoading;
     private boolean isBottom=false;
@@ -47,6 +47,7 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
     private ThirdBottomDetailAdapter adapter;
     private String formatUrl;
     private int id;
+    private List<ThirdBottomDetailEntity.DataEntity.PostListEntity> datas;
 
     @Override
     protected int getContentResid() {
@@ -55,7 +56,7 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
 
     @Override
     protected void init() {
-
+        datas = new ArrayList<>();
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_ID);
         id = Integer.valueOf(mid);
@@ -88,6 +89,7 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
 
         mLv= (ListView) findViewById(R.id.lv_third_bottom_detail);
         mLv.addHeaderView(headView);
+        mLv.addFooterView(footer);
         mLv.setOnScrollListener(this);
         adapter = new ThirdBottomDetailAdapter(this);
         mLv.setAdapter(adapter);
@@ -103,10 +105,12 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
     public void onResponse(String url, String response) {
 
         if (response != null) {
+
             ThirdBottomDetailEntity.DataEntity thirdBottomDetailByJson = JSONUtil.getThirdBottomDetailByJson(response);
             List<ThirdBottomDetailEntity.DataEntity.PostListEntity> post_list = thirdBottomDetailByJson.getPost_list();
             //L.e(thirdDetailByJson + "==========================================");
-            adapter.addDatas(post_list);
+            datas.addAll(post_list);
+            adapter.addDatas(datas);
             if (thirdBottomDetailByJson != null) {
                 srl.setRefreshing(false);
             }
@@ -117,12 +121,16 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(ThirdBottomActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ThirdBottomDetailActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onRefresh() {
-        initData();
+        currentPage=0;
+        count=0;
+        datas.clear();
+        formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM,  currentPage,id);
+        VolleyUtil.requestString(formatUrl,this);
     }
 
     @Override
@@ -165,7 +173,7 @@ public class ThirdBottomActivity extends BaseActivity implements VolleyUtil.OnRe
                 finish();
                 break;
             case R.id.iv_third_detail_bottom_share:
-                Toast.makeText(ThirdBottomActivity.this, "此处要分享", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ThirdBottomDetailActivity.this, "此处要分享", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

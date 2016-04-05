@@ -9,6 +9,7 @@ import org.myworld.qfhc.myworld.base.BaseActivity;
  * @备注：
  */
 public class SearchDetailOneDetActivity extends BaseActivity{
+
     @Override
     protected int getContentResid() {
         return R.layout.search_detail_one_det;

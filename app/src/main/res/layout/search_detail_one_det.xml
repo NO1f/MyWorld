@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <ScrollView
@@ -11,14 +11,39 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <com.bigkoo.convenientbanner.ConvenientBanner
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/convenientBanner"
-            android:layout_width="match_parent"
-            android:layout_height="290dp"
-            app:canLoop="true" />
+            <com.bigkoo.convenientbanner.ConvenientBanner xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/convenientBanner_search"
+                android:layout_width="match_parent"
+                android:layout_height="290dp"
+                app:canLoop="true" />
+
+            <TextView
+                android:id="@+id/tv_search_detail_one_det_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:text="Biodermis 疤痕膏"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_search_detail_one_det_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:text="￥20.0"
+                android:textColor="#FF214C"
+                android:layout_gravity="center"/>
+            
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/imaginary_line"/>
+
         </LinearLayout>
 
     </ScrollView>
@@ -33,6 +58,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:padding="10dp">
+
             <ImageView
                 android:id="@+id/iv_third_detail_bottom_back"
                 android:layout_width="wrap_content"
@@ -44,9 +70,9 @@
                 android:id="@+id/tv_third_detail_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="物品详情"
                 android:layout_centerInParent="true"
-                android:textSize="18sp"/>
+                android:text="物品详情"
+                android:textSize="18sp" />
 
             <ImageView
                 android:id="@+id/iv_third_detail_bottom_share"

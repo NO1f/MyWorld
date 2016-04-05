@@ -45,6 +45,7 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
     private String url;
     private int extend;
     private View footer;
+    private List<ThirdDetailEntity.DataEntity.ListEntity> datas;
 
     @Override
     protected int getContentResid() {
@@ -53,7 +54,7 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     protected void init() {
-
+        datas = new ArrayList<>();
         Intent intent = getIntent();
         url = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_URL);
         // L.e(url+"_______________________________________");
@@ -97,7 +98,8 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
             ThirdDetailEntity.DataEntity thirdDetailByJson = JSONUtil.getThirdDetailByJson(response);
             List<ThirdDetailEntity.DataEntity.ListEntity> list = thirdDetailByJson.getList();
             //L.e(thirdDetailByJson + "==========================================");
-            adapter.addDatas(list);
+            datas.addAll(list);
+            adapter.addDatas(datas);
             if (thirdDetailByJson != null) {
                 srl.setRefreshing(false);
             }
@@ -113,7 +115,11 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     public void onRefresh() {
-        initData();
+        currentPage=0;
+        count=0;
+        datas.clear();
+        formatUrl = String.format(url, currentPage, extend);
+        VolleyUtil.requestString(formatUrl,this);
     }
 
     @Override
