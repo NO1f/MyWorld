@@ -1,20 +1,19 @@
 package org.myworld.qfhc.myworld.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 
 import org.myworld.qfhc.myworld.R;
-import org.myworld.qfhc.myworld.activity.ThirdHeadDetailActivity;
+import org.myworld.qfhc.myworld.activity.SearchDetailOneActivity;
 import org.myworld.qfhc.myworld.adapter.SearchSKUGVAdapter;
 import org.myworld.qfhc.myworld.adapter.SearchSKULVAdapter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
@@ -39,6 +38,7 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
 
     private ImageView ivWait;
     private List<SearchSKUEntity.DataEntity> searchSKUByJson;
+    private List<SearchSKUEntity.DataEntity.SubclassEntity> subclass;
 
     public static SearchSKUFragment newInstance() {
 
@@ -63,6 +63,17 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
         ivWait.setVisibility(View.GONE);
         mLv = (ListView) view.findViewById(R.id.lv_search_one);
         mGv = (GridView) view.findViewById(R.id.gv_search_one);
+        mGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), SearchDetailOneActivity.class);
+                String name = subclass.get(position).getName();
+                String mid = subclass.get(position).getId();
+                intent.putExtra(Constant.KEYS.SEARCH_ONE_ID, mid);
+                intent.putExtra(Constant.KEYS.SEARCH_ONE_NAME, name);
+                startActivity(intent);
+            }
+        });
 
         lvAdapter = new SearchSKULVAdapter(getActivity());
         mLv.setOnItemClickListener(this);
@@ -112,7 +123,7 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         mLv.smoothScrollToPositionFromTop(position, 0);
-        List<SearchSKUEntity.DataEntity.SubclassEntity> subclass = searchSKUByJson.get(position).getSubclass();
+        subclass = searchSKUByJson.get(position).getSubclass();
         gvAdapter = new SearchSKUGVAdapter(getActivity());
         gvAdapter.setDatas(subclass);
         mGv.setAdapter(gvAdapter);

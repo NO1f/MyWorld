@@ -35,7 +35,7 @@ public interface Constant {
         String SEARCH_TWO="http://open4.bantangapp.com/category/scene?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11";
 
         String SEARCH_DETAIL_ONE="http://open4.bantangapp.com/product/productList?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&subclass=%d&page=%d&pagesize=10";
-        String SEARCH_DETAIL_ONE_DET="http://open4.bantangapp.com/product/newInfo?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&id=%d&page=%d&pagesize=10&comments_pagesize=10";
+        String SEARCH_DETAIL_ONE_DET="http://open4.bantangapp.com/product/newInfo?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&id=%d&page=0&pagesize=10&comments_pagesize=10";
     }
 
     interface KEYS {
@@ -49,6 +49,9 @@ public interface Constant {
         String THIRD_DETAIL_ID = "third_detail_id";
         String THIRD_BOTTOM_DETAIL_ID = "third_bottom_detail_id";
         String THIRD_BOTTOM_DETAIL_NAME = "third_bottom_detail_name";
+        String SEARCH_ONE_ID = "search_one_id";
+        String SEARCH_ONE_NAME = "search_one_name";
+        String SEARCH_ONE_DETAIL_ID = "search_one_detail_id";
     }
 
 }

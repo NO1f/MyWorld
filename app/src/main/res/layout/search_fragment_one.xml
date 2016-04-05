@@ -26,6 +26,7 @@
         android:paddingTop="10dp"
         android:horizontalSpacing="5dp"
         android:verticalSpacing="25dp"
+        android:listSelector="@android:color/transparent"
         android:layout_toRightOf="@+id/lv_search_one"
         android:numColumns="3"></GridView>
 

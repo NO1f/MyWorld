@@ -23,9 +23,9 @@
         <activity android:name=".activity.IndextDetailActivity" />
         <activity android:name=".activity.ThirdHeadDetailActivity" />
         <activity android:name=".activity.ThirdBottomActivity" />
-        <activity
-            android:name=".activity.SearchActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".activity.SearchActivity" />
+        <activity android:name=".activity.SearchDetailOneActivity"/>
+        <activity android:name=".activity.SearchDetailOneDetActivity"/>
     </application>
 
 </manifest>

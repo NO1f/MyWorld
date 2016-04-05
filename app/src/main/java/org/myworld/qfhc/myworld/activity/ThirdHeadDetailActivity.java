@@ -36,10 +36,10 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
     private TextView tvTitle;
     private boolean isLoading;
     private boolean isBottom=false;
-    private SwipeRefreshLayout srl;
-    private ThirdDetailAdapter adapter;
     private int currentPage = 0;
     private int count=0;
+    private SwipeRefreshLayout srl;
+    private ThirdDetailAdapter adapter;
     private String formatUrl;
     private ImageView imageView ,ivRefresh;
     private String url;

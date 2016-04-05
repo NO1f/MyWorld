@@ -38,6 +38,8 @@ public class IndextDetailActivity extends BaseActivity{
         settings.setSupportZoom(false);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);//关键点
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         mWv.loadUrl(wv_head_url);
 

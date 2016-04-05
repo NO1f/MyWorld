@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
+import org.myworld.qfhc.myworld.entity.SearchDetailOneEntity;
 import org.myworld.qfhc.myworld.entity.SearchRepertoireEntity;
 import org.myworld.qfhc.myworld.entity.SearchSKUEntity;
 import org.myworld.qfhc.myworld.entity.ThirdBottomDetailEntity;
@@ -100,6 +101,16 @@ public class JSONUtil {
             SearchRepertoireEntity searchRepertoireEntity = new Gson().fromJson(json, SearchRepertoireEntity.class);
             List<SearchRepertoireEntity.DataEntity> data = searchRepertoireEntity.getData();
             return data;
+        }
+        return null;
+    }
+
+    public static List<SearchDetailOneEntity.DataEntity.ListEntity> getSearchDetailOneByJson(String json) {
+        if (json != null) {
+            SearchDetailOneEntity searchDetailOneEntity = new Gson().fromJson(json, SearchDetailOneEntity.class);
+            SearchDetailOneEntity.DataEntity data = searchDetailOneEntity.getData();
+            List<SearchDetailOneEntity.DataEntity.ListEntity> list = data.getList();
+            return list;
         }
         return null;
     }

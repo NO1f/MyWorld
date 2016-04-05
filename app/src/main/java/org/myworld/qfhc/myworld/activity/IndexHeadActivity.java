@@ -36,6 +36,8 @@ public class IndexHeadActivity extends BaseActivity{
         WebSettings settings = mWv.getSettings();
         settings.setSupportZoom(false);
         settings.setDefaultFontSize(18);
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
         settings.setLoadWithOverviewMode(true);
         mWv.loadUrl(wv_head_url);
 
