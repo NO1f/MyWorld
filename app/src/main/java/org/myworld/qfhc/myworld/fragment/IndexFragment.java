@@ -49,7 +49,6 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     private List<String> sdvUrls;
     private List<IndexHeadEntity.DataEntity.BannerEntity> banner;
     private List<IndexHeadEntity.DataEntity.TabsEntity> tabs;
-    // private String[] titles;
     private ViewPagerAdapter adapter;
 
     public static IndexFragment newInstance() {

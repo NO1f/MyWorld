@@ -110,7 +110,7 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
             List<ThirdBottomDetailEntity.DataEntity.PostListEntity> post_list = thirdBottomDetailByJson.getPost_list();
             //L.e(thirdDetailByJson + "==========================================");
             datas.addAll(post_list);
-            adapter.addDatas(datas);
+            adapter.addDatas(post_list);
             if (thirdBottomDetailByJson != null) {
                 srl.setRefreshing(false);
             }

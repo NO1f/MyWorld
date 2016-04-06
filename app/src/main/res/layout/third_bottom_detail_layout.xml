@@ -18,13 +18,14 @@
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        android:layout_height="42dp"
         app:contentInsetStart="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:background="@drawable/gradient"
             android:padding="10dp">
             <ImageView
                 android:id="@+id/iv_third_detail_bottom_back"
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="把屋子变成家"
+                android:textColor="#fff"
                 android:layout_centerInParent="true"
                 android:textSize="18sp"/>
 

@@ -17,6 +17,7 @@
         android:layout_width="85dp"
         android:layout_height="match_parent"
         android:background="#E8E8E8"
+        android:scrollbars="none"
         android:dividerHeight="1dp"/>
 
     <GridView

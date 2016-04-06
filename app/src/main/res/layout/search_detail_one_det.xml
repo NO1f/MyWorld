@@ -7,7 +7,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,14 +20,15 @@
                 android:id="@+id/convenientBanner_search"
                 android:layout_width="match_parent"
                 android:layout_height="310dp"
+                android:background="@drawable/shadow_bottom"
                 app:canLoop="true" />
 
             <TextView
                 android:id="@+id/tv_search_detail_one_det_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:textSize="20sp"
-                android:text="Biodermis 疤痕膏"
                 android:layout_gravity="center"/>
 
             <TextView
@@ -34,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="20sp"
-                android:text="￥20.0"
                 android:paddingRight="5dp"
                 android:textColor="#FF214C"
                 android:layout_gravity="center"/>
@@ -50,8 +52,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="20sp"
-                android:text="Biodermis疤痕膏本是专业的疤痕膏，但是它被很多美国消费者用于多年老旧痘痘、痤疮后留下的深色痘印、痘疤以及痘坑的修复，并且很快被国内的美眉所熟知。临床实验证明：一年内的疤痕修复程度可达85%，10年以内的疤痕修复程度可达65%。"
+                android:textSize="14sp"
+                android:lineSpacingExtra="8dp"
                 android:textColor="#B7B7B7"
                 android:layout_margin="15dp"
                 android:layout_gravity="center"/>
@@ -62,28 +64,30 @@
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize"
+        android:layout_height="40dp"
         app:contentInsetStart="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="42dp"
+            android:background="@drawable/gradient"
             android:gravity="center"
             android:padding="10dp">
 
             <ImageView
-                android:id="@+id/iv_third_detail_bottom_back"
+                android:id="@+id/tv_search_detail_one_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:onClick="click"
                 android:src="@drawable/ic_title_back_white" />
 
             <TextView
-                android:id="@+id/tv_third_detail_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="物品详情"
+                android:textColor="#fff"
                 android:textSize="18sp" />
 
             <ImageView
@@ -106,8 +110,11 @@
             android:id="@+id/tv_search_detail_one_det_coll"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
+            android:layout_gravity="center"
+            android:onClick="click"
             android:padding="5dp"
+            android:layout_marginLeft="10dp"
             android:text="收藏"
             android:textSize="14sp"
             android:drawablePadding="8dp"
@@ -117,8 +124,10 @@
             android:id="@+id/tv_search_detail_one_det_share"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="1.2"
+            android:layout_gravity="center"
             android:padding="5dp"
+            android:onClick="click"
             android:text="分享"
             android:textSize="14sp"
             android:drawablePadding="8dp"
@@ -128,8 +137,9 @@
             android:id="@+id/iv_search_detail_one_det_buy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:padding="5dp"
+            android:layout_weight="1.6"
+            android:onClick="click"
+            android:padding="8dp"
             android:src="@drawable/ic_commet_list_bottom_detail"/>
 
     </LinearLayout>

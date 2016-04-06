@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="15dp"
+    android:orientation="vertical">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="36dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/album_index_bg"/>
+
+            <TextView
+                android:id="@+id/tv_chose_shu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textColor="#fff"
+                android:layout_centerInParent="true"
+                android:textSize="16sp"/>
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tv_chose_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="黑白简约餐盘"
+            android:textColor="#453c3c"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:textSize="18sp"/>
+        
+    </LinearLayout>
+    
+    <TextView
+        android:id="@+id/tv_chose_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="8dp"
+        android:layout_marginTop="15dp"
+        android:text="黑白的干净色调搭配各式简约的花纹，显得十分的时尚又优雅，仿佛是女神奥黛丽赫本才会用的餐具一般。风格偏向西餐化，更适合摆放一些水果、三明治、意大利面之类的，别致又百搭。"/>
+
+    <LinearLayout
+        android:id="@+id/ll_chose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/tv_chose_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="参考价格：5234.0"
+        android:textColor="#DE4F43"
+        android:layout_marginTop="15dp" />
+</LinearLayout>

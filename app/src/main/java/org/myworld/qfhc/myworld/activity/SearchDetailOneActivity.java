@@ -85,8 +85,6 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
         mLv.addFooterView(footer);
         adapter = new SearchDetailOneAdapter(this);
         mLv.setAdapter(adapter);
-
-
     }
 
     @Override
@@ -115,7 +113,7 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
             searchDetailOneByJson = JSONUtil.getSearchDetailOneByJson(response);
             datas.addAll(searchDetailOneByJson);
 
-            adapter.addDatas(datas);
+            adapter.addDatas(searchDetailOneByJson);
             if (searchDetailOneByJson != null) {
                 swipeRefreshLayout.setRefreshing(false);
             }

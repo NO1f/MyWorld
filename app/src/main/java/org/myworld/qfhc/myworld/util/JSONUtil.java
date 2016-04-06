@@ -6,9 +6,12 @@ import com.google.gson.Gson;
 import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
+import org.myworld.qfhc.myworld.entity.SearchDeatilTwoChoseEntity;
+import org.myworld.qfhc.myworld.entity.SearchDetailOneDetEntity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneEntity;
 import org.myworld.qfhc.myworld.entity.SearchRepertoireEntity;
 import org.myworld.qfhc.myworld.entity.SearchSKUEntity;
+import org.myworld.qfhc.myworld.entity.SearchTwoEntity;
 import org.myworld.qfhc.myworld.entity.ThirdBottomDetailEntity;
 import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
 import org.myworld.qfhc.myworld.entity.ThirdHeadEntity;
@@ -22,11 +25,6 @@ import java.util.List;
  */
 public class JSONUtil {
 
-    /**
-     * 解析首页新闻列表
-     *
-     * @return
-     */
     public static IndexHeadEntity.DataEntity getHeadByJSON(String json) {
         if (json != null) {
 
@@ -111,6 +109,37 @@ public class JSONUtil {
             SearchDetailOneEntity.DataEntity data = searchDetailOneEntity.getData();
             List<SearchDetailOneEntity.DataEntity.ListEntity> list = data.getList();
             return list;
+        }
+        return null;
+    }
+
+    public static SearchDetailOneDetEntity.DataEntity.ProductEntity getSearchDetailOneDetByJson(String json) {
+        if (json != null) {
+            SearchDetailOneDetEntity searchDetailOneDetEntity = new Gson().fromJson(json, SearchDetailOneDetEntity.class);
+            SearchDetailOneDetEntity.DataEntity.ProductEntity product = searchDetailOneDetEntity.getData().getProduct();
+            return product;
+        }
+        return null;
+    }
+
+    public static List<SearchTwoEntity.DataEntity.TopicEntity> getSearchDetailTwoByJson(String json) {
+        if (json != null) {
+
+            SearchTwoEntity searchTwoEntity = new Gson().fromJson(json, SearchTwoEntity.class);
+            List<SearchTwoEntity.DataEntity.TopicEntity> topic = searchTwoEntity.getData().getTopic();
+
+            return topic;
+        }
+        return null;
+    }
+
+    public static SearchDeatilTwoChoseEntity.DataEntity getSearchDetailChoseByJson(String json) {
+        if (json != null) {
+
+            SearchDeatilTwoChoseEntity searchDeatilTwoChoseEntity = new Gson().fromJson(json, SearchDeatilTwoChoseEntity.class);
+            SearchDeatilTwoChoseEntity.DataEntity data = searchDeatilTwoChoseEntity.getData();
+
+            return data;
         }
         return null;
     }
