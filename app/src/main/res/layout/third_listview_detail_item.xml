@@ -1,168 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="?android:attr/actionBarSize"
+        android:gravity="center_vertical">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/icon_checkin_enable"/>
+            android:id="@+id/iv_third_detail_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:src="@drawable/ic_title_bar_back" />
 
         <TextView
-            android:id="@+id/tv_third_top_detail_datestr"
+            android:id="@+id/tv_third_top_detail_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="02-29 10:29"
-            android:textSize="16sp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center"/>
+            android:layout_centerHorizontal="true"
+            android:text="好物详情"
+            android:textSize="18sp" />
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_third_top_detail_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:lineSpacingExtra="8dp"
-        android:text="      杯具的iPhone，iPad只有16G，内存分分钟爆满。。有了它，大大缓解了出去拍着拍着照内存不够，下个歌内存不够，下个app又不够的尴尬。很方便就能把照片视频从手机，pad上转移到电脑上，而且还能直接读u盘里的文件。不过要装一个闪迪的app才行，ios9还要在电脑上更新u盘的固件。"/>
-
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_third_top_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shadow_right"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="5dp"
-            fresco:viewAspectRatio="1" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:layout_margin="30dp">
-
-            <ImageView
-                android:id="@+id/iv_third__detail_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/icon_collect_album_normal" />
-
-            <TextView
-                android:id="@+id/tv_third_detail_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="23"
-                android:textSize="10sp"
-                android:layout_centerInParent="true" />
-
-        </RelativeLayout>
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_third_fenlei"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingTop="2dp"
-            android:src="@drawable/ic_tag_label" />
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
-
-            <LinearLayout
-                android:id="@+id/ll_third"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-        </HorizontalScrollView>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_third"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="相关链接"
-        android:layout_marginLeft="15dp"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_third"
-        android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:layout_margin="15dp"
-        android:background="#F0F0F0">
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_third_detail_pic"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:background="@drawable/lsq_style_default_album_cover_empty"/>
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/sdv_third_detail_pic"
-            android:orientation="vertical"
-            android:layout_centerInParent="true">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/icon_checkin_enable" />
+
+                <TextView
+                    android:id="@+id/tv_third_top_detail_datestr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="02-29 10:29"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_third_detail_title"
+                android:id="@+id/tv_third_top_detail_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:layout_margin="10dp"
-                android:textSize="14sp"
-                android:text="SanDisk 闪迪欢欣i享闪存盘 16G"/>
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:lineSpacingExtra="8dp"
+                android:text="      杯具的iPhone，iPad只有16G，内存分分钟爆满。。有了它，大大缓解了出去拍着拍着照内存不够，下个歌内存不够，下个app又不够的尴尬。很方便就能把照片视频从手机，pad上转移到电脑上，而且还能直接读u盘里的文件。不过要装一个闪迪的app才行，ios9还要在电脑上更新u盘的固件。" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_third_top_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/shadow_right"
+                    fresco:viewAspectRatio="1" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:layout_margin="30dp">
+
+                    <ImageView
+                        android:id="@+id/iv_third__detail_collect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/icon_collect_album_normal" />
+
+                    <TextView
+                        android:id="@+id/tv_third_detail_collect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:text="23"
+                        android:textSize="10sp" />
+
+                </RelativeLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_third_fenlei"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingTop="2dp"
+                    android:src="@drawable/ic_tag_label" />
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <LinearLayout
+                        android:id="@+id/ll_third"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"></LinearLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/tv_third_detail_price"
+                android:id="@+id/tv_third"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="123"
-                android:textColor="#FF214C"/>
+                android:layout_marginLeft="15dp"
+                android:text="相关链接" />
+
+            <RelativeLayout
+                android:id="@+id/rl_third"
+                android:layout_width="match_parent"
+                android:layout_height="75dp"
+                android:layout_margin="15dp"
+                android:background="#F0F0F0">
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_third_detail_pic"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@drawable/lsq_style_default_album_cover_empty" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@+id/sdv_third_detail_pic"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_third_detail_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="SanDisk 闪迪欢欣i享闪存盘 16G"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_third_detail_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="123"
+                        android:textColor="#FF214C" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_third_detail_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="90dp"
+                    android:layout_alignParentRight="true"
+                    android:background="#D3D3D3"
+                    android:padding="12dp"
+                    android:src="@drawable/icon_share_new" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_third_detail_share"
-            android:layout_width="wrap_content"
-            android:layout_height="90dp"
-            android:layout_alignParentRight="true"
-            android:background="#D3D3D3"
-            android:src="@drawable/icon_share_new"
-            android:padding="12dp"/>
 
-    </RelativeLayout>
+    </ScrollView>
 
 
 </LinearLayout>

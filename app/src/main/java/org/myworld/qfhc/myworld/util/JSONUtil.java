@@ -9,8 +9,11 @@ import org.myworld.qfhc.myworld.entity.IndextContentEntity;
 import org.myworld.qfhc.myworld.entity.SearchDeatilTwoChoseEntity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneDetEntity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneEntity;
+import org.myworld.qfhc.myworld.entity.SearchQingDanEntity;
 import org.myworld.qfhc.myworld.entity.SearchRepertoireEntity;
 import org.myworld.qfhc.myworld.entity.SearchSKUEntity;
+import org.myworld.qfhc.myworld.entity.SearchTieZiDetailEntity;
+import org.myworld.qfhc.myworld.entity.SearchTieZiEntity;
 import org.myworld.qfhc.myworld.entity.SearchTwoEntity;
 import org.myworld.qfhc.myworld.entity.ThirdBottomDetailEntity;
 import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
@@ -143,5 +146,34 @@ public class JSONUtil {
         }
         return null;
     }
+
+
+    public static List<SearchQingDanEntity.DataEntity> getSearchQingdanByJson(String json) {
+        if (json != null) {
+            SearchQingDanEntity searchQingdanEntity = new Gson().fromJson(json, SearchQingDanEntity.class);
+            List<SearchQingDanEntity.DataEntity> data = searchQingdanEntity.getData();
+            return data;
+        }
+        return null;
+    }
+
+    public static List<SearchTieZiEntity.DataEntity> getSearchTieziByJson(String json) {
+        if (json != null) {
+            SearchTieZiEntity searchTieZiEntity = new Gson().fromJson(json, SearchTieZiEntity.class);
+            List<SearchTieZiEntity.DataEntity> data = searchTieZiEntity.getData();
+            return data;
+        }
+        return null;
+    }
+
+    public static SearchTieZiDetailEntity.DataEntity.PostEntity getSearchTieziDetailByJson(String json) {
+        if (json != null) {
+            SearchTieZiDetailEntity searchTieZiDetailEntity = new Gson().fromJson(json, SearchTieZiDetailEntity.class);
+            SearchTieZiDetailEntity.DataEntity.PostEntity post = searchTieZiDetailEntity.getData().getPost();
+            return post;
+        }
+        return null;
+    }
+
 
 }

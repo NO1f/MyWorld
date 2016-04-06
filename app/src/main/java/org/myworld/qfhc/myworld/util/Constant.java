@@ -40,7 +40,9 @@ public interface Constant {
         String SEARCH_DETAIL_TWO_HOST = "http://open4.bantangapp.com/topic/list?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&scene=%d&type_id=1&update_time=&page=%d&pagesize=10";
         String SEARCH_DETAIL_TWO_DETAIL = "http://open4.bantangapp.com/topic/newInfo?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&id=%d&statistics_uv=0&from_home_rec=0";
         String SEARCH_DETAIL_RECOMMEND = "http://open4.bantangapp.com/community/post/listByTags?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&page=0&pagesize=%d&tag_ids=757,16156,642,1608,425,1174,6771&type_id=1&topic_id=%d&show_product=1";
-
+        String SEARCH_QINGDAN = "http://open4.bantangapp.com/base/search/list?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&keyword=%s&type_id=1&page=%d&pagesize=10";
+        String SEARCH_TIEZI = "http://open4.bantangapp.com/base/search/list?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&keyword=%s&type_id=4&page=0&pagesize=%d";
+        String SEARCH_TIEZI_DETAIL ="http://open4.bantangapp.com/community/post/info?com.jzyd.BanTang&client_id=bt_app_android&client_secret=ffcda7a1c4ff338e05c42e7972ba7b8d&track_user_id=2014239&oauth_token=1a329999cbdc5ef0c6081f4d62b99393&track_deviceid=862719022792917&track_device_info=R821T&channel_name=oppo&app_installtime=1459500638619&app_versions=5.5.1&os_versions=4.2.2&screensize=480&v=11&id=%d&page_no=0&pagesize=10";
     }
 
     interface KEYS {
@@ -62,6 +64,7 @@ public interface Constant {
         String SEARCH_TWO_DET_ID = "search_two_det_id ";
         String BUNDLE = "bundle";
         String SEARCH_RECOMMENT = "search_recomment";
+        String KEYWORD = "keyword";
     }
 
 }
