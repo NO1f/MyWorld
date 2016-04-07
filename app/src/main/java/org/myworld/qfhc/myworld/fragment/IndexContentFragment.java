@@ -24,6 +24,7 @@ import org.myworld.qfhc.myworld.custom.OnRcvScrollListener;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
+import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 import java.util.ArrayList;
@@ -124,6 +125,7 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
         if (response != null) {
             IndextContentEntity.DataEntity.PostListEntity postListEntity = JSONUtil.getContentByJson(response);
             id = postListEntity.getEndId();
+            L.e((postListEntity==null)+response+"________________________________________________");
             datas = postListEntity.getList();
             allDatas.addAll(datas);
             adapter.setDatas(allDatas);

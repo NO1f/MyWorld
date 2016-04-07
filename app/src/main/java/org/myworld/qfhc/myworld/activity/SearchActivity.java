@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -44,6 +45,8 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
     private View contentView;
     private LinearLayout ll;
     private Intent intent;
+    private ImageView dismiss;
+    private PopupWindow mWindow;
 
     @Override
     protected int getContentResid() {
@@ -52,17 +55,25 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
 
     @Override
     protected void init() {
-        intent = new Intent(this,SearchMainActivity.class);
-        etSearch= (EditText) findViewById(R.id.et_search);
-        etSearch.setFocusable(true);
-        mVp= (ViewPager) findViewById(R.id.vp_search);
-        mTl= (TabLayout) findViewById(R.id.tl_search);
+        intent = new Intent(this, SearchMainActivity.class);
+        etSearch = (EditText) findViewById(R.id.et_search);
+        //etSearch.setFocusable(true);
+        mVp = (ViewPager) findViewById(R.id.vp_search);
+        mTl = (TabLayout) findViewById(R.id.tl_search);
         contentView = LayoutInflater.from(this).inflate(R.layout.popu, null);
-        ll= (LinearLayout) contentView.findViewById(R.id.ll_popu);
+        ll = (LinearLayout) contentView.findViewById(R.id.ll_popu);
+        dismiss = (ImageView) contentView.findViewById(R.id.popu_dismiss);
+        dismiss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mWindow.setAnimationStyle(R.style.popwin_anim_style);
+                mWindow.dismiss();
+            }
+        });
 
-        title_icon = new String[]{"单品","清单"};
+        title_icon = new String[]{"单品", "清单"};
 
-        ViewPagerAdapter adapter=new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         mVp.setAdapter(adapter);
 
         mTl.setOnTabSelectedListener(this);
@@ -71,23 +82,23 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
 
     @Override
     protected void initData() {
-        VolleyUtil.requestString(Constant.URL.SEARCH_POPU,this);
+        VolleyUtil.requestString(Constant.URL.SEARCH_POPU, this);
     }
 
     @Override
     public void onResponse(String url, String response) {
-        if (response!=null){
+        if (response != null) {
             List<String> data = JSONUtil.getSearchPopuByJson(response);
             LinearLayout popu = null;
 
             for (int i = 0; i < data.size(); i++) {
-                if (i%4==0){
+                if (i % 4 == 0) {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.topMargin=10;
-                    popu=new LinearLayout(this);
+                    params.topMargin = 10;
+                    popu = new LinearLayout(this);
                     popu.setLayoutParams(params);
 
-                   // L.e((popu==null)+"---------------------------");
+                    // L.e((popu==null)+"---------------------------");
                     ll.addView(popu);
                 }
                 String s = data.get(i);
@@ -106,15 +117,14 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
                     @Override
                     public void onClick(View v) {
                         String resou = tv.getText().toString();
-                        intent.putExtra(Constant.KEYS.KEYWORD,resou);
+                        intent.putExtra(Constant.KEYS.KEYWORD, resou);
                         startActivity(intent);
 
                     }
                 });
 
-                if (popu!=null) {
-                   // L.e((popu == null) + "_________________________________________");
-
+                if (popu != null) {
+                    // L.e((popu == null) + "_________________________________________");
                     popu.addView(tv);
                 }
 
@@ -127,41 +137,44 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
 
     }
 
-    public void search(View view){
+    public void search(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.et_search:
                 int widthPixels = getResources().getDisplayMetrics().widthPixels;
-                PopupWindow mWindow = new PopupWindow(contentView, widthPixels,320);
+                mWindow = new PopupWindow(contentView, widthPixels, 320);
                 mWindow.setOutsideTouchable(true);
 
                 // 设置PopupWindow获得焦点的能力
-               // mWindow.setFocusable(true);
+                // mWindow.setFocusable(true);
 
                 // 设置背景图片
                 Drawable background = getResources().getDrawable(
                         R.drawable.bg_popu);
                 mWindow.setBackgroundDrawable(background);
 
-
+                mWindow.setAnimationStyle(R.style.popwin_anim_style);
                 // 让PopupWindow显示出来
                 // mWindow.showAtLocation(parent, gravity, x, y);
                 mWindow.showAsDropDown(etSearch, 0, 2);
                 break;
             case R.id.iv_search:
                 String text = etSearch.getText().toString().trim();
-                intent.putExtra(Constant.KEYS.KEYWORD,text);
+                intent.putExtra(Constant.KEYS.KEYWORD, text);
                 startActivity(intent);
                 break;
 
             case R.id.iv_search_back:
                 finish();
                 break;
+            case R.id.iv_delete:
+                etSearch.setText("");
+                break;
 
         }
     }
 
-    private class ViewPagerAdapter extends FragmentStatePagerAdapter{
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -170,7 +183,7 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
         @Override
         public Fragment getItem(int position) {
 
-            switch (position){
+            switch (position) {
                 case 0:
                     return SearchSKUFragment.newInstance();
                 case 1:
@@ -195,9 +208,11 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
     public void onTabSelected(TabLayout.Tab tab) {
         mVp.setCurrentItem(tab.getPosition());
     }
+
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
     }
+
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 

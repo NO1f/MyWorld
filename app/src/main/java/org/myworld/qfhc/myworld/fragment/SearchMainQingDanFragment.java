@@ -1,5 +1,6 @@
 package org.myworld.qfhc.myworld.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
@@ -46,6 +48,8 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchQingDanAdapter adapter;
     private List<SearchQingDanEntity.DataEntity> datas;
+    private LinearLayout llResult,llWangluo;
+    private ProgressDialog progressDialog;
 
     public static SearchMainQingDanFragment newInstance(String keyword) {
 
@@ -64,6 +68,10 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
     @Override
     protected void init(View view) {
 
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.show();
+
+
         datas = new ArrayList<>();
         Bundle bundle = getArguments();
         keyword = bundle.getString(Constant.KEYS.KEYWORD);
@@ -77,6 +85,13 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_search_detail_two);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
+
+        llResult = (LinearLayout) view.findViewById(R.id.ll_result);
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+
+        llResult.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.INVISIBLE);
+
 
         mLv = (ListView) view.findViewById(R.id.lv_search_detail_two);
         adapter = new SearchQingDanAdapter(getActivity());
@@ -95,6 +110,7 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
 
     @Override
     public void onResponse(String url, String response) {
+        progressDialog.dismiss();
         if (response != null) {
             List<SearchQingDanEntity.DataEntity> searchQingdanByJson =  JSONUtil.getSearchQingdanByJson(response);
             datas.addAll(searchQingdanByJson);
@@ -108,7 +124,24 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
     }
 
     @Override
-    public void onErrorResponse(String url, VolleyError error) {
+    public void onErrorResponse(final String url1, VolleyError error) {
+
+        progressDialog.dismiss();
+        llResult.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                progressDialog.show();
+                currentPage = 0;
+                count = 0;
+                datas.clear();
+
+                url = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
+                VolleyUtil.requestString(url1, SearchMainQingDanFragment.this);
+            }
+        });
 
     }
 

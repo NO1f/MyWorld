@@ -31,7 +31,6 @@ public class MainActivity extends BaseActivity {
         mRg = (RadioGroup) findViewById(R.id.rg_tab);
         fragmentList = new ArrayList<>();
         fragmentList.add(IndexFragment.newInstance());
-        fragmentList.add(CategoryFragment.newInstance());
         fragmentList.add(TuanFragment.newInstance());
         fragmentList.add(MineFragment.newInstance());
 
@@ -47,7 +46,6 @@ public class MainActivity extends BaseActivity {
                             transaction
                                     .hide(fragmentList.get(1))
                                     .hide(fragmentList.get(2))
-                                    .hide(fragmentList.get(3))
                                     .show(fragmentList.get(0))
                                     .commit();
 
@@ -55,17 +53,15 @@ public class MainActivity extends BaseActivity {
                             transaction
                                     .hide(fragmentList.get(1))
                                     .hide(fragmentList.get(2))
-                                    .hide(fragmentList.get(3))
                                     .add(R.id.fl, fragmentList.get(0)).show(fragmentList.get(0)).commit();
                         }
                         break;
 
-                    case R.id.rb_first_tab_category:
+                    case R.id.rb_first_tab_tuan:
                         if (fragmentList.get(1).isAdded()) {
                             transaction
                                     .hide(fragmentList.get(0))
                                     .hide(fragmentList.get(2))
-                                    .hide(fragmentList.get(3))
                                     .show(fragmentList.get(1))
                                     .commit();
 
@@ -73,17 +69,15 @@ public class MainActivity extends BaseActivity {
                             transaction
                                     .hide(fragmentList.get(0))
                                     .hide(fragmentList.get(2))
-                                    .hide(fragmentList.get(3))
                                     .add(R.id.fl, fragmentList.get(1)).show(fragmentList.get(1)).commit();
                         }
                         break;
 
-                    case R.id.rb_first_tab_tuan:
+                    case R.id.rb_first_tab_mine:
                         if (fragmentList.get(2).isAdded()) {
                             transaction
                                     .hide(fragmentList.get(1))
                                     .hide(fragmentList.get(0))
-                                    .hide(fragmentList.get(3))
                                     .show(fragmentList.get(2))
                                     .commit();
 
@@ -91,26 +85,7 @@ public class MainActivity extends BaseActivity {
                             transaction
                                     .hide(fragmentList.get(1))
                                     .hide(fragmentList.get(0))
-                                    .hide(fragmentList.get(3))
                                     .add(R.id.fl, fragmentList.get(2)).show(fragmentList.get(2)).commit();
-                        }
-                        break;
-
-                    case R.id.rb_first_tab_mine:
-                        if (fragmentList.get(3).isAdded()) {
-                            transaction
-                                    .hide(fragmentList.get(1))
-                                    .hide(fragmentList.get(2))
-                                    .hide(fragmentList.get(0))
-                                    .show(fragmentList.get(3))
-                                    .commit();
-
-                        } else {
-                            transaction
-                                    .hide(fragmentList.get(1))
-                                    .hide(fragmentList.get(2))
-                                    .hide(fragmentList.get(0))
-                                    .add(R.id.fl, fragmentList.get(3)).commit();
                         }
                         break;
                 }

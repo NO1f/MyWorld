@@ -31,7 +31,6 @@ import java.net.URLEncoder;
  */
 public class SearchMainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
 
-    private ImageView ivBack;
     private EditText etSearch;
     private TabLayout mTl;
     private ViewPager mVp;
@@ -105,6 +104,9 @@ public class SearchMainActivity extends BaseActivity implements TabLayout.OnTabS
 
             case R.id.iv_search_back:
                 finish();
+                break;
+            case R.id.iv_delete:
+                etSearch.setText("");
                 break;
 
         }

@@ -35,13 +35,6 @@
             android:text="首页" />
 
         <RadioButton
-            android:id="@+id/rb_first_tab_category"
-            style="@style/Tab"
-            android:drawableTop="@drawable/tab_category_selector"
-            android:text="精品"/>
-
-
-        <RadioButton
             android:id="@+id/rb_first_tab_tuan"
             style="@style/Tab"
             android:drawableTop="@drawable/tab_tuan_selector"

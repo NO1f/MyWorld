@@ -1,15 +1,21 @@
 package org.myworld.qfhc.myworld.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 
@@ -35,9 +41,9 @@ import java.util.List;
 public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil.OnRequestListener, AdapterView.OnItemClickListener, AbsListView.OnScrollListener, SwipeRefreshLayout.OnRefreshListener {
 
     private boolean isLoading;
-    private boolean isBottom=false;
+    private boolean isBottom = false;
     private int currentPage = 0;
-    private int count=0;
+    private int count = 0;
 
     private String keyword;
     private String formatUrl;
@@ -47,15 +53,18 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
     private List<SearchDanPinEntity.DataEntity> datas;
     private SearchDanPinAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout llResult,llWangluo;
+    private ProgressDialog progressDialog;
 
     public static SearchMainDanPinFragment newInstance(String keyword) {
 
         Bundle args = new Bundle();
-        args.putString(Constant.KEYS.KEYWORD,keyword);
+        args.putString(Constant.KEYS.KEYWORD, keyword);
         SearchMainDanPinFragment fragment = new SearchMainDanPinFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     protected int getContentResid() {
         return R.layout.search_detail_two_bottom;
@@ -63,22 +72,29 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
 
     @Override
     protected void init(View view) {
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.show();
 
         datas = new ArrayList<>();
         Bundle bundle = getArguments();
         keyword = bundle.getString(Constant.KEYS.KEYWORD);
 
-        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.srl_search_detail_two);
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.srl_search_detail_two);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         footer = LayoutInflater.from(getActivity()).inflate(R.layout.third_detail_footer_layout, null);
-        ivRefresh= (ImageView) footer.findViewById(R.id.iv_third_bottom_refresh);
+        ivRefresh = (ImageView) footer.findViewById(R.id.iv_third_bottom_refresh);
         AnimationDrawable background = (AnimationDrawable) ivRefresh.getBackground();
         background.start();
         footer.findViewById(R.id.ll_footer).setVisibility(View.GONE);
+        llResult = (LinearLayout) view.findViewById(R.id.ll_result);
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
 
-        mLv= (ListView) view.findViewById(R.id.lv_search_detail_two);
+        llResult.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        mLv = (ListView) view.findViewById(R.id.lv_search_detail_two);
         mLv.setOnItemClickListener(this);
         mLv.setOnScrollListener(this);
         mLv.addFooterView(footer);
@@ -90,46 +106,66 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
     protected void loadData() {
 
         formatUrl = String.format(Constant.URL.SEARCH_DANPIN, keyword, currentPage);
-        VolleyUtil.requestString(formatUrl,this);
+        VolleyUtil.requestString(formatUrl, this);
 
     }
 
     @Override
     public void onResponse(String url, String response) {
-        if (response!=null){
+        progressDialog.dismiss();
+        if (response != null) {
             List<SearchDanPinEntity.DataEntity> searchDanpinByJson = JSONUtil.getSearchDanpinByJson(response);
-            datas.addAll(searchDanpinByJson);
+            if (searchDanpinByJson.size() != 0) {
+                datas.addAll(searchDanpinByJson);
 
-            adapter.addDatas(searchDanpinByJson);
-            if (searchDanpinByJson != null) {
-                swipeRefreshLayout.setRefreshing(false);
+                adapter.addDatas(searchDanpinByJson);
+                if (searchDanpinByJson != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                onLoadComplete();
+                count += 10;
+            }else {
+                llWangluo.setVisibility(View.INVISIBLE);
+                llResult.setVisibility(View.VISIBLE);
             }
-            onLoadComplete();
-            count += 10;
         }
     }
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
+        progressDialog.dismiss();
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                progressDialog.show();
+                currentPage = 0;
+                count = 0;
+                datas.clear();
+                formatUrl = String.format(Constant.URL.SEARCH_DANPIN, keyword, currentPage);
+                VolleyUtil.requestString(formatUrl, SearchMainDanPinFragment.this);
+            }
+        });
 
     }
 
     @Override
     public void onRefresh() {
-        currentPage=0;
-        count=0;
+        currentPage = 0;
+        count = 0;
         datas.clear();
         formatUrl = String.format(Constant.URL.SEARCH_DANPIN, keyword, currentPage);
-        VolleyUtil.requestString(formatUrl,this);
+        VolleyUtil.requestString(formatUrl, this);
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        L.e(position+"___________________________________________--");
+        L.e(position + "___________________________________________--");
         Intent intent = new Intent(getActivity(), SearchDetailOneDetActivity.class);
         String mid = datas.get(position).getId();
-        intent.putExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID,mid);
+        intent.putExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID, mid);
         startActivity(intent);
     }
 

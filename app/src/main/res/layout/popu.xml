@@ -18,7 +18,8 @@
             android:layout_height="wrap_content"
             android:text="热门搜索"
             android:textSize="16sp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:layout_marginLeft="20dp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -33,7 +34,16 @@
                 android:orientation="vertical"
                 android:layout_margin="10dp"/>
 
+            <ImageView
+                android:id="@+id/popu_dismiss"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginBottom="5dp"
+                android:src="@drawable/ic_search_channel_button"/>
         </LinearLayout>
+
+
+
     </ScrollView>
 
 </LinearLayout>

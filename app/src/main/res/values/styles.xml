@@ -30,4 +30,9 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="popwin_anim_style">
+        <item name="android:windowEnterAnimation">@anim/popu_in</item>
+        <item name="android:windowExitAnimation">@anim/popu_out</item>
+    </style>
+
 </resources>

@@ -13,41 +13,53 @@
             android:id="@+id/iv_search_back"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@drawable/ic_title_bar_back"
+            android:layout_gravity="center"
             android:layout_marginRight="5dp"
+            android:layout_weight="1"
             android:onClick="search"
-            android:layout_gravity="center"/>
+            android:src="@drawable/ic_title_bar_back" />
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:layout_weight="5">
 
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:drawablePadding="8dp"
-            android:background="@drawable/search_bg"
-            android:paddingLeft="15dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:textSize="13sp"
-            android:onClick="search"
-            android:hint="搜索 单品/清单/帖子"/>
 
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/search_bg"
+                android:drawablePadding="8dp"
+                android:hint="搜索 单品/清单/帖子"
+                android:onClick="search"
+                android:paddingBottom="5dp"
+                android:paddingLeft="40dp"
+                android:paddingTop="5dp"
+                android:textSize="13sp" />
             <ImageView
                 android:id="@+id/iv_search"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/ic_search_left_drawable"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:padding="2dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:onClick="search"
+                android:src="@drawable/ic_search_left_drawable" />
+
+            <ImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="30dp"
                 android:onClick="search"
-                android:layout_marginRight="35dp"/>
+                android:padding="2dp"
+                android:src="@drawable/ic_search_clear" />
 
         </RelativeLayout>
 
@@ -56,12 +68,11 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tl_search"
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_search"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.view.ViewPager>
+        android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
 </LinearLayout>
