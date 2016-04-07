@@ -2,11 +2,16 @@ package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.base.BaseActivity;
@@ -26,6 +31,9 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
 
     private int id;
     private LinearLayout ll;
+    private TextView tvContent, tvDatestr, tvCollect, tvTitle, tvPrice;
+    private SimpleDraweeView sdv, sdvTaobao;
+    private String url_taobao;
 
     @Override
     protected int getContentResid() {
@@ -40,6 +48,14 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
         id = Integer.valueOf(mid);
 
         ll = (LinearLayout) findViewById(R.id.ll_third);
+        tvContent = (TextView) findViewById(R.id.tv_third_top_detail_content);
+        tvDatestr = (TextView) findViewById(R.id.tv_third_top_detail_datestr);
+        tvCollect = (TextView) findViewById(R.id.tv_third_detail_collect);
+        sdv = (SimpleDraweeView) findViewById(R.id.sdv_third_top_detail);
+        sdvTaobao = (SimpleDraweeView) findViewById(R.id.sdv_third_detail_pic);
+        tvTitle = (TextView) findViewById(R.id.tv_third_detail_title);
+        tvPrice = (TextView) findViewById(R.id.tv_third_detail_price);
+
 
     }
 
@@ -62,9 +78,16 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
             String price = searchTieziDetailByJson.getProduct().get(0).getPrice();
             String title = searchTieziDetailByJson.getProduct().get(0).getTitle();
             String pic = searchTieziDetailByJson.getProduct().get(0).getPic();
-            String url_taobao = searchTieziDetailByJson.getProduct().get(0).getUrl();
+            url_taobao = searchTieziDetailByJson.getProduct().get(0).getUrl();
             List<SearchTieZiDetailEntity.DataEntity.PostEntity.TagsEntity> tags = searchTieziDetailByJson.getTags();
 
+            tvContent.setText(content);
+            tvDatestr.setText(datestr);
+            tvCollect.setText(likes);
+            tvPrice.setText(price);
+            tvTitle.setText(title);
+            sdv.setImageURI(Uri.parse(img_url));
+            sdvTaobao.setImageURI(Uri.parse(pic));
             ll.removeAllViews();
             for (int i = 0; i < tags.size(); i++) {
                 String name = tags.get(i).getName();
@@ -86,5 +109,24 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
     @Override
     public void onErrorResponse(String url, VolleyError error) {
 
+    }
+
+    public void haowu(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.iv_search_detail_back:
+                finish();
+                break;
+
+            case R.id.iv_third_detail_share:
+                Toast.makeText(SearchTieZiDetailActivity.this, "此处分享", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.rl_third:
+                Intent intent=new Intent(this,IndexHeadActivity.class);
+                intent.putExtra(Constant.KEYS.INDEX_HEAD_CONTENT,url_taobao);
+                startActivity(intent);
+                break;
+        }
     }
 }

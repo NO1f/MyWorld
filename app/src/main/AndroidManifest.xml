@@ -23,11 +23,17 @@
         <activity android:name=".activity.IndextDetailActivity" />
         <activity android:name=".activity.ThirdHeadDetailActivity" />
         <activity android:name=".activity.ThirdBottomDetailActivity" />
-        <activity android:name=".activity.SearchActivity" />
-        <activity android:name=".activity.SearchDetailOneActivity"/>
-        <activity android:name=".activity.SearchDetailOneDetActivity"/>
-        <activity android:name=".activity.SearchDetailTwoActivity"/>
-        <activity android:name=".activity.SearchDetailTwoDetActivity"/>
+        <activity
+            android:name=".activity.SearchActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activity.SearchDetailOneActivity" />
+        <activity android:name=".activity.SearchDetailOneDetActivity" />
+        <activity android:name=".activity.SearchDetailTwoActivity" />
+        <activity android:name=".activity.SearchDetailTwoDetActivity" />
+        <activity
+            android:name=".activity.SearchMainActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".activity.SearchTieZiDetailActivity" />
     </application>
 
 </manifest>

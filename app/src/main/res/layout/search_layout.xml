@@ -16,23 +16,40 @@
             android:layout_weight="1"
             android:src="@drawable/ic_title_bar_back"
             android:layout_marginRight="5dp"
+            android:onClick="search"
             android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/tv_search"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:layout_gravity="center"
+            android:layout_gravity="center">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:drawableLeft="@drawable/ic_search_left_drawable"
             android:drawablePadding="8dp"
             android:background="@drawable/search_bg"
             android:paddingLeft="15dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:textSize="14sp"
-            android:text="搜索 单品/清单/帖子"/>
+            android:textSize="13sp"
+            android:onClick="search"
+            android:hint="搜索 单品/清单/帖子"/>
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search_left_drawable"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:onClick="search"
+                android:layout_marginRight="35dp"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 

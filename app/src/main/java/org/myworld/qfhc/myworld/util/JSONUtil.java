@@ -6,9 +6,11 @@ import com.google.gson.Gson;
 import org.myworld.qfhc.myworld.entity.IndexDetailEntity;
 import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.entity.IndextContentEntity;
+import org.myworld.qfhc.myworld.entity.SearchDanPinEntity;
 import org.myworld.qfhc.myworld.entity.SearchDeatilTwoChoseEntity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneDetEntity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneEntity;
+import org.myworld.qfhc.myworld.entity.SearchPopuEntity;
 import org.myworld.qfhc.myworld.entity.SearchQingDanEntity;
 import org.myworld.qfhc.myworld.entity.SearchRepertoireEntity;
 import org.myworld.qfhc.myworld.entity.SearchSKUEntity;
@@ -175,5 +177,22 @@ public class JSONUtil {
         return null;
     }
 
+    public static List<String> getSearchPopuByJson(String json) {
+        if (json != null) {
+            SearchPopuEntity searchPopuEntity = new Gson().fromJson(json, SearchPopuEntity.class);
+            List<String> data = searchPopuEntity.getData();
+            return data;
+        }
+        return null;
+    }
+
+    public static List<SearchDanPinEntity.DataEntity> getSearchDanpinByJson(String json) {
+        if (json != null) {
+            SearchDanPinEntity searchDanPinEntity = new Gson().fromJson(json, SearchDanPinEntity.class);
+            List<SearchDanPinEntity.DataEntity> data = searchDanPinEntity.getData();
+            return data;
+        }
+        return null;
+    }
 
 }

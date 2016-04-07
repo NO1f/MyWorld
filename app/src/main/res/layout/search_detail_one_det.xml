@@ -71,15 +71,14 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:background="@drawable/gradient"
-            android:gravity="center"
             android:padding="10dp">
 
             <ImageView
                 android:id="@+id/tv_search_detail_one_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentLeft="true"
-                android:onClick="click"
+                android:onClick="wupinxiangqing"
                 android:src="@drawable/ic_title_back_white" />
 
             <TextView
@@ -90,12 +89,6 @@
                 android:textColor="#fff"
                 android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/iv_third_detail_bottom_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_title_share_white" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 
@@ -112,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
             android:layout_gravity="center"
-            android:onClick="click"
+            android:onClick="wupinxiangqing"
             android:padding="5dp"
             android:layout_marginLeft="10dp"
             android:text="收藏"
@@ -127,7 +120,7 @@
             android:layout_weight="1.2"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:onClick="click"
+            android:onClick="wupinxiangqing"
             android:text="分享"
             android:textSize="14sp"
             android:drawablePadding="8dp"
@@ -138,7 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.6"
-            android:onClick="click"
+            android:onClick="wupinxiangqing"
             android:padding="8dp"
             android:src="@drawable/ic_commet_list_bottom_detail"/>
 

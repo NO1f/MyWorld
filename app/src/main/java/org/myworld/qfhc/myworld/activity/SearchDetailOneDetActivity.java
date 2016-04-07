@@ -143,8 +143,9 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
     }
 
 
-    public void click(View v) {
+    public void wupinxiangqing(View v) {
         String urlTaobao = searchDetailOneDetByJson.getUrl();
+        String share_url = searchDetailOneDetByJson.getShare_url();
         L.e(urlTaobao+"___________________________________________");
         switch (v.getId()) {
             case R.id.tv_search_detail_one_back:

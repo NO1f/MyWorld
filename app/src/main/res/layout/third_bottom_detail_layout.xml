@@ -23,32 +23,27 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_height="42dp"
             android:background="@drawable/gradient"
             android:padding="10dp">
+
             <ImageView
                 android:id="@+id/iv_third_detail_bottom_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentLeft="true"
+                android:layout_marginLeft="5dp"
+                android:onClick="jia"
                 android:src="@drawable/ic_title_back_white" />
-
             <TextView
                 android:id="@+id/tv_third_detail_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:text="把屋子变成家"
                 android:textColor="#fff"
-                android:layout_centerInParent="true"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/iv_third_detail_bottom_share"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_title_share_white" />
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
 

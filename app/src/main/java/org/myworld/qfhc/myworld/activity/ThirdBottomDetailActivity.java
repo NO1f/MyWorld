@@ -31,16 +31,15 @@ import java.util.List;
  * @创建时间：2016/4/4 15:10
  * @备注：
  */
-public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUtil.OnRequestListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener, View.OnClickListener {
+public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUtil.OnRequestListener, SwipeRefreshLayout.OnRefreshListener, AbsListView.OnScrollListener {
 
     private boolean isLoading;
-    private boolean isBottom=false;
+    private boolean isBottom = false;
     private int currentPage = 0;
-    private int count=0;
+    private int count = 0;
 
     private ListView mLv;
     private TextView tvTitle;
-    private ImageView ivBack,ivShare;
     private SwipeRefreshLayout srl;
     private View footer;
     private ImageView ivRefresh;
@@ -62,23 +61,17 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
         id = Integer.valueOf(mid);
         String name = intent.getStringExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_NAME);
 
-        String url =  String.format(Constant.URL.THIRD_ONE_BOTTOM,0, id);
-        ThirdDetailHeadView headView=new ThirdDetailHeadView(this);
+        String url = String.format(Constant.URL.THIRD_ONE_BOTTOM, 0, id);
+        ThirdDetailHeadView headView = new ThirdDetailHeadView(this);
         headView.setUrl(url);
 
+        formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM, currentPage, id);
 
-        formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM,currentPage, id);
-
-        ivBack= (ImageView) findViewById(R.id.iv_third_detail_bottom_back);
-        ivShare= (ImageView) findViewById(R.id.iv_third_detail_bottom_share);
-        ivBack.setOnClickListener(this);
-        ivShare.setOnClickListener(this);
-
-        tvTitle= (TextView) findViewById(R.id.tv_third_detail_title);
+        tvTitle = (TextView) findViewById(R.id.tv_third_detail_title);
         tvTitle.setText(name);
 
         footer = LayoutInflater.from(this).inflate(R.layout.third_detail_footer_layout, null);
-        ivRefresh= (ImageView)footer.findViewById(R.id.iv_third_bottom_refresh);
+        ivRefresh = (ImageView) footer.findViewById(R.id.iv_third_bottom_refresh);
         AnimationDrawable background = (AnimationDrawable) ivRefresh.getBackground();
         background.start();
         footer.findViewById(R.id.ll_footer).setVisibility(View.GONE);
@@ -87,7 +80,7 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
         srl.setColorSchemeResources(R.color.colorAccent);
         srl.setOnRefreshListener(this);
 
-        mLv= (ListView) findViewById(R.id.lv_third_bottom_detail);
+        mLv = (ListView) findViewById(R.id.lv_third_bottom_detail);
         mLv.addHeaderView(headView);
         mLv.addFooterView(footer);
         mLv.setOnScrollListener(this);
@@ -115,7 +108,7 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
                 srl.setRefreshing(false);
             }
             onLoadComplete();
-            count+=10;
+            count += 10;
         }
     }
 
@@ -126,11 +119,11 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
 
     @Override
     public void onRefresh() {
-        currentPage=0;
-        count=0;
+        currentPage = 0;
+        count = 0;
         datas.clear();
-        formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM,  currentPage,id);
-        VolleyUtil.requestString(formatUrl,this);
+        formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM, currentPage, id);
+        VolleyUtil.requestString(formatUrl, this);
     }
 
     @Override
@@ -140,13 +133,13 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
 
             currentPage += 1;
 
-            if (!isLoading){
-                isLoading=true;
+            if (!isLoading) {
+                isLoading = true;
                 footer.setVisibility(View.VISIBLE);
 
                 // 加载新数据
-                formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM, currentPage,id);
-                VolleyUtil.requestString(formatUrl,this);
+                formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM, currentPage, id);
+                VolleyUtil.requestString(formatUrl, this);
             }
         }
         isBottom = false;
@@ -160,21 +153,13 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
         }
     }
 
-    public void onLoadComplete(){
-        isLoading=false;
+    public void onLoadComplete() {
+        isLoading = false;
         this.footer.setVisibility(View.GONE);
         mLv.setSelection(count);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.iv_third_detail_bottom_back:
-                finish();
-                break;
-            case R.id.iv_third_detail_bottom_share:
-                Toast.makeText(ThirdBottomDetailActivity.this, "此处要分享", Toast.LENGTH_SHORT).show();
-                break;
-        }
+    public void jia(View v) {
+        finish();
     }
 }

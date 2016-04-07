@@ -66,7 +66,6 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
 
         gridLayoutManager = new GridLayoutManager(getActivity(), 2, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addItemDecoration(new MyItemDecoration(getActivity()));
         adapter = new SearchTieZiAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         adapter.setOnClickListener(this);

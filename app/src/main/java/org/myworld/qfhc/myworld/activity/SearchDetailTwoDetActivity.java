@@ -143,13 +143,13 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
     }
 
 
-    public void backshare(View v) {
+    public void gouwuqingdan(View v) {
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.tv_search_detail_two_back:
                 finish();
                 break;
 
-            case R.id.iv_share:
+            case R.id.iv_third_detail_two_share:
                 String share_url = searchDetailChoseByJson.getShare_url();
                 break;
         }
