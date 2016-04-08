@@ -128,7 +128,7 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
 
     @Override
     public void onErrorResponse( String url, VolleyError error) {
-
+        swipeRefreshLayout.setRefreshing(false);
         mLv.setVisibility(View.INVISIBLE);
         ivRefres.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);

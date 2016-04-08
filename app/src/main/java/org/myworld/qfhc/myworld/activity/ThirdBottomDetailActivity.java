@@ -127,6 +127,7 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
 
     @Override
     public void onErrorResponse(final String url, VolleyError error) {
+        srl.setRefreshing(false);
         mLv.setVisibility(View.INVISIBLE);
         ivRefres.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);

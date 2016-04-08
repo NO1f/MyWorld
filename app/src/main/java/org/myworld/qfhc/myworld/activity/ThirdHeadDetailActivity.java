@@ -123,6 +123,7 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
+        srl.setRefreshing(false);
         mLv.setVisibility(View.INVISIBLE);
         ivRefres.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);

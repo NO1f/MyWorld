@@ -136,6 +136,7 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
 
     @Override
     public void onErrorResponse(String url1, VolleyError error) {
+        swipeRefreshLayout.setRefreshing(false);
         mLv.setVisibility(View.INVISIBLE);
         ivRefres.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);

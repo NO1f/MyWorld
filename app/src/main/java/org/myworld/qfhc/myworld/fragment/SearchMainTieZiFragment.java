@@ -3,6 +3,7 @@ package org.myworld.qfhc.myworld.fragment;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -33,7 +34,7 @@ import java.util.List;
  * @创建时间：2016/4/7 01:05
  * @备注：
  */
-public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.OnRequestListener, AbsAdapter.OnClickListener {
+public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.OnRequestListener, AbsAdapter.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private int pageSize = 10;
     private int count = 0;
@@ -43,6 +44,7 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
     private List<SearchTieZiEntity.DataEntity> datas;
     private String url;
     private GridLayoutManager gridLayoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ImageView ivRefresh;
     private LinearLayout llWangluo;
@@ -74,6 +76,10 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
         datas = new ArrayList<>();
         Bundle bundle = getArguments();
         keyword = bundle.getString(Constant.KEYS.KEYWORD);
+
+        swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.srl_search_detail_two);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rv_search);
         recyclerView.setVisibility(View.INVISIBLE);
@@ -110,6 +116,9 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
 
             datas.addAll(searchTieziByJson);
             adapter.setDatas(searchTieziByJson);
+            if (searchTieziByJson!=null){
+                swipeRefreshLayout.setRefreshing(false);
+            }
             gridLayoutManager.scrollToPositionWithOffset(count, 0);
             count+=10;
 
@@ -119,7 +128,7 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
 
     @Override
     public void onErrorResponse(String url1, VolleyError error) {
-
+        swipeRefreshLayout.setRefreshing(false);
         recyclerView.setVisibility(View.INVISIBLE);
         ivRefresh.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);
@@ -131,6 +140,7 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
                 ivRefresh.setVisibility(View.VISIBLE);
                 pageSize=10;
                 count=0;
+                datas.clear();
                 url = String.format(Constant.URL.SEARCH_TIEZI, keyword, pageSize);
                 VolleyUtil.requestString(url, SearchMainTieZiFragment.this);
             }
@@ -146,5 +156,14 @@ public class SearchMainTieZiFragment extends BaseFragment implements VolleyUtil.
         intent.putExtra(Constant.KEYS.SEARCH_ONE_ID,id);
         startActivity(intent);
 
+    }
+
+    @Override
+    public void onRefresh() {
+        pageSize = 10;
+        count = 0;
+        datas.clear();
+        url = String.format(Constant.URL.SEARCH_TIEZI, keyword, pageSize);
+        VolleyUtil.requestString(url, this);
     }
 }

@@ -119,6 +119,7 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
+        swipeRefreshLayout.setRefreshing(false);
         mLv.setVisibility(View.INVISIBLE);
         ivRefresh.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);

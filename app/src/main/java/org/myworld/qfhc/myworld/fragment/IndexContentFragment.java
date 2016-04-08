@@ -39,7 +39,6 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
 
     private View view;
     private int id = 0;
-    private int i=0;
     private int position;
     private List<IndextContentEntity.DataEntity.PostListEntity.ListEntity> allDatas = new ArrayList<>();
 
@@ -77,14 +76,11 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
         adapter = new IndexContentAdapter(getActivity());
         adapter.setOnClickListener(this);
         recyclerView.setAdapter(adapter);
-        recyclerView.setOnScrollListener(new OnRcvScrollListener(){
+        recyclerView.setOnScrollListener(new OnRcvScrollListener() {
             @Override
             public void onBottom() {
                 super.onBottom();
-                int temp=i;
-                i=0;
                 initData();
-                i=temp;
             }
         });
 
@@ -125,23 +121,20 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
         if (response != null) {
             IndextContentEntity.DataEntity.PostListEntity postListEntity = JSONUtil.getContentByJson(response);
             id = postListEntity.getEndId();
-            L.e((postListEntity==null)+response+"________________________________________________");
+            L.e((postListEntity == null) + response + "________________________________________________");
             datas = postListEntity.getList();
             allDatas.addAll(datas);
             adapter.setDatas(allDatas);
-            if (datas != null) {
-                i++;
-                swipeRefreshLayout.setRefreshing(false);
-                if (i!=1){
-                    Toast.makeText(getActivity(), "刷新成功", Toast.LENGTH_SHORT).show();
-                }
-            }
+
+            swipeRefreshLayout.setRefreshing(false);
 
         }
     }
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
+        L.e(url);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -149,21 +142,21 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
 
         IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = datas.get(position);
         int detailId = listEntity.getId();
-        String introduction=null;
+        String introduction = null;
 
         String index_detail_url = String.format(Constant.URL.INDEX_DETAIL, detailId);
-        if (index_detail_url!=null){
+        if (index_detail_url != null) {
             Intent intent = new Intent(getActivity(), IndextDetailActivity.class);
             intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, index_detail_url);
-            Bundle bundle=new Bundle();
-            bundle.putSerializable(Constant.KEYS.LISTENTITY,listEntity);
-            intent.putExtra(Constant.KEYS.LISTENTITYS,bundle);
-            if (listEntity.getAlbum()!=null){
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Constant.KEYS.LISTENTITY, listEntity);
+            intent.putExtra(Constant.KEYS.LISTENTITYS, bundle);
+            if (listEntity.getAlbum() != null) {
                 introduction = listEntity.getAlbum().getIntroduction();
-                intent.putExtra(Constant.KEYS.INTRODUCTION,introduction);
+                intent.putExtra(Constant.KEYS.INTRODUCTION, introduction);
             }
             startActivity(intent);
-        }else {
+        } else {
             Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
         }
 
