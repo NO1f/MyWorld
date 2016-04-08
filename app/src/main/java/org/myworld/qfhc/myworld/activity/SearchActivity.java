@@ -94,7 +94,7 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
             for (int i = 0; i < data.size(); i++) {
                 if (i % 4 == 0) {
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.topMargin = 10;
+                    params.topMargin = 15;
                     popu = new LinearLayout(this);
                     popu.setLayoutParams(params);
 
@@ -110,7 +110,7 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
                 tv.setTextSize(14);
                 tv.setText(s);
                 tv.setGravity(Gravity.CENTER);
-                tv.setPadding(14, 5, 14, 5);
+                tv.setPadding(16, 5, 16, 5);
                 tv.setBackgroundResource(R.drawable.popu);
 
                 tv.setOnClickListener(new View.OnClickListener() {
@@ -141,22 +141,30 @@ public class SearchActivity extends BaseActivity implements TabLayout.OnTabSelec
 
         switch (view.getId()) {
             case R.id.et_search:
-                int widthPixels = getResources().getDisplayMetrics().widthPixels;
-                mWindow = new PopupWindow(contentView, widthPixels, 320);
-                mWindow.setOutsideTouchable(true);
 
-                // 设置PopupWindow获得焦点的能力
-                // mWindow.setFocusable(true);
+                if (mWindow!=null&&mWindow.isShowing()){
+                    mWindow.dismiss();
+                }else {
 
-                // 设置背景图片
-                Drawable background = getResources().getDrawable(
-                        R.drawable.bg_popu);
-                mWindow.setBackgroundDrawable(background);
+                    int widthPixels = getResources().getDisplayMetrics().widthPixels;
+                    int heigh = getResources().getDisplayMetrics().heightPixels / 7*3;
+                    mWindow = new PopupWindow(contentView, widthPixels, heigh);
+                    mWindow.setOutsideTouchable(true);
 
-                mWindow.setAnimationStyle(R.style.popwin_anim_style);
-                // 让PopupWindow显示出来
-                // mWindow.showAtLocation(parent, gravity, x, y);
-                mWindow.showAsDropDown(etSearch, 0, 2);
+                    // 设置PopupWindow获得焦点的能力
+                    // mWindow.setFocusable(true);
+
+                    // 设置背景图片
+                    Drawable background = getResources().getDrawable(
+                            R.drawable.bg_popu);
+                    mWindow.setBackgroundDrawable(background);
+
+                    mWindow.setAnimationStyle(R.style.popwin_anim_style);
+                    // 让PopupWindow显示出来
+                    // mWindow.showAtLocation(parent, gravity, x, y);
+                    mWindow.showAsDropDown(etSearch, 0, 2);
+                }
+
                 break;
             case R.id.iv_search:
                 String text = etSearch.getText().toString().trim();

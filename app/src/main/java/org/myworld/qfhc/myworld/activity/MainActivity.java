@@ -174,7 +174,7 @@ public class MainActivity extends BaseActivity {
     private void exitApp() {
 
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-            Toast.makeText(MainActivity.this, "双击退出", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "双击退出Beauty", Toast.LENGTH_SHORT).show();
             exitTime = System.currentTimeMillis();
         } else {
             finish();

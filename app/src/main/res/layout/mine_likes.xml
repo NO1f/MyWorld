@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <org.myworld.qfhc.myworld.custom.PullToZoomListView
-        android:id="@+id/ptz"
+    <ListView
+        android:id="@+id/lv_mine"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@null"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

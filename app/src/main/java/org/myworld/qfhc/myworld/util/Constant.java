@@ -70,6 +70,7 @@ public interface Constant {
         String INTRODUCTION = "introduction";
         String LISTENTITY = "listentity";
         String LISTENTITYS = "listentitys";
+        String USER = "user";
     }
 
 }

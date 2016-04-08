@@ -13,7 +13,7 @@
         fresco:viewAspectRatio="1.5" />
 
     <RelativeLayout
-        android:background="#33FFFFFF"
+        android:background="#446c5f5f"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="75dp">

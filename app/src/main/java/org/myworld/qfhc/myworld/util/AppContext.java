@@ -13,5 +13,6 @@ public class AppContext extends Application {
     public void onCreate() {
         super.onCreate();
         VolleyUtil.initVolley(this);
+        ShareUtil.initShared(this);
     }
 }
