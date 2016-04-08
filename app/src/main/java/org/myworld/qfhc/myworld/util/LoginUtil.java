@@ -27,9 +27,9 @@ public class LoginUtil {
     }
     public static void QzomLogin(Context context,PlatformActionListener listener) {
         ShareSDK.initSDK(context);
-        Platform weibo = ShareSDK.getPlatform(context, QZone.NAME);
-        weibo.setPlatformActionListener(listener);
-        weibo.showUser(null);//执行登录，登录后在回调里面获取用户资料
+        Platform qzone = ShareSDK.getPlatform(context, QZone.NAME);
+        qzone.setPlatformActionListener(listener);
+        qzone.showUser(null);//执行登录，登录后在回调里面获取用户资料
         //weibo.showUser(“3189087725”);//获取账号为“3189087725”的资料
     }
 }

@@ -32,15 +32,15 @@ public class PullToZoomAdapter extends AbsBaseAdapter<String>{
 
                 iv = (ImageView) holder.getView(R.id.mine_icon);
                 iv.setImageResource(R.drawable.ic_feed_favourite_normal);
-                Intent intent1=new Intent(context,MineLikesActivity.class);
-                context.startActivity(intent1);
+                /*Intent intent1=new Intent(context,MineLikesActivity.class);
+                context.startActivity(intent1);*/
                 break;
 
             case 1:
                 iv = (ImageView) holder.getView(R.id.mine_icon);
                 iv.setImageResource(R.drawable.ic_setting_score);
-                Intent intent=new Intent(context,MineCollectActivity.class);
-                context.startActivity(intent);
+               /* Intent intent=new Intent(context,MineCollectActivity.class);
+                context.startActivity(intent);*/
                 break;
 
 

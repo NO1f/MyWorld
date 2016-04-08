@@ -71,6 +71,7 @@ public interface Constant {
         String LISTENTITY = "listentity";
         String LISTENTITYS = "listentitys";
         String USER = "user";
+        String URL = "url";
     }
 
 }

@@ -27,8 +27,8 @@ public class ShareUtil {
         editor.commit();
     }
 
-    public static String getString(String key,String defalutvalue){
-        return sharedPreferences.getString(key, defalutvalue);
+    public static String getString(String key){
+        return sharedPreferences.getString(key, null);
     }
 
     public static void putInt(String key, int value){

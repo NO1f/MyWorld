@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -49,6 +50,7 @@ public class PullToZoomListView extends ListView implements
     private ImageView mShadow;
     private View view;
     private SimpleDraweeView sdv;
+    private TextView tv;
     //    private View viewcourse;
 
 
@@ -87,6 +89,7 @@ public class PullToZoomListView extends ListView implements
 
 
         sdv = (SimpleDraweeView) view.findViewById(R.id.sdv_user);
+        tv= (TextView) view.findViewById(R.id.tv_user);
 
         this.mHeaderImage = new ImageView(paramContext);
         ////设置默认图片
@@ -154,7 +157,7 @@ public class PullToZoomListView extends ListView implements
 
 
     public View getView(){
-        return sdv;
+        return view;
     }
 
     @Override

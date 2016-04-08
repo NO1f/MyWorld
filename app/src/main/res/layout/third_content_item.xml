@@ -12,8 +12,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
             fresco:viewAspectRatio="2.65"
-            android:background="@drawable/shadow_right"
-            fresco:roundedCornerRadius="5dp"/>
+            android:background="@drawable/shadow_right"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"

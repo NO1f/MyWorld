@@ -3,6 +3,9 @@
     package="org.myworld.qfhc.myworld">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -47,6 +50,10 @@
             android:name=".activity.SearchMainActivity"
             android:windowSoftInputMode="stateUnchanged" />
         <activity android:name=".activity.SearchTieZiDetailActivity" />
+        <activity android:name=".activity.MineCollectActivity"/>
+        <activity android:name=".activity.MineLikesActivity"/>
+        <activity android:name=".activity.LoginActivity"/>
+
 
 
         <activity
