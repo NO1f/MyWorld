@@ -1,5 +1,6 @@
 package org.myworld.qfhc.myworld.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * @创建时间：2016/3/29 11:46
  * @备注：
  */
-public class IndextContentEntity {
+public class IndextContentEntity implements Serializable{
 
 
     /**
@@ -39,7 +40,7 @@ public class IndextContentEntity {
         return data;
     }
 
-    public static class DataEntity {
+    public static class DataEntity implements Serializable{
 
         private PostListEntity postList;
 
@@ -61,7 +62,7 @@ public class IndextContentEntity {
             return grids;
         }
 
-        public static class PostListEntity {
+        public static class PostListEntity implements Serializable{
             private int count;
             private boolean isEnd;
             private int startIndex;
@@ -127,7 +128,7 @@ public class IndextContentEntity {
                 return list;
             }
 
-            public static class ListEntity {
+            public static class ListEntity implements Serializable{
                 private int status;
                 private String selectedTime;
                 private boolean isCollectable;
@@ -329,7 +330,7 @@ public class IndextContentEntity {
                     return isHidden;
                 }
 
-                public static class AlbumEntity {
+                public static class AlbumEntity implements Serializable{
 
                     private OriginCoverEntity originCover;
                     private int itemCount;
@@ -414,7 +415,7 @@ public class IndextContentEntity {
                         return shareText;
                     }
 
-                    public static class OriginCoverEntity {
+                    public static class OriginCoverEntity implements Serializable{
                         private int seq;
                         private String url;
                         private int height;
@@ -471,7 +472,7 @@ public class IndextContentEntity {
                         }
                     }
 
-                    public static class CoverEntity {
+                    public static class CoverEntity implements Serializable{
                         private int seq;
                         private String url;
                         private int height;
@@ -529,7 +530,7 @@ public class IndextContentEntity {
                     }
                 }
 
-                public static class AuthorEntity {
+                public static class AuthorEntity implements Serializable{
                     private int followerCount;
                     private int groupCount;
                     private int likeCount;
@@ -660,7 +661,7 @@ public class IndextContentEntity {
             }
         }
 
-        public static class GridsEntity {
+        public static class GridsEntity implements Serializable{
             private String url;
             private String imageUrl;
             private String title;

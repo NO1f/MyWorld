@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,7 +39,8 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
     private int count = 0;
 
     private TextView tvTitle;
-    private ImageView ivBack, ivRefresh;
+    private ImageView ivBack, ivRefresh,ivRefres;
+    private LinearLayout llWangluo;
     private ListView mLv;
     private SwipeRefreshLayout swipeRefreshLayout;
     private int id;
@@ -55,6 +57,13 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected void init() {
+
+        ivRefres= (ImageView)findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefres.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
         datas = new ArrayList<>();
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_ID);
@@ -81,6 +90,7 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
         mLv = (ListView) findViewById(R.id.lv_search_detail_one);
         mLv.setOnItemClickListener(this);
+        mLv.setVisibility(View.INVISIBLE);
         mLv.setOnScrollListener(this);
         mLv.addFooterView(footer);
         adapter = new SearchDetailOneAdapter(this);
@@ -108,8 +118,9 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onResponse(String url, String response) {
+        ivRefres.setVisibility(View.INVISIBLE);
+        mLv.setVisibility(View.VISIBLE);
         if (response!=null){
-
             searchDetailOneByJson = JSONUtil.getSearchDetailOneByJson(response);
             datas.addAll(searchDetailOneByJson);
 
@@ -124,6 +135,22 @@ public class SearchDetailOneActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
+
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefres.setVisibility(View.VISIBLE);
+                currentPage=0;
+                count=0;
+                datas.clear();
+                formatUrl = String.format(Constant.URL.SEARCH_DETAIL_ONE, id,currentPage);
+                VolleyUtil.requestString(formatUrl,SearchDetailOneActivity.this);
+            }
+        });
 
     }
 

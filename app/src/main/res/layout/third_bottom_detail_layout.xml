@@ -29,8 +29,8 @@
 
             <ImageView
                 android:id="@+id/iv_third_detail_bottom_back"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="25dp"
+                android:layout_height="235dp"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="5dp"
                 android:onClick="jia"
@@ -46,5 +46,38 @@
 
         </RelativeLayout>
     </android.support.v7.widget.Toolbar>
+
+
+    <ImageView
+        android:id="@+id/iv_third_bottom_refresh"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="4dp"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"
+        android:background="@drawable/wait" />
+
+    <LinearLayout
+        android:id="@+id/ll_wangluo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_net_error"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#B7B7B7"
+            android:text="请检查您的网络"
+            android:layout_marginTop="10dp"/>
+
+    </LinearLayout>
 
 </FrameLayout>

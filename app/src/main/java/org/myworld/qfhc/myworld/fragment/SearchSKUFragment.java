@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -35,8 +36,9 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
     private GridView mGv;
     private SearchSKULVAdapter lvAdapter;
     private SearchSKUGVAdapter gvAdapter;
+    private ImageView ivRefresh;
+    private LinearLayout ll,llWangluo;
 
-    private ImageView ivWait;
     private List<SearchSKUEntity.DataEntity> searchSKUByJson;
     private List<SearchSKUEntity.DataEntity.SubclassEntity> subclass;
 
@@ -57,10 +59,16 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
     @Override
     protected void init(View view) {
 
-        ivWait = (ImageView) view.findViewById(R.id.iv_search_wait);
-        AnimationDrawable background = (AnimationDrawable) ivWait.getBackground();
-        background.start();
-        ivWait.setVisibility(View.GONE);
+        ll= (LinearLayout) view.findViewById(R.id.ll);
+        ll.setVisibility(View.INVISIBLE);
+
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        ivRefresh= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefresh.getBackground();
+        bg.start();
+
         mLv = (ListView) view.findViewById(R.id.lv_search_one);
         mGv = (GridView) view.findViewById(R.id.gv_search_one);
         mGv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -90,6 +98,8 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
 
     @Override
     public void onResponse(String url, String response) {
+        ll.setVisibility(View.VISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
         if (response != null) {
             searchSKUByJson = JSONUtil.getSearchSKUByJson(response);
             if (searchSKUByJson != null) {
@@ -97,21 +107,23 @@ public class SearchSKUFragment extends BaseFragment implements VolleyUtil.OnRequ
                 mLv.performItemClick(mLv.getAdapter().getView(0, null, null),
                         0, mLv.getItemIdAtPosition(0));
             }
-
-        } /*else {
-            mGv.setVisibility(View.GONE);
-            mLv.setVisibility(View.GONE);
-            ivWait.setVisibility(View.VISIBLE);
-        }*/
+        }
     }
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        ivWait.setVisibility(View.GONE);
-        ImageView iv = new ImageView(getActivity());
-        iv.setImageResource(R.drawable.ic_net_error);
-        iv.setOnClickListener(this);
-        Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+        ll.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                VolleyUtil.requestString(Constant.URL.SEARCH_ONE, SearchSKUFragment.this);
+            }
+        });
     }
 
     @Override

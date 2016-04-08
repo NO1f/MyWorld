@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,10 +44,14 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
     private SwipeRefreshLayout srl;
     private View footer;
     private ImageView ivRefresh;
+    private ImageView ivRefres;
+    private LinearLayout llWangluo;
     private ThirdBottomDetailAdapter adapter;
     private String formatUrl;
     private int id;
     private List<ThirdBottomDetailEntity.DataEntity.PostListEntity> datas;
+    private String murl;
+    private ThirdDetailHeadView headView;
 
     @Override
     protected int getContentResid() {
@@ -55,15 +60,22 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
 
     @Override
     protected void init() {
+
+        ivRefres= (ImageView)findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefres.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
         datas = new ArrayList<>();
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_ID);
         id = Integer.valueOf(mid);
         String name = intent.getStringExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_NAME);
 
-        String url = String.format(Constant.URL.THIRD_ONE_BOTTOM, 0, id);
-        ThirdDetailHeadView headView = new ThirdDetailHeadView(this);
-        headView.setUrl(url);
+        murl = String.format(Constant.URL.THIRD_ONE_BOTTOM, 0, id);
+        headView = new ThirdDetailHeadView(this);
+        headView.setUrl(murl);
 
         formatUrl = String.format(Constant.URL.THIRD_ONE_BOTTOM, currentPage, id);
 
@@ -83,6 +95,7 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
         mLv = (ListView) findViewById(R.id.lv_third_bottom_detail);
         mLv.addHeaderView(headView);
         mLv.addFooterView(footer);
+        mLv.setVisibility(View.INVISIBLE);
         mLv.setOnScrollListener(this);
         adapter = new ThirdBottomDetailAdapter(this);
         mLv.setAdapter(adapter);
@@ -96,9 +109,9 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
 
     @Override
     public void onResponse(String url, String response) {
-
+        ivRefres.setVisibility(View.INVISIBLE);
+        mLv.setVisibility(View.VISIBLE);
         if (response != null) {
-
             ThirdBottomDetailEntity.DataEntity thirdBottomDetailByJson = JSONUtil.getThirdBottomDetailByJson(response);
             List<ThirdBottomDetailEntity.DataEntity.PostListEntity> post_list = thirdBottomDetailByJson.getPost_list();
             //L.e(thirdDetailByJson + "==========================================");
@@ -113,8 +126,23 @@ public class ThirdBottomDetailActivity extends BaseActivity implements VolleyUti
     }
 
     @Override
-    public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(ThirdBottomDetailActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
+    public void onErrorResponse(final String url, VolleyError error) {
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                headView.setUrl(Constant.URL.THIRD_ONE);
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefres.setVisibility(View.VISIBLE);
+                currentPage = 0;
+                count = 0;
+                datas.clear();
+                headView.setUrl(murl);
+                VolleyUtil.requestString(murl, ThirdBottomDetailActivity.this);
+            }
+        });
     }
 
     @Override

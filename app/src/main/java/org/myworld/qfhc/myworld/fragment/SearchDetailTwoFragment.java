@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.android.volley.VolleyError;
@@ -45,7 +46,10 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
 
     private View footer;
     private ListView mLv;
-    private ImageView ivRefresh;
+    private ImageView ivRefresh,ivRefres;
+    private LinearLayout llWangluo;
+    private LinearLayout llResult;
+
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchTwoDetailAdapter adapter;
     private List<SearchTwoEntity.DataEntity.TopicEntity> datas;
@@ -65,6 +69,16 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
     @Override
     protected void init(View view) {
 
+
+        llResult= (LinearLayout) view.findViewById(R.id.ll_result);
+        llResult.setVisibility(View.INVISIBLE);
+
+        ivRefres= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefres.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
         datas = new ArrayList<>();
         Bundle bundle = getArguments();
         position = bundle.getInt(Constant.KEYS.INDEX_CONTENT_POSITION, -1);
@@ -83,6 +97,7 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
 
         mLv= (ListView) view.findViewById(R.id.lv_search_detail_two);
         adapter = new SearchTwoDetailAdapter(getActivity());
+        mLv.setVisibility(View.INVISIBLE);
         mLv.addFooterView(footer);
         mLv.setOnScrollListener(this);
         mLv.setOnItemClickListener(this);
@@ -105,6 +120,8 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
 
     @Override
     public void onResponse(String url, String response) {
+        ivRefres.setVisibility(View.INVISIBLE);
+        mLv.setVisibility(View.VISIBLE);
         if (response!=null){
             List<SearchTwoEntity.DataEntity.TopicEntity> searchDetailTwoByJson = JSONUtil.getSearchDetailTwoByJson(response);
             datas.addAll(searchDetailTwoByJson);
@@ -118,8 +135,28 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
     }
 
     @Override
-    public void onErrorResponse(String url, VolleyError error) {
+    public void onErrorResponse(String url1, VolleyError error) {
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                currentPage=0;
+                count=0;
+                datas.clear();
 
+                if (position==0){
+                    url = String.format(Constant.URL.SEARCH_DETAIL_TWO_NEWS,id,currentPage);
+                }else if (position==1){
+                    url = String.format(Constant.URL.SEARCH_DETAIL_TWO_HOST,id,currentPage);
+                }
+
+                VolleyUtil.requestString(url,SearchDetailTwoFragment.this);
+            }
+        });
     }
 
 

@@ -1,10 +1,13 @@
 package org.myworld.qfhc.myworld.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
@@ -30,6 +33,8 @@ public class SearchRepertoireFragment extends BaseFragment implements VolleyUtil
     private GridView mGv;
     private SearchRepertoireAdapter adapter;
     private List<SearchRepertoireEntity.DataEntity> searchRepertoireByJson;
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
 
     public static SearchRepertoireFragment newInstance() {
 
@@ -47,7 +52,16 @@ public class SearchRepertoireFragment extends BaseFragment implements VolleyUtil
 
     @Override
     protected void init(View view) {
+
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        ivRefresh= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefresh.getBackground();
+        bg.start();
+
         mGv= (GridView) view.findViewById(R.id.gv_search_two);
+        mGv.setVisibility(View.INVISIBLE);
         adapter = new SearchRepertoireAdapter(getActivity());
         mGv.setAdapter(adapter);
         mGv.setOnItemClickListener(this);
@@ -60,6 +74,8 @@ public class SearchRepertoireFragment extends BaseFragment implements VolleyUtil
 
     @Override
     public void onResponse(String url, String response) {
+        mGv.setVisibility(View.VISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
         if (response!=null){
             searchRepertoireByJson = JSONUtil.getSearchRepertoireByJson(response);
             adapter.setDatas(searchRepertoireByJson);
@@ -68,7 +84,19 @@ public class SearchRepertoireFragment extends BaseFragment implements VolleyUtil
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+        mGv.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                VolleyUtil.requestString(Constant.URL.SEARCH_TWO,SearchRepertoireFragment.this);
+            }
+        });
+
     }
 
     @Override

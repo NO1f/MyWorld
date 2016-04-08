@@ -149,10 +149,19 @@ public class IndexContentFragment extends Fragment implements VolleyUtil.OnReque
 
         IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = datas.get(position);
         int detailId = listEntity.getId();
+        String introduction=null;
+
         String index_detail_url = String.format(Constant.URL.INDEX_DETAIL, detailId);
         if (index_detail_url!=null){
             Intent intent = new Intent(getActivity(), IndextDetailActivity.class);
             intent.putExtra(Constant.KEYS.INDEX_DETAIL_URL, index_detail_url);
+            Bundle bundle=new Bundle();
+            bundle.putSerializable(Constant.KEYS.LISTENTITY,listEntity);
+            intent.putExtra(Constant.KEYS.LISTENTITYS,bundle);
+            if (listEntity.getAlbum()!=null){
+                introduction = listEntity.getAlbum().getIntroduction();
+                intent.putExtra(Constant.KEYS.INTRODUCTION,introduction);
+            }
             startActivity(intent);
         }else {
             Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();

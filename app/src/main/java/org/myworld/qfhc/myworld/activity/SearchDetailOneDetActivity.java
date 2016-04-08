@@ -2,10 +2,14 @@ package org.myworld.qfhc.myworld.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
+import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +46,11 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
     private int id;
     private List<String> sdvUrls;
     private SearchDetailOneDetEntity.DataEntity.ProductEntity searchDetailOneDetByJson;
+    private ScrollView scrollView;
+
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
+    private String formatUrl;
 
     @Override
     protected int getContentResid() {
@@ -50,6 +59,15 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
 
     @Override
     protected void init() {
+
+        ivRefresh= (ImageView)findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable background = (AnimationDrawable) ivRefresh.getBackground();
+        background.start();
+        llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        scrollView= (ScrollView) findViewById(R.id.sv);
+        scrollView.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID);
@@ -66,12 +84,15 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
     @Override
     protected void initData() {
 
-        String url = String.format(Constant.URL.SEARCH_DETAIL_ONE_DET, id);
-        VolleyUtil.requestString(url, this);
+        formatUrl = String.format(Constant.URL.SEARCH_DETAIL_ONE_DET, id);
+        VolleyUtil.requestString(formatUrl, this);
     }
 
     @Override
     public void onResponse(String url, String response) {
+        ivRefresh.setVisibility(View.INVISIBLE);
+        scrollView.setVisibility(View.VISIBLE);
+
         if (response != null) {
             searchDetailOneDetByJson = JSONUtil.getSearchDetailOneDetByJson(response);
             String title = searchDetailOneDetByJson.getTitle();
@@ -89,6 +110,18 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
+
+        scrollView.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                VolleyUtil.requestString(formatUrl, SearchDetailOneDetActivity.this);
+            }
+        });
 
     }
 

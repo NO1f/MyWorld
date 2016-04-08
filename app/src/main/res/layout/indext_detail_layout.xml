@@ -44,14 +44,6 @@
             android:onClick="click"
             android:src="@drawable/icon_share_new" />
 
-        <ImageView
-            android:id="@+id/iv_head_menu"
-            android:layout_width="0dp"
-            android:layout_height="22dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:onClick="click"
-            android:src="@drawable/msg_more_icon" />
     </LinearLayout>
 
 </RelativeLayout>

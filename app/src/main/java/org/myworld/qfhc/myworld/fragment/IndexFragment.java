@@ -2,6 +2,7 @@ package org.myworld.qfhc.myworld.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,6 +12,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -51,6 +53,9 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     private List<IndexHeadEntity.DataEntity.TabsEntity> tabs;
     private ViewPagerAdapter adapter;
 
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
+
     public static IndexFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -69,6 +74,13 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     @Override
     protected void init(View view) {
 
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        ivRefresh= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefresh.getBackground();
+        bg.start();
+
         convenientBanner = (ConvenientBanner) view.findViewById(R.id.convenientBanner);
         sdvUrls = new ArrayList<>();
 
@@ -78,6 +90,11 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
         mVp = (ViewPager) view.findViewById(R.id.vp_first_tab);
         mTl.setOnTabSelectedListener(this);
         adapter = new ViewPagerAdapter(getActivity().getSupportFragmentManager());
+
+
+        convenientBanner.setVisibility(View.INVISIBLE);
+        mTl.setVisibility(View.INVISIBLE);
+        mVp.setVisibility(View.INVISIBLE);
 
     }
 
@@ -90,6 +107,10 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     /*********************************解析数据******************************/
     @Override
     public void onResponse(String url, String response) {
+        convenientBanner.setVisibility(View.VISIBLE);
+        mTl.setVisibility(View.VISIBLE);
+        mVp.setVisibility(View.VISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
         if (response != null) {
             IndexHeadEntity.DataEntity contentByJSON = JSONUtil.getHeadByJSON(response);
             tabs = contentByJSON.getTabs();
@@ -108,7 +129,22 @@ public class IndexFragment extends BaseFragment implements VolleyUtil.OnRequestL
     }
 
     @Override
-    public void onErrorResponse(String url, VolleyError error) {
+    public void onErrorResponse(String url1, VolleyError error) {
+
+        convenientBanner.setVisibility(View.INVISIBLE);
+        mTl.setVisibility(View.INVISIBLE);
+        mVp.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                VolleyUtil.requestString(Constant.URL.INDEX_HEAD, IndexFragment.this);
+            }
+        });
 
     }
 

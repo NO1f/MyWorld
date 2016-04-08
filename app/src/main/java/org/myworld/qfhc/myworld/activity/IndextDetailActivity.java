@@ -1,6 +1,7 @@
 package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebSettings;
@@ -9,8 +10,12 @@ import android.webkit.WebViewClient;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.base.BaseActivity;
+import org.myworld.qfhc.myworld.entity.IndextContentEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.L;
+import org.myworld.qfhc.myworld.util.UseUtil;
+
+import java.io.Serializable;
 
 /**
  * @类描述: ${TODO}
@@ -20,6 +25,8 @@ import org.myworld.qfhc.myworld.util.L;
 public class IndextDetailActivity extends BaseActivity{
 
     private WebView mWv;
+    private String wv_head_url;
+    private String introduction;
 
     @Override
     protected int getContentResid() {
@@ -30,8 +37,14 @@ public class IndextDetailActivity extends BaseActivity{
     protected void init() {
 
         Intent intent = getIntent();
-        String wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
-        L.e(wv_head_url+"================================================");
+        wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
+        Bundle bundle = intent.getBundleExtra(Constant.KEYS.LISTENTITYS);
+        IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = (IndextContentEntity.DataEntity.PostListEntity.ListEntity) bundle.getSerializable(Constant.KEYS.LISTENTITY);
+        if (listEntity.getAlbum()!=null){
+            introduction = intent.getStringExtra(Constant.KEYS.INTRODUCTION);
+        }
+
+        L.e(wv_head_url +"================================================");
 
         mWv= (WebView) findViewById(R.id.wv_first_detail);
         WebSettings settings = mWv.getSettings();
@@ -62,8 +75,8 @@ public class IndextDetailActivity extends BaseActivity{
                     finish();
                 }
                 break;
-            case R.id.iv_head_kill:
-                finish();
+            case R.id.iv_head_share:
+                UseUtil.simpleShowShare(this,wv_head_url,introduction,wv_head_url);
         }
     }
 

@@ -47,14 +47,13 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
 
     private String keyword;
     private String formatUrl;
-    private ImageView ivRefresh;
+    private ImageView ivRefresh,ivRefres;
     private ListView mLv;
     private View footer;
     private List<SearchDanPinEntity.DataEntity> datas;
     private SearchDanPinAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private LinearLayout llResult,llWangluo;
-    private ProgressDialog progressDialog;
 
     public static SearchMainDanPinFragment newInstance(String keyword) {
 
@@ -72,8 +71,9 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
 
     @Override
     protected void init(View view) {
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.show();
+        ivRefres= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefres.getBackground();
+        bg.start();
 
         datas = new ArrayList<>();
         Bundle bundle = getArguments();
@@ -87,6 +87,7 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
         ivRefresh = (ImageView) footer.findViewById(R.id.iv_third_bottom_refresh);
         AnimationDrawable background = (AnimationDrawable) ivRefresh.getBackground();
         background.start();
+
         footer.findViewById(R.id.ll_footer).setVisibility(View.GONE);
         llResult = (LinearLayout) view.findViewById(R.id.ll_result);
         llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
@@ -98,6 +99,7 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
         mLv.setOnItemClickListener(this);
         mLv.setOnScrollListener(this);
         mLv.addFooterView(footer);
+        mLv.setVisibility(View.INVISIBLE);
         adapter = new SearchDanPinAdapter(getActivity());
         mLv.setAdapter(adapter);
     }
@@ -112,7 +114,8 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
 
     @Override
     public void onResponse(String url, String response) {
-        progressDialog.dismiss();
+        mLv.setVisibility(View.VISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
         if (response != null) {
             List<SearchDanPinEntity.DataEntity> searchDanpinByJson = JSONUtil.getSearchDanpinByJson(response);
             if (searchDanpinByJson.size() != 0) {
@@ -133,13 +136,14 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        progressDialog.dismiss();
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);
         llWangluo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 llWangluo.setVisibility(View.INVISIBLE);
-                progressDialog.show();
+                ivRefres.setVisibility(View.VISIBLE);
                 currentPage = 0;
                 count = 0;
                 datas.clear();

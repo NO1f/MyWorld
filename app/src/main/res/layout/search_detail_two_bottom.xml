@@ -18,6 +18,16 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+
+    <ImageView
+        android:id="@+id/iv_third_bottom_refresh"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="4dp"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        android:background="@drawable/wait" />
+
     <LinearLayout
         android:id="@+id/ll_result"
         android:layout_width="wrap_content"
@@ -61,6 +71,5 @@
             android:layout_marginTop="10dp"/>
 
     </LinearLayout>
-
 
 </RelativeLayout>

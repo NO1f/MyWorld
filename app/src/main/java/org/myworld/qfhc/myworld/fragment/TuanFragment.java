@@ -1,11 +1,14 @@
 package org.myworld.qfhc.myworld.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.VolleyError;
 
 import org.myworld.qfhc.myworld.R;
+import org.myworld.qfhc.myworld.activity.SearchActivity;
 import org.myworld.qfhc.myworld.activity.ThirdBottomDetailActivity;
 import org.myworld.qfhc.myworld.adapter.ThirdAdapter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
@@ -40,7 +44,10 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     private int p = 0;
     private View footerView;
     private TextView tvChange;
+    private ImageView ivGuang,ivRefresh;
+    private LinearLayout llWangluo;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ThirdHeadView headView;
 
     public static TuanFragment newInstance() {
         Bundle args = new Bundle();
@@ -57,18 +64,29 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
     @Override
     protected void init(View view) {
 
+        ivRefresh= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable background = (AnimationDrawable) ivRefresh.getBackground();
+        background.start();
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        ivGuang= (ImageView) view.findViewById(R.id.iv_guangchang);
+        ivGuang.setOnClickListener(this);
+
         swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.srl_third);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
 
-        ThirdHeadView headView = new ThirdHeadView(getActivity(), getChildFragmentManager());
+        headView = new ThirdHeadView(getActivity(), getChildFragmentManager());
         headView.setUrl(Constant.URL.THIRD_ONE);
 
         footerView = LayoutInflater.from(getActivity()).inflate(R.layout.third_bottom_layout, null);
+        footerView.setVisibility(View.INVISIBLE);
         tvChange = (TextView) footerView.findViewById(R.id.tv_third_change);
         tvChange.setOnClickListener(this);
 
         mLv = (ListView) view.findViewById(R.id.lv_third);
+        mLv.setVisibility(View.INVISIBLE);
         mLv.addHeaderView(headView);
         mLv.addFooterView(footerView);
         mLv.setOnItemClickListener(this);
@@ -85,6 +103,9 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
 
     @Override
     public void onResponse(String url, String response) {
+        ivRefresh.setVisibility(View.INVISIBLE);
+        mLv.setVisibility(View.VISIBLE);
+        footerView.setVisibility(View.VISIBLE);
         if (response != null) {
             ThirdHeadEntity.DataEntity thirdByJson = JSONUtil.getThirdByJson(response);
             rec_groups = thirdByJson.getRec_groups();
@@ -98,7 +119,18 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(getActivity(), "数据加载失败", Toast.LENGTH_SHORT).show();
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                headView.setUrl(Constant.URL.THIRD_ONE);
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                VolleyUtil.requestString(Constant.URL.THIRD_ONE, TuanFragment.this);
+            }
+        });
     }
 
     private void getDatas() {
@@ -126,7 +158,17 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
 
     @Override
     public void onClick(View v) {
-        getDatas();
+
+        switch (v.getId()){
+
+            case R.id.tv_third_change:
+                getDatas();
+                break;
+            case R.id.iv_guangchang:
+                Intent intent=new Intent(getActivity(), SearchActivity.class);
+                getActivity().startActivity(intent);
+                break;
+        }
     }
 
     @Override
@@ -144,4 +186,5 @@ public class TuanFragment extends BaseFragment implements VolleyUtil.OnRequestLi
         intent.putExtra(Constant.KEYS.THIRD_BOTTOM_DETAIL_NAME,name);
         getActivity().startActivity(intent);
     }
+
 }

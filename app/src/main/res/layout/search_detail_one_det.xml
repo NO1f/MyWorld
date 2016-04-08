@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/sv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="35dp"
@@ -134,6 +135,38 @@
             android:onClick="wupinxiangqing"
             android:padding="8dp"
             android:src="@drawable/ic_commet_list_bottom_detail"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_third_bottom_refresh"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="4dp"
+        android:scaleType="fitXY"
+        android:layout_centerInParent="true"
+        android:background="@drawable/wait" />
+
+    <LinearLayout
+        android:id="@+id/ll_wangluo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_net_error"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textColor="#B7B7B7"
+            android:text="请检查您的网络"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

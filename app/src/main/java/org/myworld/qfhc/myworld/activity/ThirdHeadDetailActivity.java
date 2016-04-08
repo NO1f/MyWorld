@@ -1,5 +1,6 @@
 package org.myworld.qfhc.myworld.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,10 +43,12 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
     private SwipeRefreshLayout srl;
     private ThirdDetailAdapter adapter;
     private String formatUrl;
-    private ImageView imageView ,ivRefresh;
-    private String url;
+    private ImageView imageView ,ivRefres;
+    private String murl;
     private int extend;
     private View footer;
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
     private List<ThirdDetailEntity.DataEntity.ListEntity> datas;
 
     @Override
@@ -54,15 +58,22 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     protected void init() {
+
+        ivRefres= (ImageView)findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefres.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
         datas = new ArrayList<>();
         Intent intent = getIntent();
-        url = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_URL);
+        murl = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_URL);
         // L.e(url+"_______________________________________");
         String third_extend = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_ID);
         extend = Integer.valueOf(third_extend);
         String title = intent.getStringExtra(Constant.KEYS.THIRD_DETAIL_TITLE);
 
-        formatUrl = String.format(url, currentPage, extend);
+        formatUrl = String.format(murl, currentPage, extend);
 
         tvTitle = (TextView) findViewById(R.id.tv_third_top_detail_title);
         tvTitle.setText(title);
@@ -80,6 +91,7 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
         srl.setColorSchemeResources(R.color.colorAccent);
         srl.setOnRefreshListener(this);
 
+        mLv.setVisibility(View.INVISIBLE);
         mLv.addFooterView(footer);
         mLv.setOnScrollListener(this);
         adapter = new ThirdDetailAdapter(this);
@@ -93,13 +105,14 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     public void onResponse(String url, String response) {
-
+        ivRefres.setVisibility(View.INVISIBLE);
+        mLv.setVisibility(View.VISIBLE);
         if (response != null) {
             ThirdDetailEntity.DataEntity thirdDetailByJson = JSONUtil.getThirdDetailByJson(response);
             List<ThirdDetailEntity.DataEntity.ListEntity> list = thirdDetailByJson.getList();
             //L.e(thirdDetailByJson + "==========================================");
             datas.addAll(list);
-            adapter.addDatas(datas);
+            adapter.addDatas(list);
             if (thirdDetailByJson != null) {
                 srl.setRefreshing(false);
             }
@@ -110,7 +123,22 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
 
     @Override
     public void onErrorResponse(String url, VolleyError error) {
-        Toast.makeText(ThirdHeadDetailActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefres.setVisibility(View.VISIBLE);
+                currentPage=0;
+                count=0;
+                datas.clear();
+                formatUrl = String.format(murl, currentPage, extend);
+                VolleyUtil.requestString(formatUrl,ThirdHeadDetailActivity.this);
+            }
+        });
+
     }
 
     @Override
@@ -118,7 +146,7 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
         currentPage=0;
         count=0;
         datas.clear();
-        formatUrl = String.format(url, currentPage, extend);
+        formatUrl = String.format(murl, currentPage, extend);
         VolleyUtil.requestString(formatUrl,this);
     }
 
@@ -139,7 +167,7 @@ public class ThirdHeadDetailActivity extends BaseActivity implements VolleyUtil.
                 footer.setVisibility(View.VISIBLE);
 
                 // 加载新数据
-                formatUrl = String.format(url, currentPage, extend);
+                formatUrl = String.format(murl, currentPage, extend);
                 VolleyUtil.requestString(formatUrl,this);
 
             }

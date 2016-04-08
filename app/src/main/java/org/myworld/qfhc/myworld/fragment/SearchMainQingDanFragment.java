@@ -40,16 +40,15 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
     private int count = 0;
 
     private String keyword;
-    private String url;
+    private String murl;
 
     private View footer;
     private ListView mLv;
-    private ImageView ivRefresh;
+    private ImageView ivRefresh,ivRefres;
     private SwipeRefreshLayout swipeRefreshLayout;
     private SearchQingDanAdapter adapter;
     private List<SearchQingDanEntity.DataEntity> datas;
     private LinearLayout llResult,llWangluo;
-    private ProgressDialog progressDialog;
 
     public static SearchMainQingDanFragment newInstance(String keyword) {
 
@@ -68,9 +67,9 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
     @Override
     protected void init(View view) {
 
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.show();
-
+        ivRefres= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefres.getBackground();
+        bg.start();
 
         datas = new ArrayList<>();
         Bundle bundle = getArguments();
@@ -87,14 +86,17 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
         swipeRefreshLayout.setOnRefreshListener(this);
 
         llResult = (LinearLayout) view.findViewById(R.id.ll_result);
-        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
-
         llResult.setVisibility(View.INVISIBLE);
+
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
         llWangluo.setVisibility(View.INVISIBLE);
 
 
         mLv = (ListView) view.findViewById(R.id.lv_search_detail_two);
         adapter = new SearchQingDanAdapter(getActivity());
+
+        mLv.setVisibility(View.INVISIBLE);
+
         mLv.addFooterView(footer);
         mLv.setOnScrollListener(this);
         mLv.setOnItemClickListener(this);
@@ -104,13 +106,14 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
 
     @Override
     protected void loadData() {
-        url = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
-        VolleyUtil.requestString(url, this);
+        murl = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
+        VolleyUtil.requestString(murl, this);
     }
 
     @Override
     public void onResponse(String url, String response) {
-        progressDialog.dismiss();
+        mLv.setVisibility(View.VISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
         if (response != null) {
             List<SearchQingDanEntity.DataEntity> searchQingdanByJson =  JSONUtil.getSearchQingdanByJson(response);
             datas.addAll(searchQingdanByJson);
@@ -124,22 +127,24 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
     }
 
     @Override
-    public void onErrorResponse(final String url1, VolleyError error) {
+    public void onErrorResponse( String url, VolleyError error) {
 
-        progressDialog.dismiss();
+        mLv.setVisibility(View.INVISIBLE);
+        ivRefres.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
         llResult.setVisibility(View.INVISIBLE);
         llWangluo.setVisibility(View.VISIBLE);
         llWangluo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 llWangluo.setVisibility(View.INVISIBLE);
-                progressDialog.show();
+                ivRefres.setVisibility(View.VISIBLE);
                 currentPage = 0;
                 count = 0;
                 datas.clear();
 
-                url = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
-                VolleyUtil.requestString(url1, SearchMainQingDanFragment.this);
+                murl = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
+                VolleyUtil.requestString(murl, SearchMainQingDanFragment.this);
             }
         });
 
@@ -159,8 +164,8 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
 
                 // 加载新数据
 
-                url = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
-                VolleyUtil.requestString(url, this);
+                murl = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
+                VolleyUtil.requestString(murl, this);
             }
         }
 
@@ -183,13 +188,11 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
 
     @Override
     public void onRefresh() {
-
         currentPage = 0;
         count = 0;
         datas.clear();
-
-        url = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
-        VolleyUtil.requestString(url, this);
+        murl = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
+        VolleyUtil.requestString(murl, this);
     }
 
     @Override

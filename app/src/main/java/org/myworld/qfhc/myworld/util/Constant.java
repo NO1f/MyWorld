@@ -67,6 +67,10 @@ public interface Constant {
         String BUNDLE = "bundle";
         String SEARCH_RECOMMENT = "search_recomment";
         String KEYWORD = "keyword";
+        String INTRODUCTION = "introduction";
+        String LISTENTITY = "listentity";
+        String LISTENTITYS = "listentitys";
     }
 
 }
+
