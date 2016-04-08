@@ -21,6 +21,7 @@ import org.myworld.qfhc.myworld.base.AbsBaseAdapter;
 import org.myworld.qfhc.myworld.entity.ThirdBottomDetailEntity;
 import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
 import org.myworld.qfhc.myworld.util.Constant;
+import org.myworld.qfhc.myworld.util.UseUtil;
 
 import java.util.List;
 
@@ -73,7 +74,9 @@ public class ThirdBottomDetailAdapter extends AbsBaseAdapter<ThirdBottomDetailEn
             shareImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "我要分享", Toast.LENGTH_SHORT).show();
+                    if (data!=null) {
+                        UseUtil.simpleShowShare(context, data.getProduct().get(0).getUrl(), data.getProduct().get(0).getTitle(), data.getProduct().get(0).getUrl());
+                    }
                 }
             });
 

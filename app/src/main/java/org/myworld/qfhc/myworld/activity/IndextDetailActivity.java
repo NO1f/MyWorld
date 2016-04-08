@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @创建时间：2016/3/30 01:35
  * @备注：
  */
-public class IndextDetailActivity extends BaseActivity{
+public class IndextDetailActivity extends BaseActivity {
 
     private WebView mWv;
     private String wv_head_url;
@@ -40,13 +40,13 @@ public class IndextDetailActivity extends BaseActivity{
         wv_head_url = intent.getStringExtra(Constant.KEYS.INDEX_DETAIL_URL);
         Bundle bundle = intent.getBundleExtra(Constant.KEYS.LISTENTITYS);
         IndextContentEntity.DataEntity.PostListEntity.ListEntity listEntity = (IndextContentEntity.DataEntity.PostListEntity.ListEntity) bundle.getSerializable(Constant.KEYS.LISTENTITY);
-        if (listEntity.getAlbum()!=null){
+        if (listEntity.getAlbum() != null) {
             introduction = intent.getStringExtra(Constant.KEYS.INTRODUCTION);
         }
 
-        L.e(wv_head_url +"================================================");
+        L.e(wv_head_url + "================================================");
 
-        mWv= (WebView) findViewById(R.id.wv_first_detail);
+        mWv = (WebView) findViewById(R.id.wv_first_detail);
         WebSettings settings = mWv.getSettings();
         settings.setSupportZoom(false);
         settings.setLoadWithOverviewMode(true);
@@ -56,7 +56,7 @@ public class IndextDetailActivity extends BaseActivity{
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         mWv.loadUrl(wv_head_url);
 
-        mWv.setWebViewClient(new WebViewClient(){
+        mWv.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 mWv.loadUrl(url);
@@ -66,24 +66,28 @@ public class IndextDetailActivity extends BaseActivity{
     }
 
 
-    public void click(View v){
-        switch (v.getId()){
+    public void click(View v) {
+        switch (v.getId()) {
             case R.id.iv_head_back:
-                if(mWv.canGoBack()){
+                if (mWv.canGoBack()) {
                     mWv.goBack();
-                }else {
+                } else {
                     finish();
                 }
                 break;
             case R.id.iv_head_share:
-                UseUtil.simpleShowShare(this,wv_head_url,introduction,wv_head_url);
+                if (wv_head_url != null) {
+                    UseUtil.simpleShowShare(this, wv_head_url, introduction, wv_head_url);
+                }else if (wv_head_url != null&&introduction==null){
+                    UseUtil.simpleShowShare(this, wv_head_url, null, wv_head_url);
+                }
         }
     }
 
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode==KeyEvent.KEYCODE_BACK&&mWv.canGoBack()){
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWv.canGoBack()) {
             mWv.goBack();
             return true;
         }

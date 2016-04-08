@@ -1,11 +1,14 @@
 package org.myworld.qfhc.myworld.fragment;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.VolleyError;
 
@@ -39,6 +42,9 @@ public class SearchDetailTwoRecommendFragmennt extends BaseFragment implements V
     private String url;
     private GridLayoutManager gridLayoutManager;
 
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
+
     public static SearchDetailTwoRecommendFragmennt newInstance(int id) {
 
         Bundle args = new Bundle();
@@ -55,6 +61,13 @@ public class SearchDetailTwoRecommendFragmennt extends BaseFragment implements V
 
     @Override
     protected void init(View view) {
+
+        ivRefresh= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable)ivRefresh.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
 
         datas = new ArrayList<>();
         Bundle bundle = getArguments();

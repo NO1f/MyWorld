@@ -1,6 +1,7 @@
 package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -9,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -22,6 +25,7 @@ import org.myworld.qfhc.myworld.fragment.SearchDetailTwoRecommendFragmennt;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
 import org.myworld.qfhc.myworld.util.L;
+import org.myworld.qfhc.myworld.util.UseUtil;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 /**
@@ -39,6 +43,11 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
     private String[] titles;
     private ViewPagerAdapter adapter;
     private SearchDeatilTwoChoseEntity.DataEntity searchDetailChoseByJson;
+    private String desc;
+
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo, ll;
+    private String url;
 
     @Override
     protected int getContentResid() {
@@ -48,6 +57,15 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
     @Override
     protected void init() {
 
+        llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+
+        ivRefresh = (ImageView) findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefresh.getBackground();
+        bg.start();
+
+        ll = (LinearLayout) findViewById(R.id.ll);
+
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_ID);
         id = Integer.valueOf(mid);
@@ -56,26 +74,33 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
         tvTitle = (TextView) findViewById(R.id.tv_search_detail_two_det_title);
         tvDesc = (TextView) findViewById(R.id.tv_search_detail_two_det_desc);
         mTl = (TabLayout) findViewById(R.id.tl_tab_detail);
-        titles = new String[]{"精选","推荐"};
+        titles = new String[]{"精选", "推荐"};
 
 
-        mVp= (ViewPager) findViewById(R.id.vp_search_tab);
+        mVp = (ViewPager) findViewById(R.id.vp_search_tab);
+
+        ll.setVisibility(View.INVISIBLE);
+        mTl.setVisibility(View.INVISIBLE);
+        mTl.setVisibility(View.INVISIBLE);
 
     }
 
     @Override
     protected void initData() {
-        String url = String.format(Constant.URL.SEARCH_DETAIL_TWO_DETAIL, id);
-        VolleyUtil.requestString(url,this);
+        url = String.format(Constant.URL.SEARCH_DETAIL_TWO_DETAIL, id);
+        VolleyUtil.requestString(url, this);
 
     }
 
     @Override
     public void onResponse(String url, String response) {
-
-        if (response!=null){
+        ll.setVisibility(View.VISIBLE);
+        mTl.setVisibility(View.VISIBLE);
+        mTl.setVisibility(View.VISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        if (response != null) {
             searchDetailChoseByJson = JSONUtil.getSearchDetailChoseByJson(response);
-            String desc = searchDetailChoseByJson.getDesc();
+            desc = searchDetailChoseByJson.getDesc();
             String title = searchDetailChoseByJson.getTitle();
             String pic = searchDetailChoseByJson.getPic();
 
@@ -94,11 +119,25 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
     }
 
     @Override
-    public void onErrorResponse(String url, VolleyError error) {
-
+    public void onErrorResponse(String url1, VolleyError error) {
+        ll.setVisibility(View.INVISIBLE);
+        mTl.setVisibility(View.INVISIBLE);
+        mTl.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                url = String.format(Constant.URL.SEARCH_DETAIL_TWO_DETAIL, id);
+                VolleyUtil.requestString(url, SearchDetailTwoDetActivity.this);
+            }
+        });
     }
 
-    private class ViewPagerAdapter extends FragmentStatePagerAdapter{
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
         public ViewPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -111,11 +150,11 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
 
         @Override
         public Fragment getItem(int position) {
-            switch (position){
+            switch (position) {
                 case 0:
-                    Bundle bundle=new Bundle();
-                    bundle.putSerializable(Constant.KEYS.BUNDLE,searchDetailChoseByJson);
-                    L.e(searchDetailChoseByJson+"____________________________________________-");
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constant.KEYS.BUNDLE, searchDetailChoseByJson);
+                    L.e(searchDetailChoseByJson + "____________________________________________-");
                     return SearchDeatilTwoChoseFragment.newInstance(bundle);
                 case 1:
                     return SearchDetailTwoRecommendFragmennt.newInstance(id);
@@ -133,10 +172,12 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
     public void onTabSelected(TabLayout.Tab tab) {
         mVp.setCurrentItem(tab.getPosition());
     }
+
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
 
     }
+
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
@@ -150,7 +191,10 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
                 break;
 
             case R.id.iv_third_detail_two_share:
-                String share_url = searchDetailChoseByJson.getShare_url();
+                if (searchDetailChoseByJson != null) {
+                    String share_url = searchDetailChoseByJson.getShare_url();
+                    UseUtil.simpleShowShare(this, share_url, desc, share_url);
+                }
                 break;
         }
     }

@@ -29,6 +29,7 @@ import org.myworld.qfhc.myworld.fragment.IndexFragment;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
 import org.myworld.qfhc.myworld.util.L;
+import org.myworld.qfhc.myworld.util.UseUtil;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 import java.util.ArrayList;
@@ -51,6 +52,9 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
     private ImageView ivRefresh;
     private LinearLayout llWangluo;
     private String formatUrl;
+    private String desc;
+    private String urlTaobao;
+    private String share_url;
 
     @Override
     protected int getContentResid() {
@@ -60,13 +64,13 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
     @Override
     protected void init() {
 
-        ivRefresh= (ImageView)findViewById(R.id.iv_third_bottom_refresh);
+        ivRefresh = (ImageView) findViewById(R.id.iv_third_bottom_refresh);
         AnimationDrawable background = (AnimationDrawable) ivRefresh.getBackground();
         background.start();
         llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
         llWangluo.setVisibility(View.INVISIBLE);
 
-        scrollView= (ScrollView) findViewById(R.id.sv);
+        scrollView = (ScrollView) findViewById(R.id.sv);
         scrollView.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
@@ -97,7 +101,9 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
             searchDetailOneDetByJson = JSONUtil.getSearchDetailOneDetByJson(response);
             String title = searchDetailOneDetByJson.getTitle();
             String price = searchDetailOneDetByJson.getPrice();
-            String desc = searchDetailOneDetByJson.getDesc();
+            desc = searchDetailOneDetByJson.getDesc();
+            urlTaobao = searchDetailOneDetByJson.getUrl();
+            share_url = searchDetailOneDetByJson.getShare_url();
 
             tvTitle.setText(title);
             tvPrice.setText("￥" + price);
@@ -177,15 +183,16 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
 
 
     public void wupinxiangqing(View v) {
-        String urlTaobao = searchDetailOneDetByJson.getUrl();
-        String share_url = searchDetailOneDetByJson.getShare_url();
-        L.e(urlTaobao+"___________________________________________");
+
+        L.e(urlTaobao + "___________________________________________");
         switch (v.getId()) {
             case R.id.tv_search_detail_one_back:
                 finish();
                 break;
             case R.id.tv_search_detail_one_det_share:
-                Toast.makeText(SearchDetailOneDetActivity.this, "此处要分享", Toast.LENGTH_SHORT).show();
+                if (share_url != null&desc!=null) {
+                    UseUtil.simpleShowShare(this, share_url, desc, share_url);
+                }
                 break;
             case R.id.tv_search_detail_one_det_coll:
                 Toast.makeText(SearchDetailOneDetActivity.this, "此处要收藏", Toast.LENGTH_SHORT).show();

@@ -71,6 +71,7 @@
             android:layout_height="80dp"
             android:layout_margin="4dp"
             android:background="@drawable/wait"
+            android:layout_centerInParent="true"
             android:scaleType="fitXY" />
 
         <LinearLayout

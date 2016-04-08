@@ -1,10 +1,13 @@
 package org.myworld.qfhc.myworld.fragment;
 
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.adapter.SearchChoseAdapter;
@@ -24,6 +27,9 @@ public class SearchDeatilTwoChoseFragment extends BaseFragment {
 
     private RecyclerView recyclerView;
 
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
+
     public static SearchDeatilTwoChoseFragment newInstance(Bundle bundle) {
         SearchDeatilTwoChoseFragment fragment = new SearchDeatilTwoChoseFragment();
         fragment.setArguments(bundle);
@@ -37,6 +43,13 @@ public class SearchDeatilTwoChoseFragment extends BaseFragment {
 
     @Override
     protected void init(View view) {
+
+        ivRefresh= (ImageView)view.findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable)ivRefresh.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) view.findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
 
         recyclerView= (RecyclerView) view.findViewById(R.id.rv_search);
 

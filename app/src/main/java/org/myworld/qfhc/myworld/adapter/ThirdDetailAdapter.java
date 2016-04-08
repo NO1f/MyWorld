@@ -20,6 +20,7 @@ import org.myworld.qfhc.myworld.base.AbsBaseAdapter;
 import org.myworld.qfhc.myworld.entity.ThirdDetailEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.L;
+import org.myworld.qfhc.myworld.util.UseUtil;
 
 import java.util.List;
 
@@ -51,7 +52,7 @@ public class ThirdDetailAdapter extends AbsBaseAdapter<ThirdDetailEntity.DataEnt
                     .onBindTextView(R.id.tv_third_top_detail_content, data.getContent())
                     .onBindTextView(R.id.tv_third_detail_collect, data.getDynamic().getLikes())
                     .onBindTextView(R.id.tv_third_detail_title, data.getProduct().get(0).getTitle())
-                    .onBindTextView(R.id.tv_third_detail_price, "￥"+data.getProduct().get(0).getPrice());
+                    .onBindTextView(R.id.tv_third_detail_price, "￥" + data.getProduct().get(0).getPrice());
 
             SimpleDraweeView sdvTop = (SimpleDraweeView) holder.getView(R.id.sdv_third_top_detail);
             sdvTop.setImageURI(Uri.parse(data.getPics().get(0).getUrl()));
@@ -69,11 +70,13 @@ public class ThirdDetailAdapter extends AbsBaseAdapter<ThirdDetailEntity.DataEnt
                 }
             });
 
-            ImageView shareImg= (ImageView) holder.getView(R.id.iv_third_detail_share);
+            ImageView shareImg = (ImageView) holder.getView(R.id.iv_third_detail_share);
             shareImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "我要分享", Toast.LENGTH_SHORT).show();
+                    if (data != null) {
+                        UseUtil.simpleShowShare(context, data.getProduct().get(0).getUrl(), data.getProduct().get(0).getTitle(), data.getProduct().get(0).getUrl());
+                    }
                 }
             });
 

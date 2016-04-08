@@ -2,11 +2,14 @@ package org.myworld.qfhc.myworld.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import org.myworld.qfhc.myworld.base.BaseActivity;
 import org.myworld.qfhc.myworld.entity.SearchTieZiDetailEntity;
 import org.myworld.qfhc.myworld.util.Constant;
 import org.myworld.qfhc.myworld.util.JSONUtil;
+import org.myworld.qfhc.myworld.util.UseUtil;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
 
 import java.util.List;
@@ -35,6 +39,12 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
     private SimpleDraweeView sdv, sdvTaobao;
     private String url_taobao;
 
+    private ImageView ivRefresh;
+    private LinearLayout llWangluo;
+    private ScrollView scrollView;
+    private String url;
+    private String title;
+
     @Override
     protected int getContentResid() {
         return R.layout.search_tiezi_detail;
@@ -42,6 +52,15 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
 
     @Override
     protected void init() {
+
+        scrollView = (ScrollView) findViewById(R.id.sv);
+        scrollView.setVisibility(View.INVISIBLE);
+
+        ivRefresh= (ImageView)findViewById(R.id.iv_third_bottom_refresh);
+        AnimationDrawable bg = (AnimationDrawable) ivRefresh.getBackground();
+        bg.start();
+        llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
+        llWangluo.setVisibility(View.INVISIBLE);
 
         Intent intent = getIntent();
         String mid = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_ID);
@@ -62,13 +81,15 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
     @Override
     protected void initData() {
 
-        String url = String.format(Constant.URL.SEARCH_TIEZI_DETAIL, id);
+        url = String.format(Constant.URL.SEARCH_TIEZI_DETAIL, id);
         VolleyUtil.requestString(url, this);
 
     }
 
     @Override
     public void onResponse(String url, String response) {
+        ivRefresh.setVisibility(View.INVISIBLE);
+        scrollView.setVisibility(View.VISIBLE);
         if (response != null) {
             SearchTieZiDetailEntity.DataEntity.PostEntity searchTieziDetailByJson = JSONUtil.getSearchTieziDetailByJson(response);
             String datestr = searchTieziDetailByJson.getDatestr();
@@ -76,7 +97,7 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
             String likes = searchTieziDetailByJson.getDynamic().getLikes();
             String content = searchTieziDetailByJson.getContent();
             String price = searchTieziDetailByJson.getProduct().get(0).getPrice();
-            String title = searchTieziDetailByJson.getProduct().get(0).getTitle();
+            title = searchTieziDetailByJson.getProduct().get(0).getTitle();
             String pic = searchTieziDetailByJson.getProduct().get(0).getPic();
             url_taobao = searchTieziDetailByJson.getProduct().get(0).getUrl();
             List<SearchTieZiDetailEntity.DataEntity.PostEntity.TagsEntity> tags = searchTieziDetailByJson.getTags();
@@ -107,8 +128,20 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
     }
 
     @Override
-    public void onErrorResponse(String url, VolleyError error) {
+    public void onErrorResponse(String url1, VolleyError error) {
+        scrollView.setVisibility(View.INVISIBLE);
+        ivRefresh.setVisibility(View.INVISIBLE);
+        llWangluo.setVisibility(View.VISIBLE);
+        llWangluo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                llWangluo.setVisibility(View.INVISIBLE);
+                ivRefresh.setVisibility(View.VISIBLE);
+                url = String.format(Constant.URL.SEARCH_TIEZI_DETAIL, id);
+                VolleyUtil.requestString(url, SearchTieZiDetailActivity.this);
 
+            }
+        });
     }
 
     public void haowu(View view) {
@@ -120,7 +153,8 @@ public class SearchTieZiDetailActivity extends BaseActivity implements VolleyUti
                 break;
 
             case R.id.iv_third_detail_share:
-                Toast.makeText(SearchTieZiDetailActivity.this, "此处分享", Toast.LENGTH_SHORT).show();
+                if (url_taobao!=null&&title!=null){
+                UseUtil.simpleShowShare(this, url_taobao, title, url_taobao);}
                 break;
             case R.id.rl_third:
                 Intent intent=new Intent(this,IndexHeadActivity.class);
