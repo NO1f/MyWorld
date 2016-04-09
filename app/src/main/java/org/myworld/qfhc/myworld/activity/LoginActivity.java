@@ -56,10 +56,6 @@ public class LoginActivity extends BaseActivity {
                         if (str!=null){
                             ShareUtil.putString(Constant.KEYS.USER,name);
                             ShareUtil.putString(Constant.KEYS.URL,profile_image_url);
-                            Intent intent=new Intent();
-                            intent.putExtra("img_url",profile_image_url);
-                            intent.putExtra("name",name);
-                            setResult(RESULT_OK,intent);
                             finish();
                         }
 
@@ -103,10 +99,6 @@ public class LoginActivity extends BaseActivity {
                         if (str!=null){
                             ShareUtil.putString(Constant.KEYS.USER,name);
                             ShareUtil.putString(Constant.KEYS.URL,profile_image_url);
-                            Intent intent=new Intent();
-                            intent.putExtra("img_url",profile_image_url);
-                            intent.putExtra("name",name);
-                            setResult(RESULT_OK,intent);
                             finish();
                         }
 

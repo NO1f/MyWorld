@@ -5,10 +5,12 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ClearCacheRequest;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.StringRequest;
@@ -123,5 +125,19 @@ public class VolleyUtil {
     public interface OnRequestListener{
         void onResponse(String url, String response);
         void onErrorResponse(String url, VolleyError error);
+    }
+
+    /**
+     * 清理缓存
+     *
+     * @param context
+     */
+    public static void CleanCache(final Context context) {
+        requestQueue.add(new ClearCacheRequest(requestQueue.getCache(), new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, "缓存已清理", Toast.LENGTH_SHORT).show();
+            }
+        }));
     }
 }

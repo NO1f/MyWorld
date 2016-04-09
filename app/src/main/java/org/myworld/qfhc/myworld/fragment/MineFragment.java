@@ -26,6 +26,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.myworld.qfhc.myworld.BuildConfig;
 import org.myworld.qfhc.myworld.R;
+import org.myworld.qfhc.myworld.activity.DingDanActivity;
 import org.myworld.qfhc.myworld.activity.LoginActivity;
 import org.myworld.qfhc.myworld.activity.MainActivity;
 import org.myworld.qfhc.myworld.activity.MineCollectActivity;
@@ -53,7 +54,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
-    private static final int REQUST_CODE = 4;
 
     private PullToZoomListView ptv;
     private View headView;
@@ -81,22 +81,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     protected void init(View view) {
+        super.init(view);
         ptv = (PullToZoomListView) view.findViewById(R.id.ptz);
         headView = ptv.getView();
         sdv = (SimpleDraweeView) this.headView.findViewById(R.id.sdv_user);
         tvUser = (TextView) this.headView.findViewById(R.id.tv_user);
         tvCancleLogin = (TextView) headView.findViewById(R.id.tv_canclelogin);
         tvCancleLogin.setOnClickListener(this);
-
-
-        String name = ShareUtil.getString(Constant.KEYS.USER);
-        String img_url = ShareUtil.getString(Constant.KEYS.URL);
-        if (name != null && img_url != null) {
-            sdv.setImageURI(Uri.parse(img_url));
-            tvUser.setText(name);
-        }
-
-        initLogin();
 
         contentView = LayoutInflater.from(getActivity()).inflate(R.layout.picpopu, null);
         tvXaingCe = (TextView) contentView.findViewById(R.id.tv_xiangce);
@@ -105,6 +96,25 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         tvXaingJi.setOnClickListener(this);
         tvCancle = (TextView) contentView.findViewById(R.id.tv_cancle);
         tvCancle.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        String name = ShareUtil.getString(Constant.KEYS.USER);
+        String img_url = ShareUtil.getString(Constant.KEYS.URL);
+
+        if (name != null && img_url != null) {
+            sdv.setImageURI(Uri.parse(img_url));
+            tvUser.setText(name);
+            tvCancleLogin.setVisibility(View.VISIBLE);
+        }else {
+            tvCancleLogin.setVisibility(View.INVISIBLE);
+        }
+
+        initLogin();
 
         PullToZoomAdapter adapter = new PullToZoomAdapter(getActivity());
         ImageView headerView = ptv.getHeaderView();
@@ -119,7 +129,6 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
         headerView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         ptv.setOnItemClickListener(this);
         ptv.setAdapter(adapter);
-
     }
 
     private void initLogin() {
@@ -133,7 +142,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 if (null == (user_name)) {
 
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
-                    startActivityForResult(intent, REQUST_CODE);
+                    startActivity(intent);
                 } else {
 
                     if (mWindow != null && mWindow.isShowing()) {
@@ -169,37 +178,34 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PHOTO_REQUEST_GALLERY) {
-            if (data != null) {
-              //  sdv.setImageURI(data.getData());
-                ErCiCaiYangUtil.CustomErCiCaiYang(150,data.getData().toString(),sdv);
-            }
-        } else if (requestCode == PHOTO_REQUEST_CAREMA) {
-            // 从相机返回的数据
-            if (hasSdcard()) {
-                crop(Uri.fromFile(tempFile));
-            } else {
-                Toast.makeText(getActivity(), "未找到存储卡，无法存储照片！", Toast.LENGTH_SHORT).show();
-            }
+        if (data != null) {
+            if (requestCode == PHOTO_REQUEST_GALLERY) {
+                if (data != null) {
+                    //  sdv.setImageURI(data.getData());
+                    ErCiCaiYangUtil.CustomErCiCaiYang(150, data.getData().toString(), sdv);
+                }
+            } else if (requestCode == PHOTO_REQUEST_CAREMA) {
+                // 从相机返回的数据
+                if (hasSdcard()) {
+                    crop(Uri.fromFile(tempFile));
+                } else {
+                    Toast.makeText(getActivity(), "未找到存储卡，无法存储照片！", Toast.LENGTH_SHORT).show();
+                }
 
-        } else if (requestCode == PHOTO_REQUEST_CUT) {
-            // 从剪切图片返回的数据
-            if (data != null) {
-                Bitmap bitmap = data.getParcelableExtra("data");
-                this.sdv.setImageBitmap(bitmap);
-            }
-            try {
-                // 将临时文件删除
-                tempFile.delete();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            } else if (requestCode == PHOTO_REQUEST_CUT) {
+                // 从剪切图片返回的数据
+                if (data != null) {
+                    Bitmap bitmap = data.getParcelableExtra("data");
+                    this.sdv.setImageBitmap(bitmap);
+                }
+                try {
+                    // 将临时文件删除
+                    tempFile.delete();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-        } else if (requestCode == REQUST_CODE) {
-            String name = data.getStringExtra("name");
-            String img_url = data.getStringExtra("img_url");
-            sdv.setImageURI(Uri.parse(img_url));
-            tvUser.setText(name);
+            }
         }
     }
 
@@ -234,13 +240,15 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 if (mWindow != null) {
                     mWindow.dismiss();
                 }
-
                 break;
 
             case R.id.tv_canclelogin:
 
-                Intent intent2=new Intent(getActivity(),LoginActivity.class);
-                startActivity(intent2);
+                ShareUtil.clear();
+                sdv.setImageResource(R.drawable.dialog_head_bg);
+                tvUser.setText("用户");
+                tvCancleLogin.setVisibility(View.INVISIBLE);
+
                 break;
         }
     }
@@ -281,20 +289,24 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        switch (position){
+        switch (position) {
             case 1:
-                Intent intent1=new Intent(getActivity(),MineLikesActivity.class);
+                Intent intent1 = new Intent(getActivity(), MineLikesActivity.class);
                 startActivity(intent1);
                 break;
 
             case 2:
-                Intent intent2=new Intent(getActivity(),MineCollectActivity.class);
+                Intent intent2 = new Intent(getActivity(), MineCollectActivity.class);
                 startActivity(intent2);
                 break;
 
+            case 3:
+                VolleyUtil.CleanCache(getActivity());
+                break;
+
             case 4:
-                Intent intent4=new Intent(getActivity(),MineCollectActivity.class);
-                startActivity(intent4);
+                Intent intent=new Intent(getActivity(),DingDanActivity.class);
+                startActivity(intent);
                 break;
 
             case 5:
@@ -302,7 +314,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
 
             case 6:
-                Intent intent6=new Intent(getActivity(),MineCollectActivity.class);
+                Intent intent6 = new Intent(getActivity(), MineCollectActivity.class);
                 startActivity(intent6);
                 break;
         }

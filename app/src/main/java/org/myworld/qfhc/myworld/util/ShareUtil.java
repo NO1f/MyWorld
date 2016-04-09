@@ -39,4 +39,11 @@ public class ShareUtil {
     public static int getInt(String key, int defalutvalue){
         return sharedPreferences.getInt(key, defalutvalue);
     }
+
+    public static void clear(){
+        editor.clear();
+        editor.commit();
+    }
+
+
 }

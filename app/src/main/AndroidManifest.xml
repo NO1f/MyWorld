@@ -52,7 +52,8 @@
         <activity android:name=".activity.SearchTieZiDetailActivity" />
         <activity android:name=".activity.MineCollectActivity"/>
         <activity android:name=".activity.MineLikesActivity"/>
-        <activity android:name=".activity.LoginActivity"/>
+        <activity android:name=".activity.LoginActivity"/>'
+        <activity android:name=".activity.DingDanActivity"/>
 
 
 
@@ -62,7 +63,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
-
             <intent-filter>
                 <data android:scheme="tencent100371282" />
                 <action android:name="android.intent.action.VIEW" />
