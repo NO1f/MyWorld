@@ -112,7 +112,7 @@
             android:text="收藏"
             android:textSize="14sp"
             android:drawablePadding="8dp"
-            android:drawableLeft="@drawable/icon_collect_normal"/>
+            android:drawableLeft="@drawable/ic_community_like"/>
 
         <TextView
             android:id="@+id/tv_search_detail_one_det_share"

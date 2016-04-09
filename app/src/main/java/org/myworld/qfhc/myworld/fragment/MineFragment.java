@@ -16,6 +16,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ import org.myworld.qfhc.myworld.BuildConfig;
 import org.myworld.qfhc.myworld.R;
 import org.myworld.qfhc.myworld.activity.LoginActivity;
 import org.myworld.qfhc.myworld.activity.MainActivity;
+import org.myworld.qfhc.myworld.activity.MineCollectActivity;
+import org.myworld.qfhc.myworld.activity.MineLikesActivity;
 import org.myworld.qfhc.myworld.adapter.PullToZoomAdapter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
 import org.myworld.qfhc.myworld.custom.PullToZoomListView;
@@ -44,7 +47,7 @@ import java.util.List;
  * @创建时间：2016/3/28 15:19
  * @备注：
  */
-public class MineFragment extends BaseFragment implements View.OnClickListener {
+public class MineFragment extends BaseFragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
     private static final int PHOTO_REQUEST_CAREMA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
@@ -59,7 +62,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
     private File tempFile;
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg";
     private SimpleDraweeView sdv;
-    private ImageView ivChange;
+    private TextView tvCancleLogin;
 
     public static MineFragment newInstance() {
 
@@ -81,8 +84,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         headView = ptv.getView();
         sdv = (SimpleDraweeView) this.headView.findViewById(R.id.sdv_user);
         tvUser = (TextView) this.headView.findViewById(R.id.tv_user);
-        ivChange = (ImageView) headView.findViewById(R.id.iv_change);
-        ivChange.setOnClickListener(this);
+        tvCancleLogin = (TextView) headView.findViewById(R.id.tv_canclelogin);
+        tvCancleLogin.setOnClickListener(this);
 
 
         String name = ShareUtil.getString(Constant.KEYS.USER);
@@ -113,6 +116,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         }
         adapter.setDatas(titles);
         headerView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        ptv.setOnItemClickListener(this);
         ptv.setAdapter(adapter);
 
     }
@@ -231,7 +235,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.iv_change:
+            case R.id.tv_canclelogin:
 
                 Intent intent2=new Intent(getActivity(),LoginActivity.class);
                 startActivity(intent2);
@@ -271,5 +275,34 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         intent.putExtra("return-data", true);
         // 开启一个带有返回值的Activity，请求码为PHOTO_REQUEST_CUT
         startActivityForResult(intent, PHOTO_REQUEST_CUT);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        switch (position){
+            case 1:
+                Intent intent1=new Intent(getActivity(),MineLikesActivity.class);
+                startActivity(intent1);
+                break;
+
+            case 2:
+                Intent intent2=new Intent(getActivity(),MineCollectActivity.class);
+                startActivity(intent2);
+                break;
+
+            case 4:
+                Intent intent4=new Intent(getActivity(),MineCollectActivity.class);
+                startActivity(intent4);
+                break;
+
+            case 5:
+                Toast.makeText(getActivity(), "当前已是最新版本", Toast.LENGTH_SHORT).show();
+                break;
+
+            case 6:
+                Intent intent6=new Intent(getActivity(),MineCollectActivity.class);
+                startActivity(intent6);
+                break;
+        }
     }
 }

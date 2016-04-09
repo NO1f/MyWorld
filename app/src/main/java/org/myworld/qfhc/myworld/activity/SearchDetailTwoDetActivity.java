@@ -1,6 +1,9 @@
 package org.myworld.qfhc.myworld.activity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,10 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -23,6 +28,7 @@ import org.myworld.qfhc.myworld.entity.SearchDeatilTwoChoseEntity;
 import org.myworld.qfhc.myworld.fragment.SearchDeatilTwoChoseFragment;
 import org.myworld.qfhc.myworld.fragment.SearchDetailTwoRecommendFragmennt;
 import org.myworld.qfhc.myworld.util.Constant;
+import org.myworld.qfhc.myworld.util.DbUtil;
 import org.myworld.qfhc.myworld.util.JSONUtil;
 import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.UseUtil;
@@ -45,9 +51,16 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
     private SearchDeatilTwoChoseEntity.DataEntity searchDetailChoseByJson;
     private String desc;
 
-    private ImageView ivRefresh;
+    private ImageView ivRefresh, ivCollect;
     private LinearLayout llWangluo, ll;
     private String url;
+    private SQLiteDatabase db;
+    private DbUtil dao;
+    private boolean isCollected = false;
+    private String mid;
+    private String pic;
+    private String title;
+    private String likes;
 
     @Override
     protected int getContentResid() {
@@ -56,6 +69,8 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
 
     @Override
     protected void init() {
+
+        ivCollect = (ImageView) findViewById(R.id.iv_collect);
 
         llWangluo = (LinearLayout) findViewById(R.id.ll_wangluo);
         llWangluo.setVisibility(View.INVISIBLE);
@@ -67,8 +82,31 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
         ll = (LinearLayout) findViewById(R.id.ll);
 
         Intent intent = getIntent();
-        String mid = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_ID);
+        mid = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_ID);
+        pic = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_PIC);
+        title = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_TITLE);
+        likes = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_LIKES);
         id = Integer.valueOf(mid);
+        url = String.format(Constant.URL.SEARCH_DETAIL_TWO_DETAIL, id);
+
+
+        dao = new DbUtil(this);
+        db = dao.getDatabase();
+        // 查询数据库.展示收藏结果.
+        String sql = "select * from collect where msgId=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{mid});
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String isCollect = cursor.getString(cursor.getColumnIndex("isCollect"));
+                //Log.i("TAG", "isCollect=" + isCollect);
+                if ("true".equals(isCollect)) {
+                    ivCollect.setImageResource(R.drawable.ic_title_favorited);
+                } else {
+                    ivCollect.setImageResource(R.drawable.ic_title_favorite_white);
+                }
+            }
+        }
+
 
         simpleDraweeView = (SimpleDraweeView) findViewById(R.id.sdv_search_detail_head);
         tvTitle = (TextView) findViewById(R.id.tv_search_detail_two_det_title);
@@ -87,7 +125,7 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
 
     @Override
     protected void initData() {
-        url = String.format(Constant.URL.SEARCH_DETAIL_TWO_DETAIL, id);
+
         VolleyUtil.requestString(url, this);
 
     }
@@ -196,8 +234,42 @@ public class SearchDetailTwoDetActivity extends BaseActivity implements VolleyUt
                     UseUtil.simpleShowShare(this, share_url, desc, share_url);
                 }
                 break;
+            case R.id.iv_collect:
+                isCollected = !isCollected;
+                if (isCollected) {// 收藏
+                    ivCollect.setImageResource(R.drawable.ic_title_favorited);
+
+                    // 数据库实现收藏
+                    ContentValues values = new ContentValues();
+                    values.put("pic", pic);
+                    values.put("msgId", mid);
+                    values.put("title", title);
+                    values.put("likes", likes);
+                    values.put("isCollect", "true");
+                    long insert = db.insert("collect", null, values);
+                    if (insert > 0) {
+                        Toast.makeText(SearchDetailTwoDetActivity.this, "收藏成功",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {// 移除收藏
+                    ivCollect.setImageResource(R.drawable.ic_title_favorite_white);
+
+                    int delete = db.delete("collect", "msgId=?",
+                            new String[]{mid});
+                    if (delete > 0) {
+                        Toast.makeText(SearchDetailTwoDetActivity.this, "取消收藏",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                break;
         }
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dao.closeDb();
+    }
 }

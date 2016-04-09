@@ -218,8 +218,15 @@ public class SearchDetailTwoFragment extends BaseFragment implements VolleyUtil.
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String mid = datas.get(position).getId();
+        String pic = datas.get(position).getPic();
+        String title = datas.get(position).getTitle();
+        String likes = datas.get(position).getLikes();
+
         Intent intent=new Intent(getActivity(),SearchDetailTwoDetActivity.class);
         intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_ID,mid);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_PIC,pic);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_TITLE,title);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_LIKES,likes);
         startActivity(intent);
     }
 }

@@ -22,6 +22,7 @@ public class PullToZoomAdapter extends AbsBaseAdapter<String>{
 
     public PullToZoomAdapter(Context context) {
         super(context, R.layout.mine_item);
+        this.context=context;
     }
 
     @Override
@@ -29,18 +30,13 @@ public class PullToZoomAdapter extends AbsBaseAdapter<String>{
         holder.onBindTextView(R.id.tv_title,data);
         switch (position){
             case 0:
-
                 iv = (ImageView) holder.getView(R.id.mine_icon);
                 iv.setImageResource(R.drawable.ic_feed_favourite_normal);
-                /*Intent intent1=new Intent(context,MineLikesActivity.class);
-                context.startActivity(intent1);*/
                 break;
 
             case 1:
                 iv = (ImageView) holder.getView(R.id.mine_icon);
                 iv.setImageResource(R.drawable.ic_setting_score);
-               /* Intent intent=new Intent(context,MineCollectActivity.class);
-                context.startActivity(intent);*/
                 break;
 
 

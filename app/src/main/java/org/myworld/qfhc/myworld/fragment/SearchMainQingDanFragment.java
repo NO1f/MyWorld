@@ -193,13 +193,21 @@ public class SearchMainQingDanFragment extends BaseFragment implements SwipeRefr
         datas.clear();
         murl = String.format(Constant.URL.SEARCH_QINGDAN, keyword, currentPage);
         VolleyUtil.requestString(murl, this);
+
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String mid = datas.get(position).getId();
+        String pic = datas.get(position).getPic();
+        String title = datas.get(position).getTitle();
+        String likes = datas.get(position).getLikes();
+
         Intent intent = new Intent(getActivity(), SearchDetailTwoDetActivity.class);
         intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_ID, mid);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_PIC,pic);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_TITLE,title);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_LIKES,likes);
         startActivity(intent);
     }
 }

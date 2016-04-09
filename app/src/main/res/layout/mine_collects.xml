@@ -22,15 +22,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="我的喜欢"
+            android:text="我的收藏"
             android:textSize="18sp" />
     </RelativeLayout>
 
-
-    <GridView
-        android:id="@+id/gv_mine"
+    <ListView
+        android:id="@+id/lv_mine"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:numColumns="2"/>
+        android:layout_height="match_parent"/>
 
 </LinearLayout>
