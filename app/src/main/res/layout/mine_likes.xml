@@ -26,11 +26,28 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
 
     <GridView
         android:id="@+id/gv_mine"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:layout_margin="10dp"
         android:numColumns="2"/>
+
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="您的喜欢为空，去添加更多喜欢吧(:"
+        android:layout_centerInParent="true"
+        android:textSize="18sp"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

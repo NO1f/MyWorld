@@ -1,7 +1,10 @@
 package org.myworld.qfhc.myworld.activity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.support.v4.view.ScrollingView;
@@ -27,6 +30,7 @@ import org.myworld.qfhc.myworld.entity.IndexHeadEntity;
 import org.myworld.qfhc.myworld.entity.SearchDetailOneDetEntity;
 import org.myworld.qfhc.myworld.fragment.IndexFragment;
 import org.myworld.qfhc.myworld.util.Constant;
+import org.myworld.qfhc.myworld.util.DbUtil;
 import org.myworld.qfhc.myworld.util.JSONUtil;
 import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.UseUtil;
@@ -55,6 +59,14 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
     private String desc;
     private String urlTaobao;
     private String share_url;
+    private String picture;
+    private String mid;
+    private SQLiteDatabase db;
+    private ImageView ivLike;
+    private TextView tvLike;
+    private boolean isLiked = false;
+    private String title;
+    private String price;
 
     @Override
     protected int getContentResid() {
@@ -73,9 +85,33 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
         scrollView = (ScrollView) findViewById(R.id.sv);
         scrollView.setVisibility(View.INVISIBLE);
 
+        ivLike = (ImageView) findViewById(R.id.iv_like);
+        tvLike = (TextView) findViewById(R.id.tv_search_detail_one_det_coll);
+
         Intent intent = getIntent();
-        String mid = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID);
+        mid = intent.getStringExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID);
+        picture = intent.getStringExtra(Constant.KEYS.SEARCH_TWO_DET_PIC);
         id = Integer.valueOf(mid);
+
+
+        DbUtil dao = new DbUtil(this);
+        db = dao.getDatabase();
+        // 查询数据库.展示收藏结果.
+        String sql = "select * from liked where msgId=?";
+        Cursor cursor = db.rawQuery(sql, new String[]{mid});
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                String isLike = cursor.getString(cursor.getColumnIndex("isLike"));
+                //Log.i("TAG", "isCollect=" + isCollect);
+                if ("true".equals(isLike)) {
+                    ivLike.setImageResource(R.drawable.ic_community_liked);
+                    tvLike.setText("已喜欢");
+                } else {
+                    ivLike.setImageResource(R.drawable.ic_community_like);
+                    tvLike.setText("喜欢");
+                }
+            }
+        }
 
         tvTitle = (TextView) findViewById(R.id.tv_search_detail_one_det_title);
         tvPrice = (TextView) findViewById(R.id.tv_search_detail_one_det_price);
@@ -87,7 +123,6 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
 
     @Override
     protected void initData() {
-
         formatUrl = String.format(Constant.URL.SEARCH_DETAIL_ONE_DET, id);
         VolleyUtil.requestString(formatUrl, this);
     }
@@ -99,8 +134,8 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
 
         if (response != null) {
             searchDetailOneDetByJson = JSONUtil.getSearchDetailOneDetByJson(response);
-            String title = searchDetailOneDetByJson.getTitle();
-            String price = searchDetailOneDetByJson.getPrice();
+            title = searchDetailOneDetByJson.getTitle();
+            price = searchDetailOneDetByJson.getPrice();
             desc = searchDetailOneDetByJson.getDesc();
             urlTaobao = searchDetailOneDetByJson.getUrl();
             share_url = searchDetailOneDetByJson.getShare_url();
@@ -111,6 +146,7 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
 
             List<SearchDetailOneDetEntity.DataEntity.ProductEntity.PicEntity> pic = searchDetailOneDetByJson.getPic();
             bindConvenientBanner(pic);
+
         }
     }
 
@@ -190,12 +226,44 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
                 finish();
                 break;
             case R.id.tv_search_detail_one_det_share:
-                if (share_url != null&desc!=null) {
+                if (share_url != null & desc != null) {
                     UseUtil.simpleShowShare(this, share_url, desc, share_url);
                 }
                 break;
-            case R.id.tv_search_detail_one_det_coll:
-                Toast.makeText(SearchDetailOneDetActivity.this, "此处要收藏", Toast.LENGTH_SHORT).show();
+            case R.id.iv_like:
+
+                isLiked = !isLiked;
+                if (isLiked) {// 收藏
+                    ivLike.setImageResource(R.drawable.ic_community_liked);
+                    tvLike.setText("已喜欢");
+
+                    if (title != null&&price!=null&&picture!=null&&mid!=null) {
+                        // 数据库实现收藏
+                        ContentValues values = new ContentValues();
+                        values.put("title", title);
+                        values.put("price", price);
+                        values.put("picture", picture);
+                        values.put("msgId", mid);
+                        values.put("isLike", "true");
+                        long insert = db.insert("liked", null, values);
+                        if (insert > 0) {
+                            Toast.makeText(SearchDetailOneDetActivity.this, "收藏成功",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    } else {// 移除收藏
+                        ivLike.setImageResource(R.drawable.ic_community_like);
+                        tvLike.setText("喜欢");
+
+                        int delete = db.delete("liked", "msgId=?",
+                                new String[]{mid});
+                        if (delete > 0) {
+                            Toast.makeText(SearchDetailOneDetActivity.this, "取消收藏",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+
                 break;
             case R.id.iv_search_detail_one_det_buy:
                 Intent intent = new Intent(SearchDetailOneDetActivity.this, IndexHeadActivity.class);
@@ -203,5 +271,11 @@ public class SearchDetailOneDetActivity extends BaseActivity implements VolleyUt
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
     }
 }

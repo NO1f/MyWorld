@@ -34,6 +34,7 @@ import org.myworld.qfhc.myworld.adapter.PullToZoomAdapter;
 import org.myworld.qfhc.myworld.base.BaseFragment;
 import org.myworld.qfhc.myworld.custom.PullToZoomListView;
 import org.myworld.qfhc.myworld.util.Constant;
+import org.myworld.qfhc.myworld.util.ErCiCaiYangUtil;
 import org.myworld.qfhc.myworld.util.L;
 import org.myworld.qfhc.myworld.util.ShareUtil;
 import org.myworld.qfhc.myworld.util.VolleyUtil;
@@ -170,7 +171,8 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
 
         if (requestCode == PHOTO_REQUEST_GALLERY) {
             if (data != null) {
-                sdv.setImageURI(data.getData());
+              //  sdv.setImageURI(data.getData());
+                ErCiCaiYangUtil.CustomErCiCaiYang(150,data.getData().toString(),sdv);
             }
         } else if (requestCode == PHOTO_REQUEST_CAREMA) {
             // 从相机返回的数据

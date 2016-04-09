@@ -19,10 +19,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	public void onCreate(SQLiteDatabase db) {
 
 		String sql = "CREATE TABLE collect (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,pic VARCHAR(50),title VARCHAR(100),likes VARCHAR(100),msgId VARCHAR(100),isCollect CHAR(2))";
-		//String sql2 = "CREATE TABLE coll (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,title VARCHAR(50),icon VARCHAR(200),reviewcount VARCHAR(20),url VARCHAR(20),share_msg VARCHAR(20),purchase_url VARCHAR(20),user_name VARCHAR(20))";
+		String sql2 = "CREATE TABLE liked (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,title VARCHAR(50),price VARCHAR(20),picture VARCHAR(200),msgId VARCHAR(20),isLike CHAR(2))";
 		//String sql3 = "CREATE TABLE collgl (_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,title VARCHAR(50),tu_url VARCHAR(200),reviewcount VARCHAR(20),user_name VARCHAR(20),url VARCHAR(20),share INTEGER,likes INTEGER,comm INTEGER)";
 		db.execSQL(sql);
-		//db.execSQL(sql2);
+		db.execSQL(sql2);
 		//db.execSQL(sql3);
 	}
 

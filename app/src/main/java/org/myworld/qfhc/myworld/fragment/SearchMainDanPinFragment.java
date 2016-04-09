@@ -170,7 +170,9 @@ public class SearchMainDanPinFragment extends BaseFragment implements VolleyUtil
         L.e(position + "___________________________________________--");
         Intent intent = new Intent(getActivity(), SearchDetailOneDetActivity.class);
         String mid = datas.get(position).getId();
+        String pic = datas.get(position).getPic();
         intent.putExtra(Constant.KEYS.SEARCH_ONE_DETAIL_ID, mid);
+        intent.putExtra(Constant.KEYS.SEARCH_TWO_DET_PIC,pic);
         startActivity(intent);
     }
 
