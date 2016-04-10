@@ -314,8 +314,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener, 
                 break;
 
             case 6:
-                Intent intent6 = new Intent(getActivity(), MineCollectActivity.class);
-                startActivity(intent6);
+                Toast.makeText(getActivity(), "暂无更多信息", Toast.LENGTH_SHORT).show();
                 break;
         }
     }

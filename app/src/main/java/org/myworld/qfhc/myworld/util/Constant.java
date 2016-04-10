@@ -75,6 +75,7 @@ public interface Constant {
         String SEARCH_TWO_DET_PIC = "search_two_det_pic";
         String SEARCH_TWO_DET_TITLE = "search_two_det_title";
         String SEARCH_TWO_DET_LIKES = "search_two_det_likes";
+        String DINGDAN = "dingdan";
     }
 
 }
